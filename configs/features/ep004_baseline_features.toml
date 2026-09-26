@@ -1,0 +1,44 @@
+contract_id = "ep004-baseline-features-v1"
+decision_time = "bar_close"
+selection_basis = "pre_model_structural"
+uses_target_statistics = false
+uses_validation_statistics = false
+uses_test_statistics = false
+
+candidate_features = [
+  "return_1h",
+  "return_3h",
+  "return_6h",
+  "return_12h",
+  "return_24h",
+  "rolling_vol_6h",
+  "rolling_vol_12h",
+  "rolling_vol_24h",
+  "range_pct",
+  "body_return",
+  "relative_tick_volume_24h",
+  "hour_sin",
+  "hour_cos",
+  "dow_sin",
+  "dow_cos",
+]
+
+selected_features = [
+  "return_1h",
+  "return_6h",
+  "return_24h",
+  "rolling_vol_6h",
+  "rolling_vol_24h",
+  "range_pct",
+  "body_return",
+  "relative_tick_volume_24h",
+  "hour_sin",
+  "hour_cos",
+  "dow_sin",
+  "dow_cos",
+]
+
+[exclusion_reasons]
+return_3h = "Omitted from baseline v1 to reduce overlapping return horizons before any model comparison."
+return_12h = "Omitted from baseline v1 to reduce overlapping return horizons before any model comparison."
+rolling_vol_12h = "Omitted from baseline v1 to reduce nested volatility windows before any model comparison."
