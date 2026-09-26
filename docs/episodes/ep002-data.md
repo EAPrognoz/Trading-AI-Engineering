@@ -2,13 +2,30 @@
 
 Published video: https://youtu.be/kltuqw7vKrY
 
-Episode 002 is the repository's **data** stage. Its output is not merely a CSV
-that happens to load. It is an observable market-data run with explicit time
-semantics and preserved evidence.
+Episode 002 starts with a deliberately simple fact:
 
-## Contract
+```text
+Python → local MetaTrader 5 terminal → copy_rates_range() → DataFrame
+```
 
-The narrow first implementation uses:
+The first example is intentionally short. A new viewer should be able to see the
+connection, run it, and understand what happened before any validation framework
+is introduced.
+
+The rest of the episode builds engineering around that simple fetch.
+
+## Step 1 — Fetch H1 bars
+
+The teaching example is:
+
+`examples/ep002_mt5_minimal.py`
+
+It initializes MT5, calls `copy_rates_range`, shuts MT5 down, and prints the
+returned table.
+
+## Step 2 — Make the request explicit
+
+The full pipeline adds:
 
 - one explicitly named broker symbol;
 - H1 bars;
@@ -17,45 +34,27 @@ The narrow first implementation uses:
 - internal `[start, end)` range semantics;
 - only bars whose nominal one-hour interval is complete by the cutoff.
 
-A MetaTrader 5 source adapter fetches records and provenance but does not place
-orders. The raw response is preserved before the repository applies its own
-range/cutoff policy.
+## Step 3 — Validate without hiding failures
 
-## Validation
+The pipeline checks valid/ordered/unique timestamps, finite fields, OHLC
+consistency, requested coverage, and unresolved gaps.
 
-The pipeline checks:
+Raw data is preserved before filtering.
 
-- valid, ordered, unique timestamps;
-- finite OHLC/volume/spread fields;
-- OHLC internal consistency;
-- non-negative volume/spread fields;
-- requested coverage;
-- unresolved gaps.
+## Step 4 — Save evidence
 
-A gap larger than one hour is a question, not an invented price. Without a
-session calendar it is reported as an unclassified gap and the accepted dataset
-is withheld pending review.
+Every run saves request, raw response, validation report, and manifest.
+An accepted run also saves `accepted.csv`; a rejected run saves rejection
+evidence and no accepted dataset.
 
-## Accepted vs rejected runs
+The important teaching order is therefore:
 
-Every run saves:
+```text
+first make it work
+then make the assumptions explicit
+then make failures visible
+then make it reproducible
+```
 
-- `request.json`;
-- `raw_response.csv`;
-- `validation_report.json`;
-- `manifest.json`.
-
-Accepted runs additionally save `accepted.csv`.
-
-Rejected runs save `rejection_report.json` and do not write an accepted
-dataset. An existing run directory is never silently overwritten.
-
-The manifest records request semantics, retrieval provenance, environment, code
-version when available, and hashes of the stored artifacts.
-
-## Scope boundary
-
-A passing validation report means the declared checks passed. It does not prove
-that broker prices are true, reconstruct every historical feed revision, prevent
-future ML leakage, or imply profitability. Source validation comes first;
-experiment design comes later.
+A passing report still does not prove that broker prices are true, reconstruct
+all historical feed revisions, prevent future ML leakage, or imply profitability.

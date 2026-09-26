@@ -2,11 +2,47 @@
 
 Published video: https://youtu.be/kltuqw7vKrY
 
-This directory mirrors the engineering contract shown in Episode 002.
+## Start here: getting bars from MT5 is simple
 
-## Output of a run
+Before looking at validation code, prove the connection works.
 
-Every run preserves:
+On Windows, open MetaTrader 5, log in to a demo account, then:
+
+```powershell
+pip install MetaTrader5 pandas
+python examples/ep002_mt5_minimal.py
+```
+
+The core idea is only this:
+
+```python
+import MetaTrader5 as mt5
+import pandas as pd
+
+mt5.initialize()
+
+rates = mt5.copy_rates_range(
+    "EURUSD",
+    mt5.TIMEFRAME_H1,
+    start,
+    end,
+)
+
+mt5.shutdown()
+
+df = pd.DataFrame(rates)
+```
+
+That is the teaching point: **Python asks the local MT5 terminal for H1 bars and
+gets a table back.**
+
+Everything else in Episode 002 answers a different question:
+
+> Can we trust this table enough to use it in the next experiment?
+
+## Then add the engineering layer
+
+The full Episode 002 pipeline preserves:
 
 - the explicit request;
 - the raw source response;
@@ -15,7 +51,25 @@ Every run preserves:
 
 An accepted run additionally writes `accepted.csv`.
 
-A rejected run writes `rejection_report.json` and **does not** write an accepted dataset.
+A rejected run writes `rejection_report.json` and does **not** write an
+accepted dataset.
+
+## Full MT5 pipeline
+
+Once the minimal example works:
+
+```powershell
+python experiments/ep002_market_data/run_mt5.py ^
+  --symbol EURUSD ^
+  --start 2026-01-05T08:00:00Z ^
+  --end 2026-01-05T12:00:00Z ^
+  --cutoff 2026-01-05T12:00:00Z ^
+  --run-dir .local/ep002-mt5
+```
+
+The MT5 fetch itself remains small. Request semantics, validation, range/cutoff
+rules, manifests, and rejection handling are kept in separate modules so the
+viewer can learn one idea at a time.
 
 ## Time policy
 
@@ -33,35 +87,17 @@ reported as `unclassified_gap` and the dataset is withheld pending review.
 
 ## Fixture demo
 
-Good fixture:
+The fixture path lets viewers test the pipeline without a broker login:
 
-```bash
-python experiments/ep002_market_data/run_fixture.py \
-  --input fixtures/ep002/good_h1.csv \
-  --symbol EURUSD \
-  --start 2026-01-05T08:00:00Z \
-  --end 2026-01-05T12:00:00Z \
-  --cutoff 2026-01-05T12:00:00Z \
+```powershell
+python experiments/ep002_market_data/run_fixture.py ^
+  --input fixtures/ep002/good_h1.csv ^
+  --symbol EURUSD ^
+  --start 2026-01-05T08:00:00Z ^
+  --end 2026-01-05T12:00:00Z ^
+  --cutoff 2026-01-05T12:00:00Z ^
   --run-dir .local/ep002-good
 ```
 
-Conflict fixture:
-
-```bash
-python experiments/ep002_market_data/run_fixture.py \
-  --input fixtures/ep002/conflicting_h1.csv \
-  --symbol EURUSD \
-  --start 2026-01-05T08:00:00Z \
-  --end 2026-01-05T12:00:00Z \
-  --cutoff 2026-01-05T12:00:00Z \
-  --run-dir .local/ep002-conflict
-```
-
-The conflict run is expected to be rejected. Do not change the fixture merely to
-make its status green.
-
-## Real terminal
-
-`run_mt5.py` uses the optional local MetaTrader5 Python package. Check the
-actual broker symbol name and run this first on a demo account. A successful
-fixture run is not evidence that a broker terminal integration was tested.
+The conflict fixture is intentionally rejected. It exists to show that a bad
+input cannot quietly look like a successful export.
