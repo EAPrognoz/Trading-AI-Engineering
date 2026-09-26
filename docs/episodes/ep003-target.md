@@ -24,5 +24,13 @@ Using `close[t+1]` to create the label is legitimate supervised-learning
 construction. Using `close[t+1]`, or any transformation that depends on it, in
 the feature vector at decision time `t` is leakage.
 
+Each sample therefore carries two timestamps:
+
+- `decision_timestamp` — when the feature vector is available;
+- `target_timestamp` — when the future close required to realize the label occurs.
+
+Episode 005 uses both timestamps to purge samples whose labels would cross a
+train/validation/test boundary.
+
 The Episode 004 feature layer is responsible for enforcing the input side of
 that boundary.
