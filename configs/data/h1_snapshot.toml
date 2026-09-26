@@ -1,0 +1,17 @@
+contract_id = "ep002-h1-snapshot-v1"
+timeframe = "H1"
+timezone = "UTC"
+timestamp_semantics = "period_start"
+range_policy = "start_inclusive_end_exclusive"
+completed_bars_only = true
+
+required_columns = [
+  "timestamp",
+  "open",
+  "high",
+  "low",
+  "close",
+  "tick_volume",
+  "spread",
+  "real_volume",
+]
