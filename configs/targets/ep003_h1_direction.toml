@@ -1,0 +1,11 @@
+contract_id = "ep003-h1-direction-v1"
+timeframe = "H1"
+horizon_bars = 1
+horizon = "1h"
+decision_time = "bar_close"
+price_field = "close"
+return_definition = "close_t_plus_1 / close_t - 1"
+positive_class = "UP"
+negative_class = "DOWN"
+zero_return_policy = "exclude"
+last_row_policy = "unlabeled"
