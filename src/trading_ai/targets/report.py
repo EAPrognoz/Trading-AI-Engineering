@@ -16,11 +16,12 @@ def _maybe_float(value: float) -> float | None:
 
 
 def analyze_h1_direction_target(path: str | Path) -> dict[str, Any]:
-    """Analyze class balance and return distribution for an H1 snapshot."""
+    """Analyze class balance and return distribution for exact H1 targets."""
     frame = load_snapshot(path)
     target = build_h1_direction_target(frame)
     labeled = target[target["target_h1_direction"].isin(["UP", "DOWN"])]
     zero_count = int((target["target_h1_direction"] == "ZERO").sum())
+    gap_count = int((target["target_h1_direction"] == "GAP").sum())
     unlabeled_count = int(target["target_h1_direction"].isna().sum())
 
     counts = labeled["target_h1_direction"].value_counts().to_dict()
@@ -39,11 +40,13 @@ def analyze_h1_direction_target(path: str | Path) -> dict[str, Any]:
         "decision_time": "bar_close",
         "return_definition": "close[t+1] / close[t] - 1",
         "zero_return_policy": "exclude",
+        "non_consecutive_pair_policy": "exclude",
         "dataset": dataset_manifest(frame, path),
         "observations": {
             "input_rows": int(len(frame)),
             "binary_labeled_rows": n_labeled,
             "zero_return_rows": zero_count,
+            "non_consecutive_h1_rows": gap_count,
             "unlabeled_future_rows": unlabeled_count,
         },
         "class_counts": {"UP": up_count, "DOWN": down_count},

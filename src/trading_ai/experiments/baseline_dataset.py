@@ -31,11 +31,7 @@ def assemble_episode005_dataset(
     snapshot_path: str | Path,
     feature_contract_path: str | Path,
 ) -> BaselineDataset:
-    """Join the EP003 target to the frozen EP004 feature set.
-
-    Rows with ZERO targets, the final unlabeled target, feature warm-up NaNs, or
-    non-finite selected features are excluded with counts recorded in metadata.
-    """
+    """Join the EP003 target to the frozen EP004 feature set."""
     market = load_snapshot(snapshot_path)
     target = build_h1_direction_target(market)
     features = build_point_in_time_features(market)
@@ -75,6 +71,7 @@ def assemble_episode005_dataset(
             "input_rows": int(len(market)),
             "binary_target_rows": int(binary_mask.sum()),
             "zero_target_rows": int((combined["target_h1_direction"] == "ZERO").sum()),
+            "gap_target_rows": int((combined["target_h1_direction"] == "GAP").sum()),
             "unlabeled_target_rows": int(combined["target_h1_direction"].isna().sum()),
             "rows_removed_for_feature_warmup_or_nonfinite": int(len(binary) - len(assembled)),
             "assembled_rows": int(len(assembled)),

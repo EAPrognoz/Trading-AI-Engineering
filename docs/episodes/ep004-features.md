@@ -13,6 +13,11 @@ the current completed H1 bar.
 No feature may depend on `close[t+1]`, the Episode 003 target, a centered
 rolling window, or any other future observation.
 
+A timestamp gap other than exactly one hour starts a new feature segment.
+Return, rolling-volatility, and relative-volume windows are not allowed to bridge
+weekends, session breaks, or missing-history gaps. Warm-up begins again after
+such a boundary.
+
 ## 2. Feature selection
 
 The first baseline feature set is deliberately frozen before the Episode 005

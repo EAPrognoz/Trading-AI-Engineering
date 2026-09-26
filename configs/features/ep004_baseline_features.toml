@@ -1,5 +1,6 @@
 contract_id = "ep004-baseline-features-v1"
 decision_time = "bar_close"
+gap_policy = "reset_on_non_1h_timestamp_delta"
 selection_basis = "pre_model_structural"
 uses_target_statistics = false
 uses_validation_statistics = false
