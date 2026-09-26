@@ -14,6 +14,15 @@ This repository accompanies the **Trading AI Engineering** YouTube series.
 
 The repository is being formalized after Episodes 002–004 were published. Commit dates therefore reflect when the engineering artifacts were codified, not the original video publication dates.
 
+## Current experiment contract
+
+The first baseline experiment is now grounded by two pre-model contracts:
+
+- **EP003 target**: at H1 bar close `t`, predict the sign of `close[t+1] / close[t] - 1`;
+- **EP004 features**: use only point-in-time inputs available at or before bar close `t`, with a predeclared baseline-v1 feature list.
+
+Episode 005 baseline code is intentionally kept behind these contracts.
+
 ## Principles
 
 - no future information in model inputs;
@@ -23,4 +32,16 @@ The repository is being formalized after Episodes 002–004 were published. Comm
 - negative results stay visible;
 - no profitability claims.
 
-> Status: repository bootstrap in progress. Episode 005 experiments will not be added until the Episode 003 target contract and Episode 004 feature contract are implemented and tested.
+## Development
+
+```bash
+python -m venv .venv
+# activate the environment
+python -m pip install -e ".[dev]"
+pytest
+```
+
+Large broker datasets are not committed. Use validated local snapshots and keep
+their hashes and coverage in experiment reports.
+
+See `docs/architecture.md` and the episode notes under `docs/episodes/`.
