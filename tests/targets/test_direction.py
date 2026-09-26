@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import pandas as pd
+import pytest
 
 from trading_ai.targets.direction import build_h1_direction_target
 
@@ -17,7 +18,7 @@ def test_h1_direction_target_is_aligned_to_decision_bar() -> None:
 
     assert result["target_h1_direction"].tolist()[:4] == ["UP", "DOWN", "ZERO", "UP"]
     assert pd.isna(result["target_h1_direction"].iloc[-1])
-    assert result["future_return_1h"].iloc[0] == 0.01
+    assert result["future_return_1h"].iloc[0] == pytest.approx(0.01)
 
 
 def test_changing_t_plus_two_does_not_change_label_for_t() -> None:
