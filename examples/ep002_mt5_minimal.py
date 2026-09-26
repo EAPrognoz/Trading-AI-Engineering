@@ -18,7 +18,7 @@ end = datetime(2026, 1, 9, tzinfo=timezone.utc)
 if not mt5.initialize():
     raise RuntimeError(mt5.last_error())
 
-rates = mt5.copy_rates_range(symbol, mt5.TIMEFRAME_H1, start, end)
+mt5.symbol_select(symbol, True)\n\nrates = mt5.copy_rates_range(symbol, mt5.TIMEFRAME_H1, start, end)
 mt5.shutdown()
 
 df = pd.DataFrame(rates)
