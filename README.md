@@ -17,6 +17,19 @@ This repository accompanies the **Trading AI Engineering** YouTube series.
 
 The repository is being formalized after Episodes 002–004 were published. Commit dates therefore reflect when engineering artifacts were codified, not the original video publication dates.
 
+## Start here: Episode 002 is simple first
+
+To prove Python can read H1 bars from a local MetaTrader 5 terminal, start with:
+
+```powershell
+pip install MetaTrader5 pandas
+python examples/ep002_mt5_minimal.py
+```
+
+The first example is intentionally short: initialize MT5, select a symbol, call `copy_rates_range`, convert the result to a DataFrame. Validation and reproducibility are added only after that basic connection is clear.
+
+See `experiments/ep002_market_data/README.md` for the full Episode 002 pipeline.
+
 ## Current experiment lineage
 
 ```text
