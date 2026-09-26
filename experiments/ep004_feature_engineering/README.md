@@ -2,9 +2,15 @@
 
 Published video: https://youtu.be/SNOTNSZoNQY
 
-Episode 004 asks what an AI trading model should actually see. The repository
-turns that into an explicit point-in-time candidate universe plus a frozen first
-feature set.
+Start with the small example:
+
+```powershell
+python examples/ep004_feature_set_minimal.py path/to/ep002-run/accepted.csv
+```
+
+It shows how ordinary OHLCV bars become understandable model inputs.
+
+This directory contains the **full feature-set analysis**.
 
 ## Candidate families
 
@@ -14,22 +20,18 @@ feature set.
 - relative tick volume;
 - cyclical hour-of-day and day-of-week encodings.
 
-Every feature is computable at the close of bar `t` using only bar `t` and
-earlier observations.
+Every full-pipeline feature is computable at the close of bar `t` using only
+bar `t` and earlier observations.
 
 ## Selection policy
 
-The Episode 004 feature set is frozen **before** Episode 005 baseline comparison.
+The Episode 004 feature set is frozen before Episode 005 baseline comparison.
 
 The first selection is structural, not performance-driven. Intermediate nested
 return/volatility windows are omitted to reduce obvious overlap without looking
-at target accuracy, validation results, or the test period.
+at validation results or the final test period.
 
-The feature report shows availability and correlation/redundancy diagnostics.
-Those diagnostics document the feature universe; they do not turn the final test
-partition into a selection tool.
-
-## Run
+## Recorded run
 
 ```bash
 python experiments/ep004_feature_engineering/analyze_features.py \
@@ -37,3 +39,6 @@ python experiments/ep004_feature_engineering/analyze_features.py \
   --contract configs/features/ep004_baseline_features.toml \
   --output reports/ep004/feature_report.json
 ```
+
+The feature report records availability and correlation/redundancy diagnostics,
+while the config freezes the feature set that Episode 005 consumes.
