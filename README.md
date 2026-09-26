@@ -4,48 +4,81 @@ Building an AI-powered trading system from market data to models, evaluation, ri
 
 This repository accompanies the **Trading AI Engineering** YouTube series.
 
-## Published-series mapping
+## Watch → run → inspect
 
-1. **Episode 002 — Data pipeline**  
-   Python + MetaTrader 5 market-data request, time policy, validation, raw preservation, accepted/rejected runs, and manifests.
-2. **Episode 003 — Target**  
-   Define the prediction problem and forecast horizon; the current downstream contract is H1 next-hour direction.
-3. **Episode 004 — Feature set**  
-   Build point-in-time candidate features, inspect redundancy/quality, and freeze the feature set used by the first baseline experiment.
-4. **Episode 005 — Baseline**  
-   Measure B0/B1/B2 under one chronological evaluation protocol before introducing a more complex candidate model.
+Each stage has the same learning order:
 
-The repository is being formalized after Episodes 002–004 were published. Commit dates therefore reflect when engineering artifacts were codified, not the original video publication dates.
+```text
+watch the episode
+      ↓
+run the smallest example
+      ↓
+inspect the full engineering implementation
+```
 
-## Start here: Episode 002 is simple first
+| Episode | Stage | Video | Smallest example | Full implementation |
+|---|---|---|---|---|
+| 001 | System map | [Watch](https://www.youtube.com/watch?v=YRGF0TWYnFo) | `docs/architecture.md` | repository architecture |
+| 002 | Data pipeline | [Watch](https://youtu.be/kltuqw7vKrY) | `examples/ep002_mt5_minimal.py` | `experiments/ep002_market_data/` |
+| 003 | Target | [Watch](https://youtu.be/VfnH1q76fj4) | `examples/ep003_target_minimal.py` | `experiments/ep003_forecast_horizon/` |
+| 004 | Feature set | [Watch](https://youtu.be/SNOTNSZoNQY) | `examples/ep004_feature_set_minimal.py` | `experiments/ep004_feature_engineering/` |
+| 005 | Baseline | upcoming | `examples/ep005_baseline_minimal.py` | `experiments/ep005_baselines/` |
 
-To prove Python can read H1 bars from a local MetaTrader 5 terminal, start with:
+See [docs/series-map.md](docs/series-map.md) for the video-to-code map.
+
+## Start with Episode 002: getting bars is simple
+
+On Windows, open MetaTrader 5, log in to a demo account, then:
 
 ```powershell
 pip install MetaTrader5 pandas
 python examples/ep002_mt5_minimal.py
 ```
 
-The first example is intentionally short: initialize MT5, select a symbol, call `copy_rates_range`, convert the result to a DataFrame. Validation and reproducibility are added only after that basic connection is clear.
-
-See `experiments/ep002_market_data/README.md` for the full Episode 002 pipeline.
-
-## Current experiment lineage
+The first example does only four conceptual things:
 
 ```text
-EP002 accepted H1 snapshot + manifest
-        ↓
-EP003 target: H1 next-hour direction
-        ↓
-EP004 frozen point-in-time feature set
-        ↓
-EP005 B0 / B1 / B2 validation baselines
+initialize MT5
+→ select symbol
+→ copy H1 bars
+→ DataFrame
 ```
 
-The downstream experiment is valid only when each upstream contract is explicit and reproducible.
+Only after that connection is clear do we add request semantics, validation,
+raw-response preservation, rejection evidence, and manifests.
+
+## Published-series lineage
+
+```text
+EP002 DATA
+accepted H1 snapshot + manifest
+        ↓
+EP003 TARGET
+H1 next-hour direction
+        ↓
+EP004 FEATURE SET
+frozen point-in-time inputs
+        ↓
+EP005 BASELINE
+B0 / B1 / B2
+```
+
+Episode 005 consumes the target and feature set created by Episodes 003 and 004;
+it does not redefine them.
+
+## Minimal examples vs measured experiments
+
+The files under `examples/` are deliberately short teaching examples. They show
+one idea at a time and may omit safeguards that would distract from that idea.
+
+Measured results used in the video series must come from the full
+`experiments/` implementation and its recorded artifacts, not from the minimal
+examples.
 
 ## Principles
 
+- make the first working example easy to understand;
+- then make assumptions explicit;
 - no future information in model inputs;
 - explicit market-data request and time semantics;
 - raw responses are preserved separately from accepted datasets;
@@ -65,6 +98,6 @@ python -m pip install -e ".[dev]"
 pytest
 ```
 
-Large broker datasets are not committed. Use validated local snapshots and keep their hashes, request contract, provenance, environment, and timestamp coverage in run manifests.
-
-See `docs/architecture.md` and the episode notes under `docs/episodes/`.
+Large broker datasets are not committed. Use validated local snapshots and keep
+their hashes, request contract, provenance, environment, and timestamp coverage
+in run manifests.

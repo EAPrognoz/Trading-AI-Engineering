@@ -2,10 +2,17 @@
 
 Published video: https://youtu.be/VfnH1q76fj4
 
-Episode 003 defines the prediction problem before any baseline or candidate
-model is chosen.
+If you are following the series for the first time, start with:
 
-The current repository target is:
+```powershell
+python examples/ep003_target_minimal.py path/to/ep002-run/accepted.csv
+```
+
+That short script teaches the target itself.
+
+This directory contains the **full recorded analysis** used downstream.
+
+## Target contract
 
 ```text
 decision time: close of completed H1 bar t
@@ -24,7 +31,7 @@ classification task. The final row is unlabeled.
 Future information is allowed to construct the supervised target. It is not
 allowed in the feature vector available at the decision timestamp.
 
-## Run
+## Recorded run
 
 ```bash
 python experiments/ep003_forecast_horizon/analyze_target.py \
