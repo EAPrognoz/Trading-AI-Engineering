@@ -1,0 +1,19 @@
+contract_id = "ep005-baselines-v1"
+train_fraction = 0.60
+validation_fraction = 0.20
+test_fraction = 0.20
+test_policy = "locked"
+feature_contract = "configs/features/ep004_baseline_features.toml"
+
+baselines = [
+  "B0_majority_class",
+  "B1_previous_hour_direction",
+  "B2_logistic_regression",
+]
+
+metrics = [
+  "accuracy",
+  "balanced_accuracy",
+  "mcc",
+  "confusion_matrix",
+]
