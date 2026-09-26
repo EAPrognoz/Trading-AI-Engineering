@@ -52,3 +52,16 @@ def test_warmup_is_explicit_not_backfilled() -> None:
     assert pd.isna(features.loc[0, "return_1h"])
     assert pd.isna(features.loc[23, "return_24h"])
     assert pd.notna(features.loc[24, "return_24h"])
+
+
+def test_gap_starts_a_new_feature_segment() -> None:
+    frame = _frame()
+    frame.loc[20:, "timestamp"] = frame.loc[20:, "timestamp"] + pd.Timedelta(hours=48)
+
+    features = build_point_in_time_features(frame)
+
+    assert pd.isna(features.loc[20, "return_1h"])
+    assert pd.isna(features.loc[22, "return_3h"])
+    assert pd.notna(features.loc[23, "return_3h"])
+    assert pd.isna(features.loc[25, "rolling_vol_6h"])
+    assert pd.notna(features.loc[26, "rolling_vol_6h"])

@@ -1,20 +1,51 @@
-# Episode 005 — Baseline gate
+# Episode 005 — Baseline Model
 
-Episode 005 is intentionally blocked behind two repository milestones:
+With the Episode 003 H1 target and Episode 004 baseline feature set now frozen,
+Episode 005 can measure what a more complex trading model will have to beat.
 
-- Episode 003 target / forecast-horizon contract;
-- Episode 004 point-in-time feature contract and frozen baseline feature set.
+## Prediction task
 
-No baseline experiment should be treated as valid until both layers are
-implemented and tested.
+At the close of completed H1 bar `t`, predict whether the next close-to-close
+return is UP or DOWN.
 
-Planned Episode 005 task:
+## Baseline ladder
 
-- timeframe: H1;
-- target: direction of the next one-hour return;
-- baselines: majority class, previous-hour direction, Logistic Regression;
-- evaluation: chronological train / validation / test partitions;
-- primary report: predictive metrics plus reproducibility metadata.
+1. **B0 — majority class**
+2. **B1 — previous-hour direction**
+3. **B2 — standardized Logistic Regression**
 
-Measured baseline numbers will be committed only after an executable experiment
-has been run against an identified dataset snapshot.
+All three are evaluated under the same target, eligible samples, feature
+contract where applicable, time boundaries, and metrics.
+
+## Chronology before convenience
+
+The experiment does not randomly shuffle the time series. It uses chronological
+train, validation, and test partitions. A sample is purged at a partition
+boundary when its `target_timestamp` falls in the next partition.
+
+This means the last training decision cannot borrow the first validation close
+to create its label.
+
+## Locked test policy
+
+Episode 005 uses train data to fit B0/B2 and reports the validation benchmark.
+The final 20% test partition is created but not evaluated.
+
+Publishing the test metrics now would make the supposedly unseen test result
+part of future model-development decisions. The repository therefore keeps it
+locked until a later candidate-model comparison.
+
+## Output
+
+`baseline_report.json` records:
+
+- dataset hash and timestamp coverage;
+- EP003 target and EP004 feature contract IDs;
+- selected feature names;
+- chronological split boundaries and purge counts;
+- train diagnostics;
+- validation metrics for B0/B1/B2;
+- an explicit statement that the test partition was not evaluated.
+
+The Episode 005 video should use measured values from this report, not
+illustrative performance numbers.

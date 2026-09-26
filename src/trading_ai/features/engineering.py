@@ -24,12 +24,45 @@ FEATURE_LOOKBACK_BARS: dict[str, int] = {
 }
 
 
+def _segment_ids(timestamp: pd.Series) -> pd.Series:
+    delta = timestamp.diff()
+    new_segment = delta.ne(pd.Timedelta(hours=1))
+    if len(new_segment):
+        new_segment.iloc[0] = True
+    return new_segment.cumsum()
+
+
+def _grouped_pct_change(values: pd.Series, segment: pd.Series, periods: int) -> pd.Series:
+    return values.groupby(segment, sort=False).pct_change(periods=periods, fill_method=None)
+
+
+def _grouped_rolling_std(values: pd.Series, segment: pd.Series, window: int) -> pd.Series:
+    result = (
+        values.groupby(segment, sort=False)
+        .rolling(window, min_periods=window)
+        .std(ddof=0)
+        .reset_index(level=0, drop=True)
+    )
+    return result.sort_index()
+
+
+def _grouped_rolling_mean(values: pd.Series, segment: pd.Series, window: int) -> pd.Series:
+    result = (
+        values.groupby(segment, sort=False)
+        .rolling(window, min_periods=window)
+        .mean()
+        .reset_index(level=0, drop=True)
+    )
+    return result.sort_index()
+
+
 def build_point_in_time_features(frame: pd.DataFrame) -> pd.DataFrame:
     """Build features available no later than the close of bar t.
 
     No feature uses shift(-1), a future rolling window, or the Episode 003
-    supervised target. Warm-up rows are retained as NaN and are handled later
-    by the experiment assembly step.
+    supervised target. Any timestamp gap other than exactly one hour starts a
+    new segment, so return/volatility/volume lookbacks never bridge a weekend,
+    session break, or missing-history gap.
     """
     required = {"timestamp", "open", "high", "low", "close", "tick_volume"}
     missing = required.difference(frame.columns)
@@ -42,25 +75,26 @@ def build_point_in_time_features(frame: pd.DataFrame) -> pd.DataFrame:
     low = pd.to_numeric(frame["low"], errors="raise").astype(float)
     close = pd.to_numeric(frame["close"], errors="raise").astype(float)
     tick_volume = pd.to_numeric(frame["tick_volume"], errors="raise").astype(float)
+    segment = _segment_ids(timestamp)
 
-    one_hour_return = close.pct_change(fill_method=None)
+    one_hour_return = _grouped_pct_change(close, segment, 1)
 
     result = pd.DataFrame(index=frame.index)
     result["timestamp"] = timestamp
     result["return_1h"] = one_hour_return
-    result["return_3h"] = close.pct_change(3, fill_method=None)
-    result["return_6h"] = close.pct_change(6, fill_method=None)
-    result["return_12h"] = close.pct_change(12, fill_method=None)
-    result["return_24h"] = close.pct_change(24, fill_method=None)
+    result["return_3h"] = _grouped_pct_change(close, segment, 3)
+    result["return_6h"] = _grouped_pct_change(close, segment, 6)
+    result["return_12h"] = _grouped_pct_change(close, segment, 12)
+    result["return_24h"] = _grouped_pct_change(close, segment, 24)
 
-    result["rolling_vol_6h"] = one_hour_return.rolling(6, min_periods=6).std(ddof=0)
-    result["rolling_vol_12h"] = one_hour_return.rolling(12, min_periods=12).std(ddof=0)
-    result["rolling_vol_24h"] = one_hour_return.rolling(24, min_periods=24).std(ddof=0)
+    result["rolling_vol_6h"] = _grouped_rolling_std(one_hour_return, segment, 6)
+    result["rolling_vol_12h"] = _grouped_rolling_std(one_hour_return, segment, 12)
+    result["rolling_vol_24h"] = _grouped_rolling_std(one_hour_return, segment, 24)
 
     result["range_pct"] = high.sub(low).div(close)
     result["body_return"] = close.div(open_).sub(1.0)
 
-    volume_mean_24h = tick_volume.rolling(24, min_periods=24).mean()
+    volume_mean_24h = _grouped_rolling_mean(tick_volume, segment, 24)
     result["relative_tick_volume_24h"] = tick_volume.div(volume_mean_24h).sub(1.0)
 
     hour = timestamp.dt.hour.astype(float)

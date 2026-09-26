@@ -7,10 +7,11 @@ For the first baseline experiment, the repository freezes one concrete task:
 
 - timeframe: H1;
 - decision time: immediately after the close of completed bar `t`;
-- horizon: one bar / one hour;
+- horizon: exactly one hour;
 - target: sign of `close[t+1] / close[t] - 1`;
 - task: binary UP / DOWN classification;
-- exact zero returns: reported, then excluded from the binary task.
+- exact zero returns: reported, then excluded;
+- non-consecutive H1 row pairs: reported as `GAP`, then excluded.
 
 ## Why this comes before the model
 
@@ -20,9 +21,17 @@ already been declared.
 
 ## Boundary rule
 
-Using `close[t+1]` to create the label is legitimate supervised-learning
-construction. Using `close[t+1]`, or any transformation that depends on it, in
-the feature vector at decision time `t` is leakage.
+Using the next close to create the label is legitimate supervised-learning
+construction only when the next observation is exactly one hour later for this
+contract.
 
-The Episode 004 feature layer is responsible for enforcing the input side of
-that boundary.
+Each sample carries:
+
+- `decision_timestamp` — when the feature vector is available;
+- `target_timestamp` — when the future close required to realize the label occurs.
+
+Weekend/session/missing-history gaps are not silently reinterpreted as a
+one-hour forecast.
+
+Episode 005 also uses both timestamps to purge samples whose labels would cross
+a train/validation/test boundary.
