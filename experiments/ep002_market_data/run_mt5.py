@@ -20,7 +20,9 @@ def _git_version() -> str | None:
 
 
 def main() -> None:
-    parser = argparse.ArgumentParser(description="Run Episode 002 against local MetaTrader 5.")
+    parser = argparse.ArgumentParser(
+        description="Run Episode 002 against local MetaTrader 5."
+    )
     parser.add_argument("--symbol", required=True)
     parser.add_argument("--start", required=True)
     parser.add_argument("--end", required=True)
@@ -34,7 +36,15 @@ def main() -> None:
         end=args.end,
         cutoff=args.cutoff,
     )
-    raw = fetch_h1_bars(request)
+
+    # The MT5 part is deliberately simple.
+    raw = fetch_h1_bars(
+        request.symbol,
+        request.start.to_pydatetime(),
+        request.end.to_pydatetime(),
+    )
+
+    # Everything below is engineering around the downloaded table.
     result = process_h1_response(
         raw,
         request=request,
@@ -45,6 +55,7 @@ def main() -> None:
         },
         code_version=_git_version(),
     )
+
     print(result["status"])
     print(result["run_dir"])
 

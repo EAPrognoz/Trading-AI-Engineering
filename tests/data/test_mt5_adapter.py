@@ -1,9 +1,11 @@
 from __future__ import annotations
 
+from datetime import datetime, timezone
+import sys
+
 import pytest
 
 from trading_ai.data.mt5_adapter import fetch_h1_bars
-from trading_ai.data.request import MarketDataRequest
 
 
 class FakeMT5:
@@ -18,9 +20,6 @@ class FakeMT5:
     def last_error(self):
         return (1, "synthetic failure")
 
-    def symbol_select(self, symbol: str, enabled: bool) -> bool:
-        return True
-
     def copy_rates_range(self, *args, **kwargs):
         raise RuntimeError("source failure")
 
@@ -28,16 +27,14 @@ class FakeMT5:
         self.shutdown_called = True
 
 
-def test_adapter_always_shuts_down_when_fetch_fails() -> None:
+def test_adapter_always_shuts_down_when_fetch_fails(monkeypatch) -> None:
     fake = FakeMT5()
-    request = MarketDataRequest(
-        symbol="EURUSD",
-        start="2026-01-05T08:00:00Z",
-        end="2026-01-05T12:00:00Z",
-        cutoff="2026-01-05T12:00:00Z",
-    )
+    monkeypatch.setitem(sys.modules, "MetaTrader5", fake)
+
+    start = datetime(2026, 1, 5, tzinfo=timezone.utc)
+    end = datetime(2026, 1, 6, tzinfo=timezone.utc)
 
     with pytest.raises(RuntimeError, match="source failure"):
-        fetch_h1_bars(request, mt5_module=fake)
+        fetch_h1_bars("EURUSD", start, end)
 
     assert fake.shutdown_called is True
