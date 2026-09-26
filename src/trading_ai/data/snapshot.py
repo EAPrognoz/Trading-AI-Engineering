@@ -1,8 +1,7 @@
 """Validated, reproducible H1 market-data snapshots.
 
-This module represents the data boundary established by Episode 002. It does
-not download broker history and it does not place orders. The goal is to make
-the dataset consumed by later experiments explicit and testable.
+Accepted snapshots represent the data boundary established by Episode 002.
+They are downstream artifacts, not raw broker responses.
 """
 
 from __future__ import annotations
@@ -27,7 +26,7 @@ REQUIRED_H1_COLUMNS = (
 
 
 def validate_h1_snapshot(frame: pd.DataFrame) -> None:
-    """Raise ValueError when an H1 snapshot violates the repository contract."""
+    """Raise ValueError when an accepted H1 snapshot violates its contract."""
     missing = [column for column in REQUIRED_H1_COLUMNS if column not in frame.columns]
     if missing:
         raise ValueError(f"missing required columns: {missing}")
@@ -39,6 +38,8 @@ def validate_h1_snapshot(frame: pd.DataFrame) -> None:
         raise ValueError("timestamp contains duplicates")
     if not ts.is_monotonic_increasing:
         raise ValueError("timestamp must be strictly time ordered")
+    if len(ts) > 1 and (ts.diff().dropna() > pd.Timedelta(hours=1)).any():
+        raise ValueError("timestamp contains an unresolved H1 gap")
 
     numeric_columns = [
         "open",
@@ -66,7 +67,7 @@ def validate_h1_snapshot(frame: pd.DataFrame) -> None:
 
 
 def load_snapshot(path: str | Path) -> pd.DataFrame:
-    """Load a CSV snapshot without silently repairing contract violations."""
+    """Load an accepted CSV snapshot without silently repairing violations."""
     path = Path(path)
     frame = pd.read_csv(path)
     validate_h1_snapshot(frame)
@@ -87,7 +88,7 @@ def sha256_file(path: str | Path) -> str:
 
 
 def dataset_manifest(frame: pd.DataFrame, path: str | Path) -> dict[str, Any]:
-    """Describe the exact validated snapshot used by an experiment."""
+    """Describe the exact accepted snapshot used by an experiment."""
     validate_h1_snapshot(frame)
     ts = pd.to_datetime(frame["timestamp"], utc=True)
     return {

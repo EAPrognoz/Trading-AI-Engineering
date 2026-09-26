@@ -1,12 +1,15 @@
-# Episode 004 — Feature engineering and selection
+# Episode 004 — Feature set
 
-Episode 004 asked what an AI trading model should actually see. This repository
-milestone turns that question into a point-in-time feature contract.
+Published video: https://youtu.be/SNOTNSZoNQY
+
+Episode 004 asks what an AI trading model should actually see. The repository
+turns that into an explicit point-in-time candidate universe plus a frozen first
+feature set.
 
 ## Candidate families
 
 - returns at several backward-looking horizons;
-- realized rolling volatility;
+- rolling volatility;
 - current-bar range and body;
 - relative tick volume;
 - cyclical hour-of-day and day-of-week encodings.
@@ -16,20 +19,21 @@ earlier observations.
 
 ## Selection policy
 
-The baseline-v1 feature set is frozen **before** Episode 005 model comparison.
+The Episode 004 feature set is frozen **before** Episode 005 baseline comparison.
 
 The first selection is structural, not performance-driven. Intermediate nested
-return/volatility windows are omitted to reduce overlapping inputs without
-looking at target accuracy, validation results, or the test period.
+return/volatility windows are omitted to reduce obvious overlap without looking
+at target accuracy, validation results, or the test period.
 
-The feature report may show correlations as diagnostics. Those values do not
-change the predeclared baseline-v1 list.
+The feature report shows availability and correlation/redundancy diagnostics.
+Those diagnostics document the feature universe; they do not turn the final test
+partition into a selection tool.
 
 ## Run
 
 ```bash
 python experiments/ep004_feature_engineering/analyze_features.py \
-  --input path/to/validated_h1_snapshot.csv \
+  --input path/to/ep002-run/accepted.csv \
   --contract configs/features/ep004_baseline_features.toml \
   --output reports/ep004/feature_report.json
 ```

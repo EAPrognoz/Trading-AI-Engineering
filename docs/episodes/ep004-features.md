@@ -1,37 +1,40 @@
-# Episode 004 — Point-in-time features
+# Episode 004 — Feature set
 
-The published Episode 004 focused on model inputs and the fact that more features
-do not automatically create a better model.
+Published video: https://youtu.be/SNOTNSZoNQY
 
-The repository implements that idea in two separate steps.
+Episode 004 is the repository's **feature-set** stage: what information should
+the trading model actually see?
 
-## 1. Feature engineering
+The implementation follows the episode's central rule: more inputs do not
+automatically create more information. Candidate features are explicit,
+point-in-time, and inspectable before the baseline comparison.
 
-Candidate features are computed from data available no later than the close of
-the current completed H1 bar.
+## Candidate families
 
-No feature may depend on `close[t+1]`, the Episode 003 target, a centered
-rolling window, or any other future observation.
+The first H1 feature universe contains:
 
-A timestamp gap other than exactly one hour starts a new feature segment.
-Return, rolling-volatility, and relative-volume windows are not allowed to bridge
-weekends, session breaks, or missing-history gaps. Warm-up begins again after
-such a boundary.
+- returns over several backward-looking horizons;
+- rolling volatility;
+- current-bar range and body;
+- relative tick volume;
+- cyclical hour-of-day and day-of-week encodings.
 
-## 2. Feature selection
+These represent price/returns, volatility, volume, and derived-feature families.
+Additional indicators can be added as explicit candidates; being available does
+not automatically earn a feature a place in the frozen set.
 
-The first baseline feature set is deliberately frozen before the Episode 005
-baseline comparison.
+## Point-in-time rule
 
-Baseline v1 keeps a sparse set of return horizons and volatility windows while
-omitting some nested intermediate windows. This is a structural choice intended
-to limit obvious overlap. It is not selected by maximizing accuracy, validation
-performance, or backtest returns.
+No feature may depend on the Episode 003 future target, a centered/future rolling
+window, or any observation after decision time.
 
-Data-driven feature selection, if introduced later, must occur inside an
-explicit training/evaluation protocol and may not inspect the final test period.
+Timestamp gaps start a new feature segment so rolling windows do not silently
+bridge unresolved missing-history/session boundaries inherited from the data
+layer.
 
-## Baseline-v1 selected inputs
+## Frozen first feature set
+
+Before Episode 005 baseline fitting, the repository freezes:
 
 - return_1h
 - return_6h
@@ -43,3 +46,12 @@ explicit training/evaluation protocol and may not inspect the final test period.
 - relative_tick_volume_24h
 - hour_sin / hour_cos
 - dow_sin / dow_cos
+
+The first exclusions are structural rather than performance-driven:
+`return_3h`, `return_12h`, and `rolling_vol_12h` are omitted to reduce
+obvious overlap. This decision does not inspect target accuracy, validation
+performance, or the final test partition.
+
+Feature diagnostics report missing/non-finite values, first availability,
+cardinality, and correlation/redundancy information. The frozen feature set is
+the output that Episode 005 consumes.

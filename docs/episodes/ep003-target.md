@@ -1,37 +1,32 @@
-# Episode 003 — Forecast horizon and target
+# Episode 003 — Target
 
-The published Episode 003 focused on a central design question: how far ahead
-should a trading model predict?
+Published video: https://youtu.be/VfnH1q76fj4
 
-For the first baseline experiment, the repository freezes one concrete task:
+Episode 003 is the repository's **target** stage.
 
-- timeframe: H1;
-- decision time: immediately after the close of completed bar `t`;
-- horizon: exactly one hour;
+The episode's central engineering question is the forecast horizon: changing how
+far ahead the model predicts changes the target, noise, market dynamics,
+execution assumptions, and the meaning of a useful forecast.
+
+For the current downstream experiment the target contract is:
+
+- source timeframe: H1;
+- decision time: after the close of completed bar `t`;
+- forecast horizon: exactly one hour;
 - target: sign of `close[t+1] / close[t] - 1`;
-- task: binary UP / DOWN classification;
-- exact zero returns: reported, then excluded;
-- non-consecutive H1 row pairs: reported as `GAP`, then excluded.
-
-## Why this comes before the model
-
-Changing the horizon changes the target and the statistical problem. The model
-therefore does not define the prediction task; it receives a task that has
-already been declared.
+- binary classes: UP / DOWN;
+- exact zero returns: reported then excluded;
+- non-consecutive H1 row pairs: reported as `GAP` then excluded.
 
 ## Boundary rule
 
-Using the next close to create the label is legitimate supervised-learning
-construction only when the next observation is exactly one hour later for this
-contract.
+Using the next close to construct the supervised label is legitimate. Giving the
+same future close, or a transformation depending on it, to the model at decision
+time is leakage.
 
-Each sample carries:
+Each sample therefore carries:
 
-- `decision_timestamp` — when the feature vector is available;
-- `target_timestamp` — when the future close required to realize the label occurs.
+- `decision_timestamp` — when model inputs are available;
+- `target_timestamp` — when the future price required to realize the label occurs.
 
-Weekend/session/missing-history gaps are not silently reinterpreted as a
-one-hour forecast.
-
-Episode 005 also uses both timestamps to purge samples whose labels would cross
-a train/validation/test boundary.
+The target is defined before the baseline/model is chosen.

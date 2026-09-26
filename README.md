@@ -4,28 +4,39 @@ Building an AI-powered trading system from market data to models, evaluation, ri
 
 This repository accompanies the **Trading AI Engineering** YouTube series.
 
-## Engineering path
+## Published-series mapping
 
-1. **Episode 002 — Market data**: establish a reproducible data boundary.
-2. **Episode 003 — Forecast horizon / target**: define what the model is asked to predict.
-3. **Episode 004 — Features**: construct point-in-time inputs and freeze a defensible feature set.
-4. **Episode 005 — Baselines**: measure what a more complex model must beat.
-5. Later stages: candidate models, validation, backtesting, risk, execution, and autonomous agents.
+1. **Episode 002 — Data pipeline**  
+   Python + MetaTrader 5 market-data request, time policy, validation, raw preservation, accepted/rejected runs, and manifests.
+2. **Episode 003 — Target**  
+   Define the prediction problem and forecast horizon; the current downstream contract is H1 next-hour direction.
+3. **Episode 004 — Feature set**  
+   Build point-in-time candidate features, inspect redundancy/quality, and freeze the feature set used by the first baseline experiment.
+4. **Episode 005 — Baseline**  
+   Measure B0/B1/B2 under one chronological evaluation protocol before introducing a more complex candidate model.
 
-The repository is being formalized after Episodes 002–004 were published. Commit dates therefore reflect when the engineering artifacts were codified, not the original video publication dates.
+The repository is being formalized after Episodes 002–004 were published. Commit dates therefore reflect when engineering artifacts were codified, not the original video publication dates.
 
-## Current experiment contract
+## Current experiment lineage
 
-The first baseline experiment is now grounded by two pre-model contracts:
+```text
+EP002 accepted H1 snapshot + manifest
+        ↓
+EP003 target: H1 next-hour direction
+        ↓
+EP004 frozen point-in-time feature set
+        ↓
+EP005 B0 / B1 / B2 validation baselines
+```
 
-- **EP003 target**: at H1 bar close `t`, predict the sign of `close[t+1] / close[t] - 1`;
-- **EP004 features**: use only point-in-time inputs available at or before bar close `t`, with a predeclared baseline-v1 feature list.
-
-Episode 005 baseline code is intentionally kept behind these contracts.
+The downstream experiment is valid only when each upstream contract is explicit and reproducible.
 
 ## Principles
 
 - no future information in model inputs;
+- explicit market-data request and time semantics;
+- raw responses are preserved separately from accepted datasets;
+- unresolved data problems do not silently become successful exports;
 - chronological evaluation for time-series experiments;
 - reproducible configs, manifests, and reports;
 - simple baselines before complex models;
@@ -41,7 +52,6 @@ python -m pip install -e ".[dev]"
 pytest
 ```
 
-Large broker datasets are not committed. Use validated local snapshots and keep
-their hashes and coverage in experiment reports.
+Large broker datasets are not committed. Use validated local snapshots and keep their hashes, request contract, provenance, environment, and timestamp coverage in run manifests.
 
 See `docs/architecture.md` and the episode notes under `docs/episodes/`.

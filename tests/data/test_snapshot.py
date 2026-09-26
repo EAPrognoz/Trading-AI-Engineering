@@ -37,3 +37,9 @@ def test_contradictory_high_is_rejected() -> None:
     frame.loc[1, "high"] = 1.0
     with pytest.raises(ValueError, match="high"):
         validate_h1_snapshot(frame)
+
+
+def test_unresolved_gap_is_rejected() -> None:
+    frame = _frame().drop(index=2).reset_index(drop=True)
+    with pytest.raises(ValueError, match="gap"):
+        validate_h1_snapshot(frame)
