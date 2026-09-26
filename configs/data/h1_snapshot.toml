@@ -1,9 +1,11 @@
-contract_id = "ep002-h1-snapshot-v1"
+contract_id = "ep002-h1-market-data-v1"
 timeframe = "H1"
 timezone = "UTC"
 timestamp_semantics = "period_start"
 range_policy = "start_inclusive_end_exclusive"
 completed_bars_only = true
+unclassified_gap_policy = "reject_pending_review"
+overwrite_policy = "reject_existing_run_directory"
 
 required_columns = [
   "timestamp",
