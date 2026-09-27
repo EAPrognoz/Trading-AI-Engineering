@@ -53,6 +53,8 @@ def _evaluate_partition(
 def run_episode005_validation_baselines(
     snapshot_path: str | Path,
     experiment_contract_path: str | Path = "configs/experiments/ep005_baselines.toml",
+    *,
+    source_manifest_path: str | Path | None = None,
 ) -> dict[str, Any]:
     """Run the Episode 005 baseline benchmark without evaluating the test set."""
     contract = _read_toml(experiment_contract_path)
@@ -66,7 +68,11 @@ def run_episode005_validation_baselines(
     if abs((train_fraction + validation_fraction + test_fraction) - 1.0) > 1e-12:
         raise ValueError("train/validation/test fractions must sum to 1")
 
-    dataset = assemble_episode005_dataset(snapshot_path, feature_contract_path)
+    dataset = assemble_episode005_dataset(
+        snapshot_path,
+        feature_contract_path,
+        source_manifest_path=source_manifest_path,
+    )
     split = chronological_split(
         dataset.frame,
         train_fraction=train_fraction,
