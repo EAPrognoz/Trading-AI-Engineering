@@ -43,3 +43,26 @@ def test_unresolved_gap_is_rejected() -> None:
     frame = _frame().drop(index=2).reset_index(drop=True)
     with pytest.raises(ValueError, match="gap"):
         validate_h1_snapshot(frame)
+
+
+def test_half_hour_timestamp_is_rejected_as_not_hour_aligned() -> None:
+    frame = _frame()
+    frame.loc[1, "timestamp"] = pd.Timestamp("2026-01-01T01:30:00Z")
+
+    with pytest.raises(ValueError, match="hour-aligned"):
+        validate_h1_snapshot(frame)
+
+
+def test_subhour_timestamp_sequence_is_rejected() -> None:
+    frame = _frame()
+    frame["timestamp"] = pd.to_datetime(
+        [
+            "2026-01-01T00:00:00Z",
+            "2026-01-01T00:30:00Z",
+            "2026-01-01T01:30:00Z",
+            "2026-01-01T02:30:00Z",
+        ]
+    )
+
+    with pytest.raises(ValueError, match="hour-aligned"):
+        validate_h1_snapshot(frame)
