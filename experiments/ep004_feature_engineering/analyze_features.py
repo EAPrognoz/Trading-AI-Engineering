@@ -20,6 +20,11 @@ def main() -> None:
         required=True,
         help="EP002 manifest.json for the accepted snapshot.",
     )
+    parser.add_argument(
+        "--experiment-contract",
+        default="configs/experiments/ep005_baselines.toml",
+        help="EP005 experiment contract defining the train diagnostic scope.",
+    )
     parser.add_argument("--output", required=True, help="JSON report path.")
     args = parser.parse_args()
 
@@ -27,6 +32,7 @@ def main() -> None:
         args.input,
         args.contract,
         source_manifest_path=args.manifest,
+        experiment_contract_path=args.experiment_contract,
     )
     output = Path(args.output)
     output.parent.mkdir(parents=True, exist_ok=True)
