@@ -31,14 +31,21 @@ The first selection is structural, not performance-driven. Intermediate nested
 return/volatility windows are omitted to reduce obvious overlap without looking
 at validation results or the final test period.
 
+Availability diagnostics describe the accepted history. Correlation/redundancy
+diagnostics that can inform development use only the exact Episode 005 training
+membership; the locked test partition is not part of that diagnostic scope.
+
 ## Recorded run
 
 ```bash
 python experiments/ep004_feature_engineering/analyze_features.py \
   --input path/to/ep002-run/accepted.csv \
+  --manifest path/to/ep002-run/manifest.json \
   --contract configs/features/ep004_baseline_features.toml \
+  --experiment-contract configs/experiments/ep005_baselines.toml \
   --output reports/ep004/feature_report.json
 ```
 
-The feature report records availability and correlation/redundancy diagnostics,
-while the config freezes the feature set that Episode 005 consumes.
+The feature report verifies the accepted CSV against its EP002 manifest, records
+descriptive availability, and reports train-only correlation/redundancy
+diagnostics. The config freezes the feature set that Episode 005 consumes.
