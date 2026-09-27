@@ -21,7 +21,8 @@ The teaching example is:
 `examples/ep002_mt5_minimal.py`
 
 It initializes MT5, calls `copy_rates_range`, shuts MT5 down, and prints the
-returned table.
+returned table. The H1 `timestamp` returned by this layer is interpreted as the
+bar-opening time in UTC.
 
 ## Step 2 — Make the request explicit
 
@@ -36,8 +37,9 @@ The full pipeline adds:
 
 ## Step 3 — Validate without hiding failures
 
-The pipeline checks valid/ordered/unique timestamps, finite fields, OHLC
-consistency, requested coverage, and unresolved gaps.
+The pipeline checks parseable UTC-hour-aligned H1 timestamps, exact requested
+boundary coverage, a non-empty eligible range, ordering/uniqueness, finite
+fields, OHLC consistency, and unresolved gaps.
 
 Raw data is preserved before filtering.
 
@@ -45,7 +47,8 @@ Raw data is preserved before filtering.
 
 Every run saves request, raw response, validation report, and manifest.
 An accepted run also saves `accepted.csv`; a rejected run saves rejection
-evidence and no accepted dataset.
+evidence and no accepted dataset. The accepted-dataset hash in the manifest is
+the provenance anchor verified by the recorded downstream experiments.
 
 The important teaching order is therefore:
 
