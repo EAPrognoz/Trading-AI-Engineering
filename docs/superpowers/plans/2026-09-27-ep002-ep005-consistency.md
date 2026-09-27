@@ -126,7 +126,7 @@ def test_malformed_source_timestamp_rejects_run(tmp_path):
     assert not (run_dir / "accepted.csv").exists()
 ```
 
-Add `test_empty_eligible_range_rejects_run` using raw rows only outside `[start, end)`; assert issue code `empty_eligible_range`.
+Add `test_malformed_timestamp_outside_otherwise_valid_response_still_rejects` by appending a row whose timestamp is unparseable while the normal requested rows remain valid; assert `invalid_timestamp` and no `accepted.csv`.\n\nAdd `test_empty_eligible_range_rejects_run` using raw rows only outside `[start, end)`; assert issue code `empty_eligible_range`.
 
 Add `test_missing_requested_start_boundary_rejects_run` using rows at 07:00, 09:00, 10:00, 11:00 for the existing 08:00 request; assert `coverage_ok is False` and `requested_coverage_incomplete`.
 
@@ -283,7 +283,7 @@ def test_dataset_manifest_verifies_matching_ep002_manifest(tmp_path):
 
 Add `test_tampered_snapshot_fails_manifest_verification`; mutate the CSV after writing the manifest and assert `ValueError` matching `hash`.
 
-Add `test_rejected_manifest_cannot_verify_accepted_snapshot`; set status to `rejected` and assert `ValueError`.
+Add `test_rejected_manifest_cannot_verify_accepted_snapshot`; set status to `rejected` and assert `ValueError`.\n\nAdd `test_manifest_without_accepted_dataset_artifact_is_rejected`; remove `files.accepted_dataset` and assert `ValueError`.
 
 Add `test_dataset_manifest_does_not_expose_absolute_local_path`; assert the temporary directory string is absent from `json.dumps(metadata)`.
 
@@ -325,7 +325,7 @@ When `source_manifest_path` is provided:
   - `contract_id`;
   - `status`;
   - `manifest_sha256`;
-  - `accepted_dataset_sha256`.
+  - `accepted_dataset_sha256`;\n  - `accepted_dataset_artifact` from the manifest entry (stored as a manifest-relative filename, never a local absolute path).
 
 Do not expose the manifest's local filesystem location.
 
