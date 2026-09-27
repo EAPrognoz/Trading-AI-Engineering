@@ -159,6 +159,7 @@ def test_existing_run_directory_is_not_overwritten(tmp_path: Path) -> None:
 
 def test_malformed_source_timestamp_rejects_run(tmp_path: Path) -> None:
     raw = _good()
+    raw["timestamp"] = raw["timestamp"].astype("object")
     raw.loc[1, "timestamp"] = "not-a-time"
     run_dir = tmp_path / "malformed"
 
