@@ -36,6 +36,8 @@ def _top_correlations(features: pd.DataFrame, columns: list[str], limit: int = 1
 def analyze_feature_contract(
     snapshot_path: str | Path,
     contract_path: str | Path,
+    *,
+    source_manifest_path: str | Path | None = None,
 ) -> dict[str, Any]:
     """Build Episode 004 features and describe the frozen baseline feature set.
 
@@ -82,7 +84,11 @@ def analyze_feature_contract(
             "uses_validation_statistics": bool(contract["uses_validation_statistics"]),
             "uses_test_statistics": bool(contract["uses_test_statistics"]),
         },
-        "dataset": dataset_manifest(frame, snapshot_path),
+        "dataset": dataset_manifest(
+            frame,
+            snapshot_path,
+            source_manifest_path=source_manifest_path,
+        ),
         "candidate_features": candidates,
         "selected_features": selected,
         "feature_diagnostics": diagnostics,
