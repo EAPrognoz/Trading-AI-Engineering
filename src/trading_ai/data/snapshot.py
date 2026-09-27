@@ -38,7 +38,9 @@ def validate_h1_snapshot(frame: pd.DataFrame) -> None:
         raise ValueError("timestamp contains duplicates")
     if not ts.is_monotonic_increasing:
         raise ValueError("timestamp must be strictly time ordered")
-    if len(ts) > 1 and (ts.diff().dropna() > pd.Timedelta(hours=1)).any():
+    if ts.dt.floor("h").ne(ts).any():
+        raise ValueError("timestamp must be hour-aligned for H1")
+    if len(ts) > 1 and ts.diff().dropna().ne(pd.Timedelta(hours=1)).any():
         raise ValueError("timestamp contains an unresolved H1 gap")
 
     numeric_columns = [
