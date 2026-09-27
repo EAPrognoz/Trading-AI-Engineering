@@ -10,7 +10,6 @@ import numpy as np
 import pandas as pd
 
 from trading_ai.data.snapshot import dataset_manifest, load_snapshot
-from trading_ai.experiments.baseline_dataset import prepare_episode005_split
 from trading_ai.features.engineering import FEATURE_LOOKBACK_BARS, build_point_in_time_features
 
 
@@ -47,6 +46,8 @@ def analyze_feature_contract(
     predeclared contract and is not chosen from target, validation, or test
     performance.
     """
+    from trading_ai.experiments.baseline_dataset import prepare_episode005_split
+
     frame = load_snapshot(snapshot_path)
     features = build_point_in_time_features(frame)
     contract = _load_contract(contract_path)
