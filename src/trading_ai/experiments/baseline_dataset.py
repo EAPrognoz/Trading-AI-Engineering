@@ -30,6 +30,8 @@ def _read_toml(path: str | Path) -> dict[str, Any]:
 def assemble_episode005_dataset(
     snapshot_path: str | Path,
     feature_contract_path: str | Path,
+    *,
+    source_manifest_path: str | Path | None = None,
 ) -> BaselineDataset:
     """Join the EP003 target to the frozen EP004 feature set."""
     market = load_snapshot(snapshot_path)
@@ -65,7 +67,11 @@ def assemble_episode005_dataset(
         frame=assembled,
         selected_features=selected,
         metadata={
-            "dataset": dataset_manifest(market, snapshot_path),
+            "dataset": dataset_manifest(
+                market,
+                snapshot_path,
+                source_manifest_path=source_manifest_path,
+            ),
             "target_contract_id": "ep003-h1-direction-v1",
             "feature_contract_id": str(feature_contract["contract_id"]),
             "input_rows": int(len(market)),
