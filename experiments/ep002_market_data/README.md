@@ -73,10 +73,13 @@ viewer can learn one idea at a time.
 
 ## Time policy
 
-- H1 opening timestamps are interpreted in UTC;
+- MT5 H1 timestamps are bar-opening timestamps interpreted in UTC;
 - requested range is `[start, end)`;
 - only bars whose nominal H1 interval has completed by the cutoff are eligible;
 - the source response is preserved before filtering;
+- the required start and latest completed H1 boundaries must actually be present;
+- an empty eligible range, malformed timestamp, or non-hour-aligned H1 timestamp
+  prevents acceptance;
 - shorter-than-requested coverage is visible and prevents acceptance.
 
 ## Gaps
@@ -101,3 +104,7 @@ python experiments/ep002_market_data/run_fixture.py ^
 
 The conflict fixture is intentionally rejected. It exists to show that a bad
 input cannot quietly look like a successful export.
+
+For recorded downstream EP003–EP005 runs, keep both `accepted.csv` and the
+originating `manifest.json`; the later CLIs verify the accepted CSV hash against
+that manifest.
