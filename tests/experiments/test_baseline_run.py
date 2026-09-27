@@ -6,6 +6,7 @@ from pathlib import Path
 import numpy as np
 import pandas as pd
 
+import trading_ai.experiments.baseline_dataset as baseline_dataset
 from trading_ai.experiments.baseline_run import run_episode005_validation_baselines
 
 
@@ -45,3 +46,52 @@ def test_episode005_run_keeps_test_locked(tmp_path: Path) -> None:
         "B2_logistic_regression",
     }
     json.dumps(report)
+
+
+def test_uniform_timestamp_shift_does_not_change_baseline_metrics(
+    tmp_path: Path,
+    monkeypatch,
+) -> None:
+    snapshot = tmp_path / "synthetic_h1.csv"
+    _write_snapshot(snapshot)
+
+    corrected = run_episode005_validation_baselines(snapshot)
+    real_builder = baseline_dataset.build_h1_direction_target
+
+    def legacy_timestamp_builder(frame: pd.DataFrame) -> pd.DataFrame:
+        result = real_builder(frame).copy()
+        result["decision_timestamp"] = (
+            result["decision_timestamp"] - pd.Timedelta(hours=1)
+        )
+        result["target_timestamp"] = (
+            result["target_timestamp"] - pd.Timedelta(hours=1)
+        )
+        return result
+
+    monkeypatch.setattr(
+        baseline_dataset,
+        "build_h1_direction_target",
+        legacy_timestamp_builder,
+    )
+    legacy = run_episode005_validation_baselines(snapshot)
+
+    assert corrected["validation_metrics"] == legacy["validation_metrics"]
+    assert corrected["split"]["train_rows"] == legacy["split"]["train_rows"]
+    assert corrected["split"]["validation_rows"] == legacy["split"]["validation_rows"]
+    assert corrected["split"]["test_rows"] == legacy["split"]["test_rows"]
+    assert (
+        corrected["split"]["purged_train_boundary_rows"]
+        == legacy["split"]["purged_train_boundary_rows"]
+    )
+    assert (
+        corrected["split"]["purged_validation_boundary_rows"]
+        == legacy["split"]["purged_validation_boundary_rows"]
+    )
+    assert pd.Timestamp(corrected["split"]["validation_start"]) == (
+        pd.Timestamp(legacy["split"]["validation_start"])
+        + pd.Timedelta(hours=1)
+    )
+    assert pd.Timestamp(corrected["split"]["test_start"]) == (
+        pd.Timestamp(legacy["split"]["test_start"])
+        + pd.Timedelta(hours=1)
+    )
