@@ -155,3 +155,157 @@ def test_existing_run_directory_is_not_overwritten(tmp_path: Path) -> None:
             run_dir=run_dir,
             provenance={"source_type": "synthetic_fixture"},
         )
+
+
+def test_malformed_source_timestamp_rejects_run(tmp_path: Path) -> None:
+    raw = _good()
+    raw.loc[1, "timestamp"] = "not-a-time"
+    run_dir = tmp_path / "malformed"
+
+    result = process_h1_response(
+        raw,
+        request=_request(),
+        run_dir=run_dir,
+        provenance={"source_type": "synthetic_fixture"},
+    )
+
+    assert result["status"] == "rejected"
+    codes = {issue["code"] for issue in result["validation_report"]["issues"]}
+    assert "invalid_timestamp" in codes
+    assert not (run_dir / "accepted.csv").exists()
+
+
+def test_malformed_timestamp_outside_otherwise_valid_response_still_rejects(
+    tmp_path: Path,
+) -> None:
+    raw = _good().copy()
+    malformed = raw.iloc[[0]].copy()
+    malformed["timestamp"] = "not-a-time"
+    raw = pd.concat([raw, malformed], ignore_index=True)
+    run_dir = tmp_path / "malformed-extra"
+
+    result = process_h1_response(
+        raw,
+        request=_request(),
+        run_dir=run_dir,
+        provenance={"source_type": "synthetic_fixture"},
+    )
+
+    assert result["status"] == "rejected"
+    codes = {issue["code"] for issue in result["validation_report"]["issues"]}
+    assert "invalid_timestamp" in codes
+    assert not (run_dir / "accepted.csv").exists()
+
+
+def test_empty_eligible_range_rejects_run(tmp_path: Path) -> None:
+    raw = _good().iloc[[0, 1]].copy()
+    raw.loc[raw.index[0], "timestamp"] = pd.Timestamp("2026-01-05T07:00:00Z")
+    raw.loc[raw.index[1], "timestamp"] = pd.Timestamp("2026-01-05T12:00:00Z")
+    run_dir = tmp_path / "empty"
+
+    result = process_h1_response(
+        raw,
+        request=_request(),
+        run_dir=run_dir,
+        provenance={"source_type": "synthetic_fixture"},
+    )
+
+    assert result["status"] == "rejected"
+    codes = {issue["code"] for issue in result["validation_report"]["issues"]}
+    assert "empty_eligible_range" in codes
+    assert not (run_dir / "accepted.csv").exists()
+
+
+def test_missing_requested_start_boundary_rejects_run(tmp_path: Path) -> None:
+    raw = _good().copy()
+    raw.loc[0, "timestamp"] = pd.Timestamp("2026-01-05T07:00:00Z")
+    run_dir = tmp_path / "missing-start"
+
+    result = process_h1_response(
+        raw,
+        request=_request(),
+        run_dir=run_dir,
+        provenance={"source_type": "synthetic_fixture"},
+    )
+
+    assert result["status"] == "rejected"
+    assert result["validation_report"]["coverage"]["required_start_present"] is False
+    assert result["validation_report"]["coverage"]["coverage_ok"] is False
+    codes = {issue["code"] for issue in result["validation_report"]["issues"]}
+    assert "requested_coverage_incomplete" in codes
+
+
+def test_missing_required_completed_end_boundary_rejects_run(tmp_path: Path) -> None:
+    raw = _good().iloc[:3].copy()
+    run_dir = tmp_path / "missing-end"
+
+    result = process_h1_response(
+        raw,
+        request=_request(),
+        run_dir=run_dir,
+        provenance={"source_type": "synthetic_fixture"},
+    )
+
+    assert result["status"] == "rejected"
+    assert (
+        result["validation_report"]["coverage"]["required_completed_end_present"]
+        is False
+    )
+    assert result["validation_report"]["coverage"]["coverage_ok"] is False
+
+
+def test_half_hour_timestamp_is_reported_as_misaligned(tmp_path: Path) -> None:
+    raw = _good().copy()
+    raw.loc[1, "timestamp"] = pd.Timestamp("2026-01-05T09:30:00Z")
+    run_dir = tmp_path / "misaligned"
+
+    result = process_h1_response(
+        raw,
+        request=_request(),
+        run_dir=run_dir,
+        provenance={"source_type": "synthetic_fixture"},
+    )
+
+    assert result["status"] == "rejected"
+    codes = {issue["code"] for issue in result["validation_report"]["issues"]}
+    assert "h1_timestamp_misaligned" in codes
+
+
+def test_out_of_range_rows_remain_normal_exclusions(tmp_path: Path) -> None:
+    raw = _good().copy()
+    earlier = raw.iloc[[0]].copy()
+    earlier["timestamp"] = pd.Timestamp("2026-01-05T07:00:00Z")
+    raw = pd.concat([earlier, raw], ignore_index=True)
+    run_dir = tmp_path / "out-of-range"
+
+    result = process_h1_response(
+        raw,
+        request=_request(),
+        run_dir=run_dir,
+        provenance={"source_type": "synthetic_fixture"},
+    )
+
+    assert result["status"] == "accepted"
+    assert result["validation_report"]["exclusions"]["before_start"] == 1
+
+
+def test_cutoff_with_no_completed_bar_rejects_empty_candidate(tmp_path: Path) -> None:
+    request = MarketDataRequest(
+        symbol="EURUSD",
+        start="2026-01-05T08:00:00Z",
+        end="2026-01-05T12:00:00Z",
+        cutoff="2026-01-05T08:30:00Z",
+    )
+    run_dir = tmp_path / "no-completed-bar"
+
+    result = process_h1_response(
+        _good(),
+        request=request,
+        run_dir=run_dir,
+        provenance={"source_type": "synthetic_fixture"},
+    )
+
+    assert result["status"] == "rejected"
+    codes = {issue["code"] for issue in result["validation_report"]["issues"]}
+    assert "empty_eligible_range" in codes
+    assert not (run_dir / "accepted.csv").exists()
