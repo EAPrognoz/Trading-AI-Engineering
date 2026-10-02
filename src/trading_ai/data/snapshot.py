@@ -14,6 +14,8 @@ from typing import Any
 import numpy as np
 import pandas as pd
 
+from trading_ai.data.timeframes import timeframe_duration
+
 REQUIRED_H1_COLUMNS = (
     "timestamp",
     "open",
@@ -26,8 +28,9 @@ REQUIRED_H1_COLUMNS = (
 )
 
 
-def validate_h1_snapshot(frame: pd.DataFrame) -> None:
-    """Raise ValueError when an accepted H1 snapshot violates its contract."""
+def validate_market_snapshot(frame: pd.DataFrame, timeframe: str) -> None:
+    """Raise ValueError when an accepted native-bar snapshot violates its contract."""
+    duration = timeframe_duration(timeframe)
     missing = [column for column in REQUIRED_H1_COLUMNS if column not in frame.columns]
     if missing:
         raise ValueError(f"missing required columns: {missing}")
@@ -40,9 +43,13 @@ def validate_h1_snapshot(frame: pd.DataFrame) -> None:
     if not ts.is_monotonic_increasing:
         raise ValueError("timestamp must be strictly time ordered")
     if ts.dt.floor("h").ne(ts).any():
-        raise ValueError("timestamp must be hour-aligned for H1")
-    if len(ts) > 1 and ts.diff().dropna().ne(pd.Timedelta(hours=1)).any():
-        raise ValueError("timestamp contains an unresolved H1 gap")
+        raise ValueError(f"timestamp must be hour-aligned for {timeframe}")
+    if len(ts) > 1:
+        deltas = ts.diff().dropna()
+        if (deltas > duration).any():
+            raise ValueError(f"timestamp contains an unresolved {timeframe} gap")
+        if (deltas < duration).any():
+            raise ValueError(f"timestamp violates {timeframe} native cadence")
 
     numeric_columns = [
         "open",
@@ -69,16 +76,26 @@ def validate_h1_snapshot(frame: pd.DataFrame) -> None:
             raise ValueError(f"{column} must be non-negative")
 
 
-def load_snapshot(path: str | Path) -> pd.DataFrame:
+def validate_h1_snapshot(frame: pd.DataFrame) -> None:
+    """Compatibility validator for accepted H1 snapshots."""
+    validate_market_snapshot(frame, "H1")
+
+
+def load_market_snapshot(path: str | Path, timeframe: str) -> pd.DataFrame:
     """Load an accepted CSV snapshot without silently repairing violations."""
     path = Path(path)
     frame = pd.read_csv(path)
-    validate_h1_snapshot(frame)
+    validate_market_snapshot(frame, timeframe)
     result = frame.copy()
     result["timestamp"] = pd.to_datetime(result["timestamp"], utc=True)
     for column in REQUIRED_H1_COLUMNS[1:]:
         result[column] = pd.to_numeric(result[column])
     return result
+
+
+def load_snapshot(path: str | Path) -> pd.DataFrame:
+    """Compatibility loader for accepted H1 snapshots."""
+    return load_market_snapshot(path, "H1")
 
 
 def sha256_file(path: str | Path) -> str:

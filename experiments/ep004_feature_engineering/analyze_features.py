@@ -9,30 +9,40 @@ from trading_ai.features.report import analyze_feature_contract
 
 def main() -> None:
     parser = argparse.ArgumentParser(description="Analyze the Episode 004 feature contract.")
-    parser.add_argument("--input", required=True, help="Validated H1 CSV snapshot.")
+    source = parser.add_mutually_exclusive_group(required=True)
+    source.add_argument("--input", help="Validated H1 CSV snapshot.")
+    source.add_argument("--bundle-manifest", help="Validated BTC bundle manifest.")
     parser.add_argument(
         "--contract",
-        default="configs/features/ep004_baseline_features.toml",
         help="Feature-contract TOML path.",
     )
     parser.add_argument(
         "--manifest",
-        required=True,
         help="EP002 manifest.json for the accepted snapshot.",
     )
     parser.add_argument(
         "--experiment-contract",
-        default="configs/experiments/ep005_baselines.toml",
         help="EP005 experiment contract defining the train diagnostic scope.",
     )
     parser.add_argument("--output", required=True, help="JSON report path.")
     args = parser.parse_args()
+    if (args.input is None) != (args.manifest is None):
+        parser.error("--input and --manifest must be supplied together")
+    feature_contract = args.contract or (
+        "configs/features/ep004_btc_mtf_features.toml"
+        if args.bundle_manifest else "configs/features/ep004_baseline_features.toml"
+    )
+    experiment_contract = args.experiment_contract or (
+        "configs/experiments/ep005_btc_mtf_baselines.toml"
+        if args.bundle_manifest else "configs/experiments/ep005_baselines.toml"
+    )
 
     report = analyze_feature_contract(
         args.input,
-        args.contract,
+        feature_contract,
         source_manifest_path=args.manifest,
-        experiment_contract_path=args.experiment_contract,
+        bundle_manifest_path=args.bundle_manifest,
+        experiment_contract_path=experiment_contract,
     )
     output = Path(args.output)
     output.parent.mkdir(parents=True, exist_ok=True)

@@ -32,7 +32,7 @@ classification task. The final row is unlabeled.
 Future information is allowed to construct the supervised target. It is not
 allowed in the feature vector available at the decision timestamp.
 
-## Recorded run
+## Existing EURUSD H1 recorded run
 
 ```bash
 python experiments/ep003_forecast_horizon/analyze_target.py \
@@ -44,3 +44,24 @@ python experiments/ep003_forecast_horizon/analyze_target.py \
 The report verifies the accepted CSV against its EP002 manifest and records
 dataset identity, timestamp coverage, class balance, zero/gap counts, and the
 forward-return distribution.
+
+## Separate BTC verified-bundle report
+
+After EP002 accepts all three streams, use its verified bundle manifest. This
+command is a template for a unique local BTC run directory:
+
+```powershell
+$runDir = '.local/btc-mtf-<unique-run-id>'
+python experiments/ep003_forecast_horizon/analyze_target.py `
+  --bundle-manifest "$runDir/bundle_manifest.json" `
+  --output "$runDir/reports/ep003/target_report.json"
+```
+
+The loader checks the H1/H4/D1 member identities and SHA-256 hashes before
+reporting. EP003 calculates labels from H1 alone within the bundle's common
+half-open decision interval. The next consecutive H1 close is exactly one hour
+after the decision close; H4/D1 are model inputs, not longer target horizons.
+Missing H1 adjacency is recorded as `GAP`, never bridged. The report is local
+and supports the verified `BITCOIN_i` bundle used by published EP005. The
+27-row BTC validation comparison scored 11/27 for Logistic Regression and 13/27
+for Always-Up; no reserved-test metric was computed.

@@ -76,3 +76,25 @@ make feature decisions.
 The minimal example teaches feature construction. The full implementation under
 `experiments/ep004_feature_engineering/` creates the recorded feature report
 and frozen feature contract consumed by Episode 005.
+
+## Separate BTC H1/H4/D1 feature set
+
+The listed H1 features and teaching example above belong to the existing
+EURUSD route. The BTC contract is
+`configs/features/ep004_btc_mtf_features.toml`, with selected features
+namespaced by H1, H4, or D1. A 24-bar H4 or D1 lookback counts that many
+native source bars; it does not change EP003's one-hour forecast horizon.
+
+MT5 source timestamps are UTC bar opens. EP004 computes each source's nominal
+close as open plus native duration and selects only a completed source row with
+`nominal_close <= H1 decision_timestamp`. D1 opens need not be UTC midnight.
+No partial/future bar or rolling window across an unresolved native gap is used.
+
+The BTC feature report reads the verified EP002 `bundle_manifest.json` and
+checks that its feature contract matches the one named by the canonical BTC
+EP005 experiment config. Its availability statistics describe the common
+interval, while correlation/redundancy diagnostics use exactly EP005's prepared
+train decision timestamps. Validation and locked test decisions are excluded
+from those selection diagnostics. The selected H1/H4/D1 feature contract fed the
+published EP005 BTC baseline on `BITCOIN_i`. Validation was 11/27 for Logistic
+Regression and 13/27 for Always-Up; the reserved test remains unevaluated.

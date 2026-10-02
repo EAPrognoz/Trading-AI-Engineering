@@ -8,6 +8,7 @@ from typing import Any
 import pandas as pd
 
 from trading_ai.data.request import MarketDataRequest
+from trading_ai.data.timeframes import timeframe_duration
 
 
 @dataclass(frozen=True)
@@ -17,11 +18,11 @@ class TimePolicyResult:
     coverage: dict[str, Any]
 
 
-def apply_h1_time_policy(
+def apply_market_time_policy(
     raw: pd.DataFrame,
     request: MarketDataRequest,
 ) -> TimePolicyResult:
-    """Apply half-open range and completed-bar rules without mutating raw data."""
+    """Apply half-open range and native completed-bar rules without mutating raw data."""
     if "timestamp" not in raw.columns:
         raise ValueError("raw response is missing timestamp")
 
@@ -31,7 +32,7 @@ def apply_h1_time_policy(
 
     before_start = timestamp < request.start
     at_or_after_end = timestamp >= request.end
-    incomplete = timestamp.add(pd.Timedelta(hours=1)) > request.cutoff
+    incomplete = timestamp.add(timeframe_duration(request.timeframe)) > request.cutoff
 
     keep = ~(invalid_timestamp | before_start | at_or_after_end | incomplete)
 
@@ -51,10 +52,15 @@ def apply_h1_time_policy(
     required_completed_end_present = bool(
         last_required is None or last_required in eligible_ts
     )
-    coverage_ok = bool(
-        last_required is None
-        or (required_start_present and required_completed_end_present)
-    )
+    if request.timeframe == "H1":
+        coverage_ok = bool(
+            last_required is None
+            or (required_start_present and required_completed_end_present)
+        )
+    else:
+        # The first source open may be offset from UTC midnight; alignment to
+        # the common H1 decision interval is checked when the bundle is built.
+        coverage_ok = bool(len(eligible_ts))
 
     coverage = {
         "first_returned_timestamp": (
@@ -88,3 +94,10 @@ def apply_h1_time_policy(
         },
         coverage=coverage,
     )
+
+
+def apply_h1_time_policy(raw: pd.DataFrame, request: MarketDataRequest) -> TimePolicyResult:
+    """Compatibility entry point for Episode 002's H1 pipeline."""
+    if request.timeframe != "H1":
+        raise ValueError("apply_h1_time_policy requires H1")
+    return apply_market_time_policy(raw, request)

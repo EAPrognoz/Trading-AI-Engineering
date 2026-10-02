@@ -7,7 +7,12 @@ import shutil
 import pandas as pd
 import pytest
 
-from trading_ai.data.snapshot import dataset_manifest, sha256_file, validate_h1_snapshot
+from trading_ai.data.snapshot import (
+    dataset_manifest,
+    sha256_file,
+    validate_h1_snapshot,
+)
+from trading_ai.data.validation import audit_h1_records
 
 
 def _frame() -> pd.DataFrame:
@@ -70,6 +75,67 @@ def test_subhour_timestamp_sequence_is_rejected() -> None:
 
     with pytest.raises(ValueError, match="hour-aligned"):
         validate_h1_snapshot(frame)
+
+
+@pytest.mark.parametrize(("timeframe", "frequency"), [("H4", "4h"), ("D1", "24h")])
+def test_native_cadence_passes_without_midnight_assumption(
+    timeframe: str, frequency: str, tmp_path: Path
+) -> None:
+    from trading_ai.data.snapshot import load_market_snapshot, validate_market_snapshot
+    from trading_ai.data.validation import audit_market_records
+
+    frame = _frame()
+    frame["timestamp"] = pd.date_range(
+        "2026-01-01T01:00:00Z", periods=len(frame), freq=frequency
+    )
+    assert audit_market_records(frame, timeframe) == []
+    validate_market_snapshot(frame, timeframe)
+    csv_path = tmp_path / "accepted.csv"
+    frame.to_csv(csv_path, index=False)
+    loaded = load_market_snapshot(csv_path, timeframe)
+    pd.testing.assert_frame_equal(loaded, frame)
+
+
+def test_d1_nonmidnight_open_is_valid_and_dst_length_delta_is_rejected() -> None:
+    from trading_ai.data.snapshot import validate_market_snapshot
+    from trading_ai.data.validation import audit_market_records
+
+    frame = _frame().iloc[:2].copy()
+    frame["timestamp"] = pd.to_datetime(
+        ["2026-03-28T01:00:00Z", "2026-03-29T01:00:00Z"]
+    )
+    validate_market_snapshot(frame, "D1")
+
+    frame.loc[1, "timestamp"] = pd.Timestamp("2026-03-29T02:00:00Z")
+    with pytest.raises(ValueError, match="gap|cadence"):
+        validate_market_snapshot(frame, "D1")
+    assert "unclassified_gap" in {
+        issue["code"] for issue in audit_market_records(frame, "D1")
+    }
+
+
+def test_h4_short_interval_is_rejected_as_wrong_cadence() -> None:
+    from trading_ai.data.snapshot import validate_market_snapshot
+    from trading_ai.data.validation import audit_market_records
+
+    frame = _frame().iloc[:2].copy()
+    frame["timestamp"] = pd.to_datetime(
+        ["2026-01-01T01:00:00Z", "2026-01-01T04:00:00Z"]
+    )
+    with pytest.raises(ValueError, match="cadence"):
+        validate_market_snapshot(frame, "H4")
+    assert "timeframe_cadence_mismatch" in {
+        issue["code"] for issue in audit_market_records(frame, "H4")
+    }
+
+
+def test_h1_generic_audit_and_validator_preserve_legacy_results() -> None:
+    from trading_ai.data.snapshot import validate_market_snapshot
+    from trading_ai.data.validation import audit_market_records
+
+    frame = _frame()
+    assert audit_market_records(frame, "H1") == audit_h1_records(frame)
+    validate_market_snapshot(frame, "H1")
 
 
 def _write_accepted_with_manifest(tmp_path: Path) -> tuple[pd.DataFrame, Path, Path, str]:

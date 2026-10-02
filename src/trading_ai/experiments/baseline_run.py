@@ -23,11 +23,12 @@ def _evaluate_partition(
     selected_features: list[str],
     majority_label: str,
     logistic_model: Any,
+    persistence_feature: str,
 ) -> dict[str, Any]:
     y = frame["target_h1_direction"]
     majority = predict_majority(frame.index, majority_label)
     persistence = predict_previous_hour_direction(
-        frame["return_1h"],
+        frame[persistence_feature],
         zero_fallback=majority_label,
     )
     logistic = pd.Series(
@@ -44,22 +45,27 @@ def _evaluate_partition(
 
 
 def run_episode005_validation_baselines(
-    snapshot_path: str | Path,
+    snapshot_path: str | Path | None,
     experiment_contract_path: str | Path = "configs/experiments/ep005_baselines.toml",
     *,
     source_manifest_path: str | Path | None = None,
+    bundle_manifest_path: str | Path | None = None,
 ) -> dict[str, Any]:
     """Run the Episode 005 baseline benchmark without evaluating the test set."""
     prepared = prepare_episode005_split(
         snapshot_path,
         experiment_contract_path,
         source_manifest_path=source_manifest_path,
+        bundle_manifest_path=bundle_manifest_path,
     )
     dataset = prepared.dataset
     split = prepared.split
     contract = prepared.contract
 
     features = dataset.selected_features
+    persistence_feature = (
+        "h1__return_1bar" if bundle_manifest_path is not None else "return_1h"
+    )
     y_train = split.train["target_h1_direction"]
     majority_label = fit_majority_label(y_train)
     logistic_model = fit_logistic_baseline(split.train[features], y_train)
@@ -69,15 +75,17 @@ def run_episode005_validation_baselines(
         selected_features=features,
         majority_label=majority_label,
         logistic_model=logistic_model,
+        persistence_feature=persistence_feature,
     )
     validation_metrics = _evaluate_partition(
         split.validation,
         selected_features=features,
         majority_label=majority_label,
         logistic_model=logistic_model,
+        persistence_feature=persistence_feature,
     )
 
-    return {
+    report = {
         "contract_id": str(contract["contract_id"]),
         "task": "H1 next-return direction",
         "target_contract_id": dataset.metadata["target_contract_id"],
@@ -103,10 +111,10 @@ def run_episode005_validation_baselines(
             "logistic_scaler_fit_scope": "train_only",
             "logistic_model_fit_scope": "train_only",
         },
-        "train_metrics": train_metrics,
         "validation_metrics": validation_metrics,
         "test": {
             "policy": str(contract["test_policy"]),
+            "status": "locked",
             "evaluated": False,
             "rows": int(len(split.test)),
             "note": (
@@ -115,3 +123,6 @@ def run_episode005_validation_baselines(
             ),
         },
     }
+    if bundle_manifest_path is None:
+        report["train_metrics"] = train_metrics
+    return report

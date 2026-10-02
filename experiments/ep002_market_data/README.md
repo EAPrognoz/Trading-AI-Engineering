@@ -54,7 +54,7 @@ An accepted run additionally writes `accepted.csv`.
 A rejected run writes `rejection_report.json` and does **not** write an
 accepted dataset.
 
-## Full MT5 pipeline
+## Existing EURUSD H1 full MT5 pipeline
 
 Once the minimal example works:
 
@@ -108,3 +108,52 @@ input cannot quietly look like a successful export.
 For recorded downstream EP003–EP005 runs, keep both `accepted.csv` and the
 originating `manifest.json`; the later CLIs verify the accepted CSV hash against
 that manifest.
+
+## Separate BTC H1/H4/D1 historical bundle
+
+Before acquisition, inspect the connected MT5 terminal and verify the exact
+broker BTC symbol and availability of native H1, H4, and D1 history. Do not
+assume an alias such as `BTCUSD` is present. The command below is a template:
+replace the symbol and UTC timestamps only after that check, and choose a new
+run directory under this repository's ignored `.local/` for each attempt.
+
+```powershell
+$btcSymbol = '<exact verified broker symbol>'
+$analysisStart = '<UTC hour-aligned ISO 8601 decision start>'
+$analysisEnd = '<UTC hour-aligned ISO 8601 decision end>'
+$cutoff = '<UTC ISO 8601 cutoff at or after analysis end>'
+$runDir = '.local/btc-mtf-<unique-run-id>'
+python experiments/ep002_market_data/run_mt5_bundle.py `
+  --symbol $btcSymbol `
+  --analysis-start $analysisStart `
+  --analysis-end $analysisEnd `
+  --cutoff $cutoff `
+  --feature-contract configs/features/ep004_btc_mtf_features.toml `
+  --run-dir $runDir
+```
+
+This runner requests historical bars only. The analysis interval is the
+half-open H1 decision range `[analysis-start, analysis-end)`, with a cutoff at
+or after its end. The feature contract currently declares
+`max_lookback_bars = 24` separately for H1, H4, and D1. For each stream the
+runner requests
+`(max_lookback_bars + 2) * native duration` of pre-roll and checks at least
+`N + 1` completed bars before the first decision and recent completed-bar
+coverage at both interval endpoints. H1/H4/D1 are input series; these native
+bar counts are not EP003's one-hour forecast horizon.
+
+MT5 timestamps are UTC bar opens. Nominal close is open plus native timeframe
+duration; D1 bars need not open at 00:00 UTC. Only bars with nominal close no
+later than the H1 decision may supply features. Partial/future bars are not
+eligible. Each stream rejects unresolved gaps against its own native cadence;
+no missing history is bridged.
+
+On success, `$runDir` contains `H1/`, `H4/`, and `D1/` directories, each with
+raw response, validation evidence, `accepted.csv`, and `manifest.json`, plus a
+top-level `bundle_manifest.json`. The bundle binds exact symbol, timeframe,
+dataset ID, source-manifest hash, and accepted-CSV SHA-256 for every member.
+Downstream reports load and verify that bundle. A rejected stream leaves no
+bundle manifest. Keep all raw/acquired BTC data under `.local/` and out of Git.
+The verified BTC symbol is `BITCOIN_i`, a broker CFD, with accepted H1/H4/D1
+history. The published EP005 BTC comparison reports validation only; keep the
+source CSVs and raw broker records under `.local/` and out of Git.

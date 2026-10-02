@@ -5,6 +5,8 @@ from __future__ import annotations
 import numpy as np
 import pandas as pd
 
+from trading_ai.data.timeframes import timeframe_duration
+
 FEATURE_LOOKBACK_BARS: dict[str, int] = {
     "return_1h": 1,
     "return_3h": 3,
@@ -24,9 +26,11 @@ FEATURE_LOOKBACK_BARS: dict[str, int] = {
 }
 
 
-def _segment_ids(timestamp: pd.Series) -> pd.Series:
+def _segment_ids(
+    timestamp: pd.Series, duration: pd.Timedelta = pd.Timedelta(hours=1)
+) -> pd.Series:
     delta = timestamp.diff()
-    new_segment = delta.ne(pd.Timedelta(hours=1))
+    new_segment = delta.ne(duration)
     if len(new_segment):
         new_segment.iloc[0] = True
     return new_segment.cumsum()
@@ -105,5 +109,61 @@ def build_point_in_time_features(frame: pd.DataFrame) -> pd.DataFrame:
     result["dow_cos"] = np.cos(2.0 * np.pi * day_of_week / 7.0)
 
     numeric_columns = [column for column in result.columns if column != "timestamp"]
+    result[numeric_columns] = result[numeric_columns].replace([np.inf, -np.inf], np.nan)
+    return result
+
+
+def build_native_timeframe_features(
+    frame: pd.DataFrame,
+    timeframe: str,
+    *,
+    return_bars: list[int],
+    rolling_vol_bars: list[int],
+    relative_tick_volume_bars: int,
+) -> pd.DataFrame:
+    """Apply the EP004 formulas to one source's native bars.
+
+    A non-native timestamp delta resets that source's rolling history. The
+    returned timestamp is a UTC bar open; alignment owns nominal closes.
+    """
+    duration = timeframe_duration(timeframe)
+    required = {"timestamp", "open", "high", "low", "close", "tick_volume"}
+    missing = required.difference(frame.columns)
+    if missing:
+        raise ValueError(f"missing required columns: {sorted(missing)}")
+    source = frame.reset_index(drop=True)
+    timestamp = pd.to_datetime(source["timestamp"], utc=True, errors="raise")
+    if timestamp.isna().any() or not timestamp.is_monotonic_increasing or timestamp.duplicated().any():
+        raise ValueError(f"{timeframe} source timestamps must be strictly increasing UTC bar opens")
+    open_ = pd.to_numeric(source["open"], errors="raise").astype(float)
+    high = pd.to_numeric(source["high"], errors="raise").astype(float)
+    low = pd.to_numeric(source["low"], errors="raise").astype(float)
+    close = pd.to_numeric(source["close"], errors="raise").astype(float)
+    tick_volume = pd.to_numeric(source["tick_volume"], errors="raise").astype(float)
+    segment = _segment_ids(timestamp, duration)
+    one_bar_return = _grouped_pct_change(close, segment, 1)
+
+    result = pd.DataFrame(index=source.index)
+    result["timestamp"] = timestamp
+    for bars in return_bars:
+        result[f"return_{bars}bar"] = _grouped_pct_change(close, segment, bars)
+    for bars in rolling_vol_bars:
+        result[f"rolling_vol_{bars}bar"] = _grouped_rolling_std(
+            one_bar_return, segment, bars
+        )
+    result["range_pct"] = high.sub(low).div(close)
+    result["body_return"] = close.div(open_).sub(1.0)
+    volume_mean = _grouped_rolling_mean(tick_volume, segment, relative_tick_volume_bars)
+    result[f"relative_tick_volume_{relative_tick_volume_bars}bar"] = (
+        tick_volume.div(volume_mean).sub(1.0)
+    )
+    hour = timestamp.dt.hour.astype(float)
+    day_of_week = timestamp.dt.dayofweek.astype(float)
+    result["hour_sin"] = np.sin(2.0 * np.pi * hour / 24.0)
+    result["hour_cos"] = np.cos(2.0 * np.pi * hour / 24.0)
+    result["dow_sin"] = np.sin(2.0 * np.pi * day_of_week / 7.0)
+    result["dow_cos"] = np.cos(2.0 * np.pi * day_of_week / 7.0)
+
+    numeric_columns = [name for name in result.columns if name != "timestamp"]
     result[numeric_columns] = result[numeric_columns].replace([np.inf, -np.inf], np.nan)
     return result

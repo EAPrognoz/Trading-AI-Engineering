@@ -3,15 +3,40 @@
 from __future__ import annotations
 
 import json
-from pathlib import Path
-from typing import Any
+from pathlib import Path, PureWindowsPath
+from typing import Any, Mapping
 
 import pandas as pd
 
-from trading_ai.data.manifest import build_manifest
+from trading_ai.data.manifest import build_manifest, market_contract_id
 from trading_ai.data.request import MarketDataRequest
-from trading_ai.data.time_policy import apply_h1_time_policy
-from trading_ai.data.validation import audit_h1_records
+from trading_ai.data.time_policy import apply_market_time_policy
+from trading_ai.data.validation import audit_market_records
+
+
+_PUBLIC_PROVENANCE_KEYS = frozenset({
+    "source_type", "symbol", "timeframe", "terminal_build",
+    "terminal_version", "metatrader5_package_version", "retrieved_at_utc",
+    "request_start_utc", "request_end_utc", "cutoff_utc",
+    "feature_max_lookback_bars", "feature_contract_sha256", "source_path",
+})
+
+
+def _public_provenance(provenance: Mapping[str, Any]) -> dict[str, Any]:
+    result = dict(provenance)
+    if set(result) - _PUBLIC_PROVENANCE_KEYS:
+        raise ValueError("provenance contains unsupported or private fields")
+    if "source_path" in result:
+        source_path = result["source_path"]
+        if not isinstance(source_path, str) or not source_path:
+            raise ValueError("provenance source_path must be a filename or path")
+        result["source_path"] = PureWindowsPath(source_path).name
+    for value in result.values():
+        if isinstance(value, str) and (
+            Path(value).is_absolute() or PureWindowsPath(value).is_absolute()
+        ):
+            raise ValueError("provenance contains an absolute path")
+    return result
 
 
 def _write_json(path: Path, payload: dict[str, Any]) -> None:
@@ -21,15 +46,16 @@ def _write_json(path: Path, payload: dict[str, Any]) -> None:
     )
 
 
-def process_h1_response(
+def process_market_response(
     raw: pd.DataFrame,
     *,
     request: MarketDataRequest,
     run_dir: str | Path,
-    provenance: dict[str, Any],
+    provenance: Mapping[str, Any],
     code_version: str | None = None,
 ) -> dict[str, Any]:
     """Preserve raw evidence and produce either accepted data or rejection evidence."""
+    safe_provenance = _public_provenance(provenance)
     run_path = Path(run_dir)
     if run_path.exists():
         raise FileExistsError(f"run directory already exists: {run_path}")
@@ -43,9 +69,9 @@ def process_h1_response(
     _write_json(request_path, request.to_dict())
     raw.to_csv(raw_path, index=False)
 
-    time_result = apply_h1_time_policy(raw, request)
+    time_result = apply_market_time_policy(raw, request)
     candidate = time_result.accepted_range
-    issues = audit_h1_records(candidate)
+    issues = audit_market_records(candidate, request.timeframe)
 
     if time_result.exclusions["invalid_timestamp"]:
         issues.append(
@@ -79,7 +105,7 @@ def process_h1_response(
 
     accepted = not issues
     report = {
-        "contract_id": "ep002-h1-market-data-v1",
+        "contract_id": market_contract_id(request.timeframe),
         "status": "accepted" if accepted else "rejected",
         "input_rows": int(len(raw)),
         "candidate_rows": int(len(candidate)),
@@ -122,7 +148,7 @@ def process_h1_response(
     manifest = build_manifest(
         request=request,
         status=status,
-        provenance=provenance,
+        provenance=safe_provenance,
         code_version=code_version,
         files=files,
     )
@@ -134,3 +160,20 @@ def process_h1_response(
         "manifest": manifest,
         "validation_report": report,
     }
+
+
+def process_h1_response(
+    raw: pd.DataFrame,
+    *,
+    request: MarketDataRequest,
+    run_dir: str | Path,
+    provenance: Mapping[str, Any],
+    code_version: str | None = None,
+) -> dict[str, Any]:
+    """Compatibility entry point for the original Episode 002 H1 pipeline."""
+    if request.timeframe != "H1":
+        raise ValueError("process_h1_response requires H1")
+    return process_market_response(
+        raw, request=request, run_dir=run_dir,
+        provenance=provenance, code_version=code_version,
+    )

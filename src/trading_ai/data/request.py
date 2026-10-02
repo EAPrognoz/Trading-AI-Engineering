@@ -7,6 +7,8 @@ from typing import Any
 
 import pandas as pd
 
+from trading_ai.data.timeframes import timeframe_duration
+
 
 def _utc_timestamp(value: Any, *, field: str) -> pd.Timestamp:
     ts = pd.Timestamp(value)
@@ -22,7 +24,7 @@ def _require_utc_hour_boundary(ts: pd.Timestamp, *, field: str) -> None:
 
 @dataclass(frozen=True)
 class MarketDataRequest:
-    """Narrow H1 request used by the Episode 002 pipeline."""
+    """Explicit UTC request for a supported MT5 bar timeframe."""
 
     symbol: str
     start: Any
@@ -34,8 +36,7 @@ class MarketDataRequest:
         symbol = self.symbol.strip()
         if not symbol:
             raise ValueError("symbol must be non-empty")
-        if self.timeframe != "H1":
-            raise ValueError("Episode 002 contract currently supports H1 only")
+        timeframe_duration(self.timeframe)
 
         start = _utc_timestamp(self.start, field="start")
         end = _utc_timestamp(self.end, field="end")
@@ -68,6 +69,8 @@ class MarketDataRequest:
     @property
     def last_required_open(self) -> pd.Timestamp | None:
         """Latest H1 opening time required by range + cutoff semantics."""
+        if self.timeframe != "H1":
+            return None
         completed_boundary = self.cutoff.floor("h")
         effective_end = min(self.end, completed_boundary)
         last_open = effective_end - pd.Timedelta(hours=1)

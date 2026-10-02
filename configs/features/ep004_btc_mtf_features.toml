@@ -1,0 +1,33 @@
+contract_id = "ep004-btc-mtf-features-v1"
+forecast_horizon_hours = 1
+decision_time = "h1_nominal_bar_close_utc"
+asof_policy = "source_nominal_close_lte_decision"
+gap_policy = "reset_on_non_native_timestamp_delta"
+selection_basis = "pre_model_structural"
+uses_target_statistics = false
+uses_validation_statistics = false
+uses_test_statistics = false
+
+[timeframes.H1]
+max_lookback_bars = 24
+return_candidate_bars = [1, 3, 6, 12, 24]
+return_selected_bars = [1, 6, 24]
+rolling_vol_candidate_bars = [6, 12, 24]
+rolling_vol_selected_bars = [6, 24]
+relative_tick_volume_bars = 24
+
+[timeframes.H4]
+max_lookback_bars = 24
+return_candidate_bars = [1, 3, 6, 12, 24]
+return_selected_bars = [1, 6, 24]
+rolling_vol_candidate_bars = [6, 12, 24]
+rolling_vol_selected_bars = [6, 24]
+relative_tick_volume_bars = 24
+
+[timeframes.D1]
+max_lookback_bars = 24
+return_candidate_bars = [1, 3, 6, 12, 24]
+return_selected_bars = [1, 6, 24]
+rolling_vol_candidate_bars = [6, 12, 24]
+rolling_vol_selected_bars = [6, 24]
+relative_tick_volume_bars = 24

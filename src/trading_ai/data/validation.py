@@ -8,10 +8,12 @@ import numpy as np
 import pandas as pd
 
 from trading_ai.data.snapshot import REQUIRED_H1_COLUMNS
+from trading_ai.data.timeframes import timeframe_duration
 
 
-def audit_h1_records(frame: pd.DataFrame) -> list[dict[str, Any]]:
+def audit_market_records(frame: pd.DataFrame, timeframe: str) -> list[dict[str, Any]]:
     """Return all detected validation issues instead of hiding them in one exception."""
+    duration = timeframe_duration(timeframe)
     issues: list[dict[str, Any]] = []
 
     missing = [column for column in REQUIRED_H1_COLUMNS if column not in frame.columns]
@@ -40,7 +42,10 @@ def audit_h1_records(frame: pd.DataFrame) -> list[dict[str, Any]]:
     if misaligned_mask.any():
         issues.append(
             {
-                "code": "h1_timestamp_misaligned",
+                "code": (
+                    "h1_timestamp_misaligned"
+                    if timeframe == "H1" else "timeframe_timestamp_misaligned"
+                ),
                 "severity": "error",
                 "details": {"rows": int(misaligned_mask.sum())},
             }
@@ -135,7 +140,7 @@ def audit_h1_records(frame: pd.DataFrame) -> list[dict[str, Any]]:
     unique_ts = timestamp.dropna().drop_duplicates().sort_values().reset_index(drop=True)
     if len(unique_ts) > 1:
         deltas = unique_ts.diff()
-        for position in deltas.index[deltas > pd.Timedelta(hours=1)]:
+        for position in deltas.index[deltas > duration]:
             right = unique_ts.iloc[position]
             left = unique_ts.iloc[position - 1]
             issues.append(
@@ -149,5 +154,28 @@ def audit_h1_records(frame: pd.DataFrame) -> list[dict[str, Any]]:
                     },
                 }
             )
+        if timeframe != "H1":
+            for position in deltas.index[deltas < duration]:
+                if position == 0:
+                    continue
+                right = unique_ts.iloc[position]
+                left = unique_ts.iloc[position - 1]
+                issues.append(
+                    {
+                        "code": "timeframe_cadence_mismatch",
+                        "severity": "error",
+                        "details": {
+                            "left_timestamp": left.isoformat(),
+                            "right_timestamp": right.isoformat(),
+                            "delta_hours": float((right - left) / pd.Timedelta(hours=1)),
+                            "expected_hours": float(duration / pd.Timedelta(hours=1)),
+                        },
+                    }
+                )
 
     return issues
+
+
+def audit_h1_records(frame: pd.DataFrame) -> list[dict[str, Any]]:
+    """Compatibility audit for the Episode 002 H1 contract."""
+    return audit_market_records(frame, "H1")

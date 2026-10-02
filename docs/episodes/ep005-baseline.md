@@ -1,6 +1,8 @@
 # Episode 005 — Baseline
 
-Status: **upcoming**.
+Status: **published**.
+
+Video: [Bitcoin Baselines: Can Logistic Regression Beat Always Up?](https://www.youtube.com/watch?v=iEr_WGBUkxQ).
 
 Episode 005 is the repository's **baseline** stage. It consumes, rather than
 redefines:
@@ -57,3 +59,20 @@ contract, Episode 004 feature contract, split boundaries, and B0/B1/B2 metrics.
 
 Measured values used in the final Episode 005 video must come from
 `experiments/ep005_baselines/`, not from the minimal teaching example.
+
+## Separate BTC bundle validation
+
+The snapshot example above is the existing EURUSD H1 teaching route. The BTC
+full runner accepts `--bundle-manifest` and requires the explicit
+`--contract configs/experiments/ep005_btc_mtf_baselines.toml`; its default
+contract remains the EURUSD H1 config. EP005 uses the same hash-verified
+H1/H4/D1 bundle and canonical prepared sample/split path used by EP004's
+train-only diagnostics. The one-hour H1 target is unchanged; H4/D1 are input
+streams with native-bar feature lookbacks.
+
+The BTC contract fixes a chronological 60/20/20 split with boundary purging.
+B0 and B2 fit from train, while B1 uses the previous H1 direction. The BTC
+report contains validation metrics only. The final test stays `locked` with
+`evaluated=false`. On BTC validation, Logistic Regression scored 11/27 and
+Always-Up scored 13/27. This is a small classification comparison, not a
+profitability result.
