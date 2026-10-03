@@ -1,0 +1,53 @@
+# Public template only. Copy to .local/ep006_btc_stability.private.toml and fill in
+# owner-authorized data pins, the private source path, and the four window boundaries.
+experiment_id = "ep006-btc-baseline-stability-v1"
+source = ".local/ep006-user-data"
+dataset_id = "SET_LOCALLY"
+raw_manifest_sha256 = "SET_LOCALLY"
+coverage_reconciliation_sha256 = "SET_LOCALLY"
+source_revision = "SET_LOCALLY"
+source_tree_sha256 = "SET_LOCALLY"
+normalized_source_snapshot_sha256 = "SET_LOCALLY"
+analysis_start_utc = "SET_LOCALLY"
+analysis_end_utc_exclusive = "SET_LOCALLY"
+symbol = "BITCOIN_i"
+target_timeframe = "H1"
+feature_timeframes = ["H1", "H4", "D1"]
+feature_contract = "configs/features/ep004_btc_mtf_features.toml"
+feature_contract_sha256 = "SET_LOCALLY"
+outer_experiment_contract = "configs/experiments/ep005_btc_mtf_baselines.toml"
+
+[split]
+train_fraction = 0.60
+validation_fraction = 0.20
+test_fraction = 0.20
+purge_rule = "target_timestamp < next_partition_start"
+test_policy = "locked"
+
+[model]
+logistic_regression_solver = "lbfgs"
+logistic_regression_max_iter = 1000
+scaler = "StandardScaler"
+
+[metrics]
+names = ["accuracy", "balanced_accuracy", "mcc", "confusion_matrix"]
+
+[[validation_windows]]
+id = "V1"
+start_utc = "SET_LOCALLY"
+end_utc_exclusive = "SET_LOCALLY"
+
+[[validation_windows]]
+id = "V2"
+start_utc = "SET_LOCALLY"
+end_utc_exclusive = "SET_LOCALLY"
+
+[[validation_windows]]
+id = "V3"
+start_utc = "SET_LOCALLY"
+end_utc_exclusive = "SET_LOCALLY"
+
+[[validation_windows]]
+id = "V4"
+start_utc = "SET_LOCALLY"
+end_utc_exclusive = "SET_LOCALLY"
