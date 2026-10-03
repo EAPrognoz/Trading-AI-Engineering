@@ -18,4 +18,4 @@ jobs:
       - name: Compile public scripts
         run: python -m compileall -q examples experiments
       - name: Test
-        run: pytest
+        run: python -m pytest
