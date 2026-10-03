@@ -18,7 +18,7 @@ OPEN THE FULL ENGINEERING VERSION
 | 002 | Data pipeline | https://youtu.be/kltuqw7vKrY | `examples/ep002_mt5_minimal.py` | `experiments/ep002_market_data/` |
 | 003 | Target | https://youtu.be/VfnH1q76fj4 | `examples/ep003_target_minimal.py` | `experiments/ep003_forecast_horizon/` |
 | 004 | Feature set | https://youtu.be/SNOTNSZoNQY | `examples/ep004_feature_set_minimal.py` | `experiments/ep004_feature_engineering/` |
-| 005 | Baseline | upcoming | `examples/ep005_baseline_minimal.py` | `experiments/ep005_baselines/` |
+| 005 | Bitcoin Baseline | https://www.youtube.com/watch?v=iEr_WGBUkxQ | `examples/ep005_baseline_minimal.py` | `experiments/ep005_baselines/` |
 
 ## Episode 002 — data
 

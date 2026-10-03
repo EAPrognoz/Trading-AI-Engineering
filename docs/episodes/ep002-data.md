@@ -61,3 +61,30 @@ then make it reproducible
 
 A passing report still does not prove that broker prices are true, reconstruct
 all historical feed revisions, prevent future ML leakage, or imply profitability.
+
+## Separate BTC multi-timeframe acquisition
+
+The H1 teaching example and existing accepted snapshot describe the EURUSD
+learning path. The BTC experiment uses the historical-only
+`experiments/ep002_market_data/run_mt5_bundle.py` with an exact BTC broker symbol
+verified in the connected MT5 terminal. It does not infer a symbol from the
+asset name. Its required arguments are `--symbol`, `--analysis-start`,
+`--analysis-end`, `--cutoff`, `--feature-contract`, and a new `--run-dir` under
+`.local/`; the EP002 full-run guide shows the complete command.
+
+The half-open UTC decision interval is `[analysis-start, analysis-end)`. The
+runner reads `max_lookback_bars` separately from each H1/H4/D1 table in
+`configs/features/ep004_btc_mtf_features.toml` (currently 24 native bars each)
+and requests `(N + 2) * native duration` of pre-roll per stream. It requires at
+least `N + 1` completed bars before the first decision and recent completed
+coverage at both ends of the common interval. MT5 timestamps are UTC bar opens;
+nominal close is open plus that stream's native duration. D1 opens need not be
+at 00:00 UTC. Future or partial bars are not accepted as known at an H1 decision.
+
+Each timeframe rejects unresolved native-cadence gaps independently. Successful
+acquisition writes `H1/`, `H4/`, and `D1/` accepted files and source manifests,
+then `bundle_manifest.json` with exact symbol, dataset identities, and SHA-256
+hashes. Downstream readers verify those members before reporting. Keep raw and
+acquired BTC data in ignored `.local/`; do not commit broker data. The verified
+EP005 source was `BITCOIN_i` broker-CFD history on H1/H4/D1. Its validation
+result was published; raw broker files remain local and are not included here.

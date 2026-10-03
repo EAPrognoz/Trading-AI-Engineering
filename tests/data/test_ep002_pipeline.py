@@ -49,6 +49,28 @@ def test_request_requires_hour_aligned_range_boundaries() -> None:
         )
 
 
+def test_h1_request_keeps_hour_boundary_rule_with_explicit_timeframe() -> None:
+    with pytest.raises(ValueError, match="aligned"):
+        MarketDataRequest(
+            symbol="EURUSD",
+            start="2026-01-05T08:30:00Z",
+            end="2026-01-05T12:00:00Z",
+            cutoff="2026-01-05T12:00:00Z",
+            timeframe="H1",
+        )
+
+
+def test_generic_h1_time_policy_matches_legacy_wrapper() -> None:
+    from trading_ai.data.time_policy import apply_market_time_policy
+
+    request = _request()
+    generic = apply_market_time_policy(_good(), request)
+    legacy = apply_h1_time_policy(_good(), request)
+    pd.testing.assert_frame_equal(generic.accepted_range, legacy.accepted_range)
+    assert generic.coverage == legacy.coverage
+    assert generic.exclusions == legacy.exclusions
+
+
 def test_half_open_range_and_cutoff_are_explicit() -> None:
     raw = _good()
     extra = raw.iloc[[-1]].copy()
@@ -310,3 +332,84 @@ def test_cutoff_with_no_completed_bar_rejects_empty_candidate(tmp_path: Path) ->
     codes = {issue["code"] for issue in result["validation_report"]["issues"]}
     assert "empty_eligible_range" in codes
     assert not (run_dir / "accepted.csv").exists()
+
+
+@pytest.mark.parametrize(
+    ("timeframe", "hours", "contract_id"),
+    [
+        ("H4", 4, "ep002-h4-market-data-v1"),
+        ("D1", 24, "ep002-d1-market-data-v1"),
+    ],
+)
+def test_generic_pipeline_preserves_timeframe_contract_and_hashes(
+    tmp_path: Path, timeframe: str, hours: int, contract_id: str
+) -> None:
+    from trading_ai.data.manifest import sha256_file
+    from trading_ai.data.pipeline import process_market_response
+
+    raw = _good().iloc[:2].copy()
+    raw["timestamp"] = pd.date_range("2026-01-04T01:00:00Z", periods=2, freq=f"{hours}h")
+    request = MarketDataRequest(
+        symbol="BTCUSD",
+        timeframe=timeframe,
+        start="2026-01-04T01:00:00Z",
+        end=(pd.Timestamp("2026-01-04T01:00:00Z") + pd.Timedelta(hours=3 * hours)).isoformat(),
+        cutoff=(pd.Timestamp("2026-01-04T01:00:00Z") + pd.Timedelta(hours=3 * hours)).isoformat(),
+    )
+    run_dir = tmp_path / timeframe
+    result = process_market_response(
+        raw, request=request, run_dir=run_dir,
+        provenance={"source_type": "synthetic_fixture"}, code_version="test",
+    )
+
+    assert result["status"] == "accepted"
+    manifest = json.loads((run_dir / "manifest.json").read_text(encoding="utf-8"))
+    assert manifest["contract_id"] == contract_id
+    assert manifest["request"]["timeframe"] == timeframe
+    assert manifest["dataset_id"] == f"{contract_id}:{sha256_file(run_dir / 'accepted.csv')}"
+    assert manifest["files"]["raw_response"]["sha256"] == sha256_file(run_dir / "raw_response.csv")
+    assert manifest["files"]["validation_report"]["sha256"] == sha256_file(run_dir / "validation_report.json")
+    assert manifest["provenance"]["raw_response_sha256"] == sha256_file(run_dir / "raw_response.csv")
+    assert manifest["provenance"]["validation_report_sha256"] == sha256_file(run_dir / "validation_report.json")
+    assert manifest["provenance"]["accepted_dataset_sha256"] == sha256_file(run_dir / "accepted.csv")
+
+
+def test_generic_pipeline_rejects_without_accepted_csv(tmp_path: Path) -> None:
+    from trading_ai.data.pipeline import process_market_response
+
+    raw = _good().iloc[:2].copy()
+    raw["timestamp"] = pd.to_datetime(["2026-01-04T01:00:00Z", "2026-01-04T06:00:00Z"])
+    request = MarketDataRequest(
+        symbol="BTCUSD", timeframe="H4", start="2026-01-04T01:00:00Z",
+        end="2026-01-04T11:00:00Z", cutoff="2026-01-04T11:00:00Z",
+    )
+    result = process_market_response(
+        raw, request=request, run_dir=tmp_path / "rejected",
+        provenance={"source_type": "synthetic_fixture"}, code_version=None,
+    )
+    assert result["status"] == "rejected"
+    assert not (tmp_path / "rejected" / "accepted.csv").exists()
+
+
+def test_pipeline_rejects_private_provenance_before_writing(tmp_path: Path) -> None:
+    from trading_ai.data.pipeline import process_market_response
+
+    run_dir = tmp_path / "private"
+    with pytest.raises(ValueError, match="provenance"):
+        process_market_response(
+            _good(), request=_request(), run_dir=run_dir,
+            provenance={"source_type": "synthetic_fixture", "account_id": 12345},
+        )
+    assert not run_dir.exists()
+
+
+def test_h1_fixture_source_path_keeps_filename_only(tmp_path: Path) -> None:
+    run_dir = tmp_path / "fixture"
+    result = process_h1_response(
+        _good(), request=_request(), run_dir=run_dir,
+        provenance={
+            "source_type": "synthetic_fixture",
+            "source_path": str(tmp_path / "private" / "fixture.csv"),
+        },
+    )
+    assert result["manifest"]["provenance"]["source_path"] == "fixture.csv"

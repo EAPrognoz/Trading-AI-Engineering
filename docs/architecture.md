@@ -54,6 +54,31 @@ experiment share the same eligible samples and chronological split. The final
 test partition remains locked and its model performance is not evaluated while
 the baseline is being developed.
 
+## Separate BTC H1/H4/D1 path
+
+The existing single-stream H1 snapshot and report route documents the EURUSD
+experiment. The BTC route starts with three historical-only EP002 MT5 requests.
+Each H1, H4, and D1 stream is validated for its own native cadence and gaps;
+only three accepted streams with one exact broker symbol and sufficient common
+decision coverage can produce a `bundle_manifest.json`. That manifest binds
+each stream's source manifest and accepted CSV by identity and SHA-256. Raw and
+acquired BTC data stays under ignored `.local/`.
+
+MT5 timestamps are UTC bar opens. A source bar's nominal close is its open plus
+its native duration. At an H1 decision, the latest eligible source bar has
+`nominal_close <= decision_timestamp`; later and partial bars cannot enter a
+feature. Broker D1 bar opens need not occur at 00:00 UTC. A gap resets that
+source's feature segment; no feature bridges an unresolved gap.
+
+EP003 still predicts the next H1 close exactly one hour later. H1/H4/D1 name
+the three input streams, while feature windows count native bars on each stream.
+EP004's selected BTC features come from
+`configs/features/ep004_btc_mtf_features.toml`. Its correlation diagnostics use
+the exact train decisions from canonical EP005 split preparation, excluding
+validation and the locked test. EP005 consumes the same verified bundle and
+prepared samples, reports validation only, and records `test.evaluated=false`.
+The verified instrument is `BITCOIN_i`, a broker CFD. Published EP005 reports Logistic Regression at 11/27 and Always-Up at 13/27 on validation; its reserved test remains unevaluated. The BTC H1/H4/D1 bundle route is separate from the EURUSD H1 snapshot path.
+
 ## Historical note
 
 Episodes 002–004 were published before this repository was formalized. Git

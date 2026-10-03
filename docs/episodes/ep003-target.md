@@ -65,3 +65,16 @@ The target is defined before the feature set, baseline, or model is chosen.
 
 The minimal example teaches the target. The executable analysis under
 `experiments/ep003_forecast_horizon/` produces the recorded report.
+
+## Separate BTC bundle route
+
+The example above is the existing EURUSD H1 route. In the BTC experiment,
+EP003 reads `--bundle-manifest` from the accepted H1/H4/D1 EP002 bundle and
+uses its H1 stream alone for the same next-close label. The forecast horizon
+remains exactly one hour. H4 and D1 are additional model input histories, not
+target horizons; their feature lookbacks count native bars. EP003 restricts
+reported decisions to the bundle's common half-open analysis interval. A gap
+between H1 bars yields `GAP`, not a bridged target. See the EP003 full-run guide
+for the bundle command. The published EP005 BTC baseline uses the verified
+next-H1 target on `BITCOIN_i`; its 27 validation rows produced 11 correct for
+Logistic Regression and 13 for Always-Up. The reserved test was not evaluated.
