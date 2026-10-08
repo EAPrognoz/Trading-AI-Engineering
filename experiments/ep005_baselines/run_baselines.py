@@ -15,10 +15,19 @@ def main() -> None:
         default="configs/experiments/ep005_baselines.toml",
         help="Episode 005 experiment-contract TOML.",
     )
+    parser.add_argument(
+        "--manifest",
+        required=True,
+        help="EP002 manifest.json for the accepted snapshot.",
+    )
     parser.add_argument("--output", required=True, help="JSON report path.")
     args = parser.parse_args()
 
-    report = run_episode005_validation_baselines(args.input, args.contract)
+    report = run_episode005_validation_baselines(
+        args.input,
+        args.contract,
+        source_manifest_path=args.manifest,
+    )
     output = Path(args.output)
     output.parent.mkdir(parents=True, exist_ok=True)
     output.write_text(json.dumps(report, indent=2, sort_keys=True), encoding="utf-8")

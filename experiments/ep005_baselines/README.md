@@ -11,7 +11,9 @@ For the simple teaching version, start with:
 python examples/ep005_baseline_minimal.py path/to/ep002-run/accepted.csv
 ```
 
-That example shows only the majority-class baseline.
+That example shows only the majority-class baseline, but it uses the same
+eligible samples, feature warmup, chronological split, and boundary purge as the
+full experiment.
 
 This directory contains the **full measured benchmark**.
 
@@ -33,15 +35,18 @@ Samples whose target timestamp crosses from train into validation, or from
 validation into test, are purged at the boundary.
 
 Episode 005 reports train diagnostics and validation baseline metrics. The final
-test partition is created but is not evaluated during baseline development.
+test partition is created, but model performance on it is not evaluated during
+baseline development.
 
 ## Recorded run
 
 ```bash
 python experiments/ep005_baselines/run_baselines.py \
   --input path/to/ep002-run/accepted.csv \
+  --manifest path/to/ep002-run/manifest.json \
   --output reports/ep005/baseline_report.json
 ```
 
-The measured report is the source for Episode 005 visuals. Never replace it with
-numbers produced by the minimal teaching example or with illustrative results.
+The measured report verifies the accepted CSV against its EP002 manifest and is
+the source for Episode 005 visuals. Never replace it with numbers produced by the
+minimal teaching example or with illustrative results.

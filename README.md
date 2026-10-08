@@ -50,7 +50,9 @@ initialize MT5
 ```
 
 Only after that connection is clear do we add request semantics, validation,
-raw-response preservation, rejection evidence, and manifests.
+raw-response preservation, rejection evidence, and manifests. MT5 H1 timestamps
+are treated as UTC bar-opening times; downstream decision timestamps are the
+nominal bar closes at which the completed-bar inputs are available.
 
 ## Published-series lineage
 
@@ -78,7 +80,9 @@ one idea at a time and may omit safeguards that would distract from that idea.
 
 Measured results used in the video series must come from the full
 `experiments/` implementation and its recorded artifacts, not from the minimal
-examples.
+examples. Recorded EP003–EP005 runs verify the input CSV against the originating
+EP002 `manifest.json`; the final EP005 test partition remains locked and no test
+model metrics are reported during baseline development.
 
 ## Principles
 

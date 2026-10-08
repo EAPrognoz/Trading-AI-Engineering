@@ -15,7 +15,11 @@ def _maybe_float(value: float) -> float | None:
     return None if pd.isna(value) else float(value)
 
 
-def analyze_h1_direction_target(path: str | Path) -> dict[str, Any]:
+def analyze_h1_direction_target(
+    path: str | Path,
+    *,
+    source_manifest_path: str | Path | None = None,
+) -> dict[str, Any]:
     """Analyze class balance and return distribution for exact H1 targets."""
     frame = load_snapshot(path)
     target = build_h1_direction_target(frame)
@@ -41,7 +45,11 @@ def analyze_h1_direction_target(path: str | Path) -> dict[str, Any]:
         "return_definition": "close[t+1] / close[t] - 1",
         "zero_return_policy": "exclude",
         "non_consecutive_pair_policy": "exclude",
-        "dataset": dataset_manifest(frame, path),
+        "dataset": dataset_manifest(
+            frame,
+            path,
+            source_manifest_path=source_manifest_path,
+        ),
         "observations": {
             "input_rows": int(len(frame)),
             "binary_labeled_rows": n_labeled,
