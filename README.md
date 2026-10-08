@@ -22,7 +22,12 @@ inspect the full engineering implementation
 | 002 | Data pipeline | [Watch](https://youtu.be/kltuqw7vKrY) | `examples/ep002_mt5_minimal.py` | `experiments/ep002_market_data/` |
 | 003 | Target | [Watch](https://youtu.be/VfnH1q76fj4) | `examples/ep003_target_minimal.py` | `experiments/ep003_forecast_horizon/` |
 | 004 | Feature set | [Watch](https://youtu.be/SNOTNSZoNQY) | `examples/ep004_feature_set_minimal.py` | `experiments/ep004_feature_engineering/` |
-| 005 | Baseline | upcoming | `examples/ep005_baseline_minimal.py` | `experiments/ep005_baselines/` |
+| 005 | Baseline | [Watch](https://www.youtube.com/watch?v=iEr_WGBUkxQ) | `examples/ep005_baseline_minimal.py` | `experiments/ep005_baselines/` |
+| 006 | Bitcoin baseline stability | [Watch](https://www.youtube.com/watch?v=rxJymSciu7A) · [CodeLab](https://www.youtube.com/watch?v=IDaKQQjM79k) | [CodeLab audit notebook](https://github.com/EAPrognoz/Trading-AI-Engineering/blob/release/ep006-btc-stability-20261003/experiments/ep006_baselines/EP006_Bitcoin_Baseline_Stability_CodeLab.ipynb) (requires a saved run) | [experiments/ep006_baselines/](https://github.com/EAPrognoz/Trading-AI-Engineering/tree/release/ep006-btc-stability-20261003/experiments/ep006_baselines) |
+
+Episode 006 code is on the `release/ep006-btc-stability-20261003` branch.
+Follow its [run guide](https://github.com/EAPrognoz/Trading-AI-Engineering/blob/release/ep006-btc-stability-20261003/experiments/ep006_baselines/README.md)
+to prepare your own local data and private config; the CodeLab notebook audits saved outputs.
 
 See [docs/series-map.md](docs/series-map.md) for the video-to-code map.
 
