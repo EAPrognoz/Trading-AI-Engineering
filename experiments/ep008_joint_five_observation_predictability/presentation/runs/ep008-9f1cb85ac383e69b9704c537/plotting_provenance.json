@@ -1,0 +1,887 @@
+{
+  "aggregate_qc_against_existing_cold_scores": {
+    "all_saved_aggregate_metrics_match": true,
+    "same_frozen_rows": true,
+    "tasks": {
+      "movement": {
+        "boosting": {
+          "matches_saved_score": true,
+          "metrics": {
+            "actual_at_or_below_floor_count": {
+              "delta": 0.0,
+              "matches": true,
+              "posthoc_qc": 0.0,
+              "saved": 0
+            },
+            "actual_at_or_below_floor_share": {
+              "delta": 0.0,
+              "matches": true,
+              "posthoc_qc": 0.0,
+              "saved": 0.0
+            },
+            "floor_bps2": {
+              "delta": 0.0,
+              "matches": true,
+              "posthoc_qc": 0.0001,
+              "saved": 0.0001
+            },
+            "n": {
+              "delta": 0.0,
+              "matches": true,
+              "posthoc_qc": 186.0,
+              "saved": 186
+            },
+            "prediction_floor_clipped_count": {
+              "delta": 0.0,
+              "matches": true,
+              "posthoc_qc": 0.0,
+              "saved": 0
+            },
+            "prediction_floor_clipped_share": {
+              "delta": 0.0,
+              "matches": true,
+              "posthoc_qc": 0.0,
+              "saved": 0.0
+            },
+            "qlike": {
+              "delta": 0.0,
+              "matches": true,
+              "posthoc_qc": 0.37126265276189213,
+              "saved": 0.37126265276189213
+            },
+            "rms_mae_bps": {
+              "delta": 0.0,
+              "matches": true,
+              "posthoc_qc": 13.214230294825157,
+              "saved": 13.214230294825157
+            }
+          }
+        },
+        "ewma": {
+          "matches_saved_score": true,
+          "metrics": {
+            "actual_at_or_below_floor_count": {
+              "delta": 0.0,
+              "matches": true,
+              "posthoc_qc": 0.0,
+              "saved": 0
+            },
+            "actual_at_or_below_floor_share": {
+              "delta": 0.0,
+              "matches": true,
+              "posthoc_qc": 0.0,
+              "saved": 0.0
+            },
+            "floor_bps2": {
+              "delta": 0.0,
+              "matches": true,
+              "posthoc_qc": 0.0001,
+              "saved": 0.0001
+            },
+            "n": {
+              "delta": 0.0,
+              "matches": true,
+              "posthoc_qc": 186.0,
+              "saved": 186
+            },
+            "prediction_floor_clipped_count": {
+              "delta": 0.0,
+              "matches": true,
+              "posthoc_qc": 0.0,
+              "saved": 0
+            },
+            "prediction_floor_clipped_share": {
+              "delta": 0.0,
+              "matches": true,
+              "posthoc_qc": 0.0,
+              "saved": 0.0
+            },
+            "qlike": {
+              "delta": 0.0,
+              "matches": true,
+              "posthoc_qc": 0.3615243682488313,
+              "saved": 0.3615243682488313
+            },
+            "rms_mae_bps": {
+              "delta": 0.0,
+              "matches": true,
+              "posthoc_qc": 11.755805554403656,
+              "saved": 11.755805554403656
+            }
+          }
+        },
+        "linear": {
+          "matches_saved_score": true,
+          "metrics": {
+            "actual_at_or_below_floor_count": {
+              "delta": 0.0,
+              "matches": true,
+              "posthoc_qc": 0.0,
+              "saved": 0
+            },
+            "actual_at_or_below_floor_share": {
+              "delta": 0.0,
+              "matches": true,
+              "posthoc_qc": 0.0,
+              "saved": 0.0
+            },
+            "floor_bps2": {
+              "delta": 0.0,
+              "matches": true,
+              "posthoc_qc": 0.0001,
+              "saved": 0.0001
+            },
+            "n": {
+              "delta": 0.0,
+              "matches": true,
+              "posthoc_qc": 186.0,
+              "saved": 186
+            },
+            "prediction_floor_clipped_count": {
+              "delta": 0.0,
+              "matches": true,
+              "posthoc_qc": 3.0,
+              "saved": 3
+            },
+            "prediction_floor_clipped_share": {
+              "delta": 0.0,
+              "matches": true,
+              "posthoc_qc": 0.016129032258064516,
+              "saved": 0.016129032258064516
+            },
+            "qlike": {
+              "delta": 0.0,
+              "matches": true,
+              "posthoc_qc": 203184.80402315964,
+              "saved": 203184.80402315964
+            },
+            "rms_mae_bps": {
+              "delta": 0.0,
+              "matches": true,
+              "posthoc_qc": 13.76102963750161,
+              "saved": 13.76102963750161
+            }
+          }
+        },
+        "trailing5": {
+          "matches_saved_score": true,
+          "metrics": {
+            "actual_at_or_below_floor_count": {
+              "delta": 0.0,
+              "matches": true,
+              "posthoc_qc": 0.0,
+              "saved": 0
+            },
+            "actual_at_or_below_floor_share": {
+              "delta": 0.0,
+              "matches": true,
+              "posthoc_qc": 0.0,
+              "saved": 0.0
+            },
+            "floor_bps2": {
+              "delta": 0.0,
+              "matches": true,
+              "posthoc_qc": 0.0001,
+              "saved": 0.0001
+            },
+            "n": {
+              "delta": 0.0,
+              "matches": true,
+              "posthoc_qc": 186.0,
+              "saved": 186
+            },
+            "prediction_floor_clipped_count": {
+              "delta": 0.0,
+              "matches": true,
+              "posthoc_qc": 0.0,
+              "saved": 0
+            },
+            "prediction_floor_clipped_share": {
+              "delta": 0.0,
+              "matches": true,
+              "posthoc_qc": 0.0,
+              "saved": 0.0
+            },
+            "qlike": {
+              "delta": 0.0,
+              "matches": true,
+              "posthoc_qc": 1.0761974652119533,
+              "saved": 1.0761974652119533
+            },
+            "rms_mae_bps": {
+              "delta": 0.0,
+              "matches": true,
+              "posthoc_qc": 14.016153491452384,
+              "saved": 14.016153491452384
+            }
+          }
+        }
+      },
+      "quantiles": {
+        "boosting": {
+          "matches_saved_score": true,
+          "metrics": {
+            "crossing_count": {
+              "delta": 0.0,
+              "matches": true,
+              "posthoc_qc": 0.0,
+              "saved": 0
+            },
+            "crossing_rate": {
+              "delta": 0.0,
+              "matches": true,
+              "posthoc_qc": 0.0,
+              "saved": 0.0
+            },
+            "interval_coverage_90": {
+              "delta": 0.0,
+              "matches": true,
+              "posthoc_qc": 0.9408602150537635,
+              "saved": 0.9408602150537635
+            },
+            "interval_mean_width_bps": {
+              "delta": 0.0,
+              "matches": true,
+              "posthoc_qc": 314.82151942634886,
+              "saved": 314.82151942634886
+            },
+            "mean_pinball_bps": {
+              "delta": 0.0,
+              "matches": true,
+              "posthoc_qc": 16.589947216430474,
+              "saved": 16.589947216430474
+            },
+            "median_mae_bps": {
+              "delta": 0.0,
+              "matches": true,
+              "posthoc_qc": 63.72365446060758,
+              "saved": 63.72365446060758
+            },
+            "n": {
+              "delta": 0.0,
+              "matches": true,
+              "posthoc_qc": 186.0,
+              "saved": 186
+            },
+            "pinball_mean_bps": {
+              "q05": {
+                "delta": 0.0,
+                "matches": true,
+                "posthoc_qc": 8.302301482807803,
+                "saved": 8.302301482807803
+              },
+              "q50": {
+                "delta": 0.0,
+                "matches": true,
+                "posthoc_qc": 31.86182723030379,
+                "saved": 31.86182723030379
+              },
+              "q95": {
+                "delta": 0.0,
+                "matches": true,
+                "posthoc_qc": 9.60571293617983,
+                "saved": 9.60571293617983
+              }
+            }
+          }
+        },
+        "ewma_scaled_empirical": {
+          "matches_saved_score": true,
+          "metrics": {
+            "crossing_count": {
+              "delta": 0.0,
+              "matches": true,
+              "posthoc_qc": 0.0,
+              "saved": 0
+            },
+            "crossing_rate": {
+              "delta": 0.0,
+              "matches": true,
+              "posthoc_qc": 0.0,
+              "saved": 0.0
+            },
+            "interval_coverage_90": {
+              "delta": 0.0,
+              "matches": true,
+              "posthoc_qc": 0.8010752688172043,
+              "saved": 0.8010752688172043
+            },
+            "interval_mean_width_bps": {
+              "delta": 0.0,
+              "matches": true,
+              "posthoc_qc": 238.82713870096404,
+              "saved": 238.82713870096404
+            },
+            "mean_pinball_bps": {
+              "delta": 0.0,
+              "matches": true,
+              "posthoc_qc": 17.44695897615477,
+              "saved": 17.44695897615477
+            },
+            "median_mae_bps": {
+              "delta": 0.0,
+              "matches": true,
+              "posthoc_qc": 66.10500233066487,
+              "saved": 66.10500233066487
+            },
+            "n": {
+              "delta": 0.0,
+              "matches": true,
+              "posthoc_qc": 186.0,
+              "saved": 186
+            },
+            "pinball_mean_bps": {
+              "q05": {
+                "delta": 0.0,
+                "matches": true,
+                "posthoc_qc": 9.280083846906587,
+                "saved": 9.280083846906587
+              },
+              "q50": {
+                "delta": 0.0,
+                "matches": true,
+                "posthoc_qc": 33.05250116533244,
+                "saved": 33.05250116533244
+              },
+              "q95": {
+                "delta": 0.0,
+                "matches": true,
+                "posthoc_qc": 10.008291916225291,
+                "saved": 10.008291916225291
+              }
+            }
+          }
+        },
+        "linear": {
+          "matches_saved_score": true,
+          "metrics": {
+            "crossing_count": {
+              "delta": 0.0,
+              "matches": true,
+              "posthoc_qc": 0.0,
+              "saved": 0
+            },
+            "crossing_rate": {
+              "delta": 0.0,
+              "matches": true,
+              "posthoc_qc": 0.0,
+              "saved": 0.0
+            },
+            "interval_coverage_90": {
+              "delta": 0.0,
+              "matches": true,
+              "posthoc_qc": 0.9354838709677419,
+              "saved": 0.9354838709677419
+            },
+            "interval_mean_width_bps": {
+              "delta": 0.0,
+              "matches": true,
+              "posthoc_qc": 319.185756464781,
+              "saved": 319.185756464781
+            },
+            "mean_pinball_bps": {
+              "delta": 0.0,
+              "matches": true,
+              "posthoc_qc": 17.01678509162559,
+              "saved": 17.01678509162559
+            },
+            "median_mae_bps": {
+              "delta": 0.0,
+              "matches": true,
+              "posthoc_qc": 65.42052693728826,
+              "saved": 65.42052693728826
+            },
+            "n": {
+              "delta": 0.0,
+              "matches": true,
+              "posthoc_qc": 186.0,
+              "saved": 186
+            },
+            "pinball_mean_bps": {
+              "q05": {
+                "delta": 0.0,
+                "matches": true,
+                "posthoc_qc": 8.699641846486434,
+                "saved": 8.699641846486434
+              },
+              "q50": {
+                "delta": 0.0,
+                "matches": true,
+                "posthoc_qc": 32.71026346864413,
+                "saved": 32.71026346864413
+              },
+              "q95": {
+                "delta": 0.0,
+                "matches": true,
+                "posthoc_qc": 9.640449959746208,
+                "saved": 9.640449959746208
+              }
+            }
+          }
+        },
+        "rolling_empirical": {
+          "matches_saved_score": true,
+          "metrics": {
+            "crossing_count": {
+              "delta": 0.0,
+              "matches": true,
+              "posthoc_qc": 0.0,
+              "saved": 0
+            },
+            "crossing_rate": {
+              "delta": 0.0,
+              "matches": true,
+              "posthoc_qc": 0.0,
+              "saved": 0.0
+            },
+            "interval_coverage_90": {
+              "delta": 0.0,
+              "matches": true,
+              "posthoc_qc": 0.9139784946236559,
+              "saved": 0.9139784946236559
+            },
+            "interval_mean_width_bps": {
+              "delta": 0.0,
+              "matches": true,
+              "posthoc_qc": 281.0996661441261,
+              "saved": 281.0996661441261
+            },
+            "mean_pinball_bps": {
+              "delta": 0.0,
+              "matches": true,
+              "posthoc_qc": 16.64845604973916,
+              "saved": 16.64845604973916
+            },
+            "median_mae_bps": {
+              "delta": 0.0,
+              "matches": true,
+              "posthoc_qc": 66.10500233066487,
+              "saved": 66.10500233066487
+            },
+            "n": {
+              "delta": 0.0,
+              "matches": true,
+              "posthoc_qc": 186.0,
+              "saved": 186
+            },
+            "pinball_mean_bps": {
+              "q05": {
+                "delta": 0.0,
+                "matches": true,
+                "posthoc_qc": 7.747243977910964,
+                "saved": 7.747243977910964
+              },
+              "q50": {
+                "delta": 0.0,
+                "matches": true,
+                "posthoc_qc": 33.05250116533244,
+                "saved": 33.05250116533244
+              },
+              "q95": {
+                "delta": 0.0,
+                "matches": true,
+                "posthoc_qc": 9.145623005974086,
+                "saved": 9.145623005974086
+              }
+            }
+          }
+        }
+      },
+      "return": {
+        "boosting": {
+          "matches_saved_score": true,
+          "metrics": {
+            "mae_bps": {
+              "delta": 0.0,
+              "matches": true,
+              "posthoc_qc": 64.98990936558559,
+              "saved": 64.98990936558559
+            },
+            "n": {
+              "delta": 0.0,
+              "matches": true,
+              "posthoc_qc": 186.0,
+              "saved": 186
+            },
+            "rmse_bps": {
+              "delta": 0.0,
+              "matches": true,
+              "posthoc_qc": 80.39702235440166,
+              "saved": 80.39702235440166
+            }
+          }
+        },
+        "linear": {
+          "matches_saved_score": true,
+          "metrics": {
+            "mae_bps": {
+              "delta": 0.0,
+              "matches": true,
+              "posthoc_qc": 65.28244998818751,
+              "saved": 65.28244998818751
+            },
+            "n": {
+              "delta": 0.0,
+              "matches": true,
+              "posthoc_qc": 186.0,
+              "saved": 186
+            },
+            "rmse_bps": {
+              "delta": 0.0,
+              "matches": true,
+              "posthoc_qc": 80.63442117075024,
+              "saved": 80.63442117075024
+            }
+          }
+        },
+        "train_mean": {
+          "matches_saved_score": true,
+          "metrics": {
+            "mae_bps": {
+              "delta": 0.0,
+              "matches": true,
+              "posthoc_qc": 64.89951105814602,
+              "saved": 64.89951105814602
+            },
+            "n": {
+              "delta": 0.0,
+              "matches": true,
+              "posthoc_qc": 186.0,
+              "saved": 186
+            },
+            "rmse_bps": {
+              "delta": 0.0,
+              "matches": true,
+              "posthoc_qc": 80.43048097135235,
+              "saved": 80.43048097135235
+            }
+          }
+        },
+        "train_median": {
+          "matches_saved_score": true,
+          "metrics": {
+            "mae_bps": {
+              "delta": 0.0,
+              "matches": true,
+              "posthoc_qc": 64.87529154884751,
+              "saved": 64.87529154884751
+            },
+            "n": {
+              "delta": 0.0,
+              "matches": true,
+              "posthoc_qc": 186.0,
+              "saved": 186
+            },
+            "rmse_bps": {
+              "delta": 0.0,
+              "matches": true,
+              "posthoc_qc": 80.39630357005052,
+              "saved": 80.39630357005052
+            }
+          }
+        },
+        "zero": {
+          "matches_saved_score": true,
+          "metrics": {
+            "mae_bps": {
+              "delta": 0.0,
+              "matches": true,
+              "posthoc_qc": 64.78548406322781,
+              "saved": 64.78548406322781
+            },
+            "n": {
+              "delta": 0.0,
+              "matches": true,
+              "posthoc_qc": 186.0,
+              "saved": 186
+            },
+            "rmse_bps": {
+              "delta": 0.0,
+              "matches": true,
+              "posthoc_qc": 80.24578126918234,
+              "saved": 80.24578126918234
+            }
+          }
+        }
+      }
+    }
+  },
+  "approved_snapshot_path": "data/raw/ecb_eurofxref_hist/eurofxref-hist.zip",
+  "approved_snapshot_sha256": "e39ffa4c4e8cf3207f2b2589ce5ed5aea56253b35e33c66928d1f7ed76a9d941",
+  "cold_ids_sha256": "0c37ff3cd12c73ff48c8d9a89f5563925663632e1ebe15e3c13de6ed3d585e2c",
+  "execution_source_commit": "877d4d5a2d5d9abfa35908120afbb965ce35544c",
+  "execution_source_files_sha256": "4e2d1ba9b83bd69644a60e5438b65a5fb32cb56f34525fba0c9d938370872708",
+  "figures": {
+    "actual_vs_predicted": {
+      "canvas_inches": [
+        16,
+        9
+      ],
+      "png": "05_actual_vs_predicted.png",
+      "png_bytes": 199123,
+      "png_pixels": [
+        1920,
+        1080
+      ],
+      "png_sha256": "346ccfc492782165779416420b80a02cc8017a16ab54f9586cb266c1b428d70c",
+      "svg": "05_actual_vs_predicted.svg",
+      "svg_bytes": 344765,
+      "svg_sha256": "a90b71e7b5d3e71cea347d5fb1d3ea67f99382e05092a4bab396d75a87e2304e"
+    },
+    "errors_over_time": {
+      "canvas_inches": [
+        16,
+        9
+      ],
+      "png": "04_errors_over_time.png",
+      "png_bytes": 412537,
+      "png_pixels": [
+        1920,
+        1080
+      ],
+      "png_sha256": "5c22a870dd3dbea5b3950bf3dfbcb63d0387ff9a612c79acc5b4ecfed65931d4",
+      "svg": "04_errors_over_time.svg",
+      "svg_bytes": 82892,
+      "svg_sha256": "e81a329993b3cc0e4fd90d1908a01572436add813d1a8289e06037d440d38cc0"
+    },
+    "movement_dynamics": {
+      "canvas_inches": [
+        16,
+        9
+      ],
+      "png": "02_movement_dynamics.png",
+      "png_bytes": 308459,
+      "png_pixels": [
+        1920,
+        1080
+      ],
+      "png_sha256": "07436d5689ba46f2bcc45a477787df357c15026365496c4465623c7b39b3db6a",
+      "svg": "02_movement_dynamics.svg",
+      "svg_bytes": 36693,
+      "svg_sha256": "3214e5af27b9c4bbd328f2feaea1e1e6bc016f391ab3200789754d186c0f9f42"
+    },
+    "quantile_intervals": {
+      "canvas_inches": [
+        16,
+        9
+      ],
+      "png": "03_quantile_intervals.png",
+      "png_bytes": 412748,
+      "png_pixels": [
+        1920,
+        1080
+      ],
+      "png_sha256": "e18e1f2af0af45b75ffcdccf3f9e357796893f103adc3ebca3fbf30dee2b84a2",
+      "svg": "03_quantile_intervals.svg",
+      "svg_bytes": 129646,
+      "svg_sha256": "382274efc1ddb06aecce0943ffe00af6da4dacae229ed58ba14d9aceee02da63"
+    },
+    "return_dynamics": {
+      "canvas_inches": [
+        16,
+        9
+      ],
+      "png": "01_return_dynamics.png",
+      "png_bytes": 282131,
+      "png_pixels": [
+        1920,
+        1080
+      ],
+      "png_sha256": "ca4c99190a167e4b41d5ced2bd9e77e8eae5e455001ca0b51a90d8125c7d2f23",
+      "svg": "01_return_dynamics.svg",
+      "svg_bytes": 47057,
+      "svg_sha256": "179ef77d89ffbc6f3502e818f4994a557d5b661b9b50655fed03ada15ee266ae"
+    },
+    "zoom_w1": {
+      "canvas_inches": [
+        16,
+        9
+      ],
+      "png": "01_zoom_w1.png",
+      "png_bytes": 246473,
+      "png_pixels": [
+        1920,
+        1080
+      ],
+      "png_sha256": "14c00eef4b9dbb80a65e65cd8b5a784c79b7a274b1305ebdb2b4227405b934c4",
+      "svg": "01_zoom_w1.svg",
+      "svg_bytes": 78672,
+      "svg_sha256": "a7dec270f9180fd7ebdd865ef8fa6eecde1696ed8aab03d9009860d80153a7d6"
+    },
+    "zoom_w2": {
+      "canvas_inches": [
+        16,
+        9
+      ],
+      "png": "02_zoom_w2.png",
+      "png_bytes": 236776,
+      "png_pixels": [
+        1920,
+        1080
+      ],
+      "png_sha256": "c4a9f3eaf7cff174410be1caba7faaf712c2bc70716bb32d1fa5bb185d2cd27c",
+      "svg": "02_zoom_w2.svg",
+      "svg_bytes": 77252,
+      "svg_sha256": "f69e713b7487cb4e3e46222f8d9a57eed270fdaf5e30ca3989b8d6d54d89294d"
+    },
+    "zoom_w3": {
+      "canvas_inches": [
+        16,
+        9
+      ],
+      "png": "03_zoom_w3.png",
+      "png_bytes": 210174,
+      "png_pixels": [
+        1920,
+        1080
+      ],
+      "png_sha256": "b08cf87480fca611f2b81c3f5215ea8b948fc590a984a27857acb449e8100052",
+      "svg": "03_zoom_w3.svg",
+      "svg_bytes": 73862,
+      "svg_sha256": "518912db525a8791c88a6d9855be62c99d8839731de4ec79976e5170615d40ea"
+    }
+  },
+  "formulas_and_units": {
+    "movement_actual_rms": "sqrt(mean((USD[j]/USD[j-1]-1)^2 for the next 5 published observations)) * 10000; bps",
+    "movement_forecast_rms": "sqrt(saved nonnegative floor-clipped variance forecast in bps^2); raw negative variance is never square-rooted",
+    "quantile_band": "saved post-rearrangement q05/q50/q95 predictions in bps; nominal 90% band is [q05,q95]",
+    "return_actual_and_forecasts": "10000 * (USD_at_endpoint / USD_at_decision - 1); bps",
+    "signed_error": "forecast - actual, shown in each task's own bps panel"
+  },
+  "freeze_sha256": "d1a262cb729705470a3496969cbf5f14fd8cf440fdd23d0eb0f38168df6c1d08",
+  "generated_at_utc": "2026-10-08T22:11:06.122591+00:00",
+  "illustrative_zoom_windows": [
+    {
+      "context_color": "#e69f00",
+      "end_decision_date": "2026-02-05",
+      "end_endpoint_date": "2026-02-12",
+      "end_exclusive": 25,
+      "name": "largest_combined_return_error",
+      "observations": 15,
+      "selection_metric": "mean_(abs_ridge_return_error+abs_hgb_return_error)/2_bps",
+      "selection_reason": "15 consecutive frozen pairs with the highest mean of Ridge and HGB absolute return error, excluding overlap with the first two windows; deliberately shows a difficult segment.",
+      "selection_value": 115.97195589396534,
+      "start_decision_date": "2026-01-16",
+      "start_endpoint_date": "2026-01-23",
+      "start_index": 10
+    },
+    {
+      "context_color": "#56b4e9",
+      "end_decision_date": "2026-04-13",
+      "end_endpoint_date": "2026-04-20",
+      "end_exclusive": 70,
+      "name": "high_actual_rms",
+      "observations": 15,
+      "selection_metric": "mean_actual_rms_bps",
+      "selection_reason": "15 consecutive frozen pairs with the highest mean actual 5-observation RMS, excluding overlap with the quiet window.",
+      "selection_value": 52.08682422446988,
+      "start_decision_date": "2026-03-20",
+      "start_endpoint_date": "2026-03-27",
+      "start_index": 55
+    },
+    {
+      "context_color": "#cc79a7",
+      "end_decision_date": "2026-07-22",
+      "end_endpoint_date": "2026-07-29",
+      "end_exclusive": 141,
+      "name": "quiet_low_actual_rms",
+      "observations": 15,
+      "selection_metric": "mean_actual_rms_bps",
+      "selection_reason": "15 consecutive frozen pairs with the lowest mean actual 5-observation RMS; chosen without model losses.",
+      "selection_value": 20.27338157819214,
+      "start_decision_date": "2026-07-02",
+      "start_endpoint_date": "2026-07-09",
+      "start_index": 126
+    }
+  ],
+  "internal_protocol": "ep008_joint_five_observation_predictability",
+  "interpretation": "Post-hoc visualization only. ECB daily reference rates are informational and not executable prices; educational ML demonstration only, no P&L or profit claim.",
+  "overview_pdf": {
+    "bytes": 79696,
+    "file": "EP007_joint_run_overview.pdf",
+    "pages": 3,
+    "sha256": "a9a1defb4fdb996b6b5ee687868579f39636285a691d7feec37dc6a35f629b4b"
+  },
+  "plot_choices": {
+    "baseline_is_frozen_from_development": true,
+    "confidence_interval_or_coverage_is_not_implied_by_mean_metric": true,
+    "full_cold_period_only": true,
+    "new_score_created": false,
+    "quantile_baseline": "ewma_scaled_empirical",
+    "quantile_bounds_not_clipped": {
+      "actual_or_q05_q95_values_outside_shared_limits": 0,
+      "actual_return_max_bps": 223.81684606184837,
+      "actual_return_min_bps": -216.5473211974822,
+      "lower_padding_bps": 35.22913338074645,
+      "q05_global_min_bps": -206.96156718778025,
+      "q95_global_max_bps": 219.6157676176499,
+      "shared_full_and_zoom_y_limits_bps": [
+        -251.77645457822865,
+        259.0459794425948
+      ],
+      "upper_padding_bps": 35.22913338074642
+    },
+    "quantile_methods_visible": [
+      "HGB selected",
+      "QuantileRegressor",
+      "frozen dev-best EWMA-scaled empirical",
+      "rolling empirical baseline"
+    ],
+    "quantile_panels_share_y_scale": true,
+    "saved_quantile_mean_pinball_bps": {
+      "boosting": 16.589947216430474,
+      "ewma_scaled_empirical": 17.44695897615477,
+      "linear": 17.01678509162559,
+      "rolling_empirical": 16.64845604973916
+    },
+    "training_or_selection_performed": false
+  },
+  "plot_data_csv": {
+    "columns": 50,
+    "file": "plot_data.csv",
+    "rows": 186,
+    "sha256": "01663abd746ce79303368384e30463020afd457e0693526aabd0dc56faad75b7"
+  },
+  "plotting_script_sha256": "a3e1811619cc1703b04f80de19648ddd828f4e5eccfe01459a21694a0d6557d4",
+  "plotting_source_commit": "1a9aaea41702866803c9416e4a26e946ba7bbfc8",
+  "public_episode": "EP007",
+  "run_id": "ep008-9f1cb85ac383e69b9704c537",
+  "sample": {
+    "cold_window": [
+      "2026-01-01",
+      "2026-09-30"
+    ],
+    "decision_date_max": "2026-09-23",
+    "decision_date_min": "2026-01-02",
+    "endpoint_date_max": "2026-09-30",
+    "endpoint_date_min": "2026-01-09",
+    "horizon": "five subsequent published ECB observations; no forecast shifting",
+    "n": 186,
+    "x_axis": "endpoint_date; every row retains its paired decision_date and exact frozen sample_id"
+  },
+  "saved_prediction_sha256": "94e57eaf1666784c4526716d416fb318f9ca5aec3947996030554c72fe53f1e2",
+  "saved_score_sha256": "dcb1b399d4ca746d7209ae18ae3c3f531cefcc097f7c554b9479ca50cc6ec6e5",
+  "zoom_selection_policy": {
+    "difficult_model_segment": "maximum rolling mean absolute return error averaged across Ridge and HGB among windows not overlapping the first two",
+    "high_volatility": "maximum rolling mean of actual RMS movement among windows not overlapping the quiet window",
+    "interpretation": "Post-hoc descriptive slices chosen by fixed rules to include calm, volatile, and difficult behavior; never used to tune models, select baselines, or describe full-period score quality.",
+    "non_overlapping": true,
+    "quiet": "minimum rolling mean of actual RMS movement",
+    "shared_zoom_axis_ranges": {
+      "derived_from": "all 186 frozen pairs and saved predictions/outcomes",
+      "forecasts_only_bps": [
+        -19.93286749007232,
+        20.355546355699357
+      ],
+      "movement_rms_bps": [
+        0.0,
+        85.21246020482562
+      ],
+      "return_and_quantiles_bps": [
+        -251.77645457822865,
+        259.0459794425948
+      ]
+    },
+    "window_length_frozen_pairs": 15
+  }
+}

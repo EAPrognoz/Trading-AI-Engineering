@@ -1,0 +1,56 @@
+{
+  "source_url": "https://www.ecb.europa.eu/stats/eurofxref/eurofxref-hist.zip",
+  "downloaded_at_utc": "2026-10-08T18:59:43Z",
+  "archive_file": "eurofxref-hist.zip",
+  "archive_size_bytes": 640802,
+  "archive_sha256": "e39ffa4c4e8cf3207f2b2589ce5ed5aea56253b35e33c66928d1f7ed76a9d941",
+  "http_status": 200,
+  "content_type": "application/zip",
+  "zip_integrity": "passed (ZipFile.testzip returned None)",
+  "zip_member": "eurofxref-hist.csv",
+  "extracted_file": "eurofxref-hist.csv",
+  "csv_size_bytes": 1925732,
+  "csv_header_columns": 43,
+  "trailing_empty_header": true,
+  "input_data_rows": 7110,
+  "qa": {
+    "rate_definition": "USD per 1 EUR; ECB daily reference rates",
+    "requested_period_inclusive": [
+      "2000-01-01",
+      "2025-12-31"
+    ],
+    "observed_rate_date_range": [
+      "2000-01-03",
+      "2025-12-31"
+    ],
+    "unique_observed_dates": 6654,
+    "valid_usd_values": 6654,
+    "duplicate_dates": 0,
+    "missing_usd_values": 0,
+    "nonnumeric_or_nonfinite_usd_values": 0,
+    "nonpositive_usd_values": 0,
+    "malformed_dates_all_years": 0,
+    "wrong_width_rows_all_years": 0,
+    "calendar_days_in_period": 9497,
+    "calendar_dates_without_rate": 2843,
+    "weekdays_mon_fri_in_period": 6783,
+    "weekdays_without_rate": 129,
+    "weekdays_without_rate_examples": [
+      "2000-04-21",
+      "2000-04-24",
+      "2000-05-01",
+      "2000-12-25",
+      "2000-12-26",
+      "2001-01-01",
+      "2001-04-13",
+      "2001-04-16",
+      "2001-05-01",
+      "2001-12-25",
+      "2001-12-26",
+      "2001-12-31"
+    ],
+    "forward_fill_applied": false,
+    "usd_min": 0.8252,
+    "usd_max": 1.599
+  }
+}

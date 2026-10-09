@@ -1,0 +1,348 @@
+{
+  "bootstrap": {
+    "block_length": 20,
+    "confidence_level": 0.95,
+    "resamples": 10000,
+    "seed": 7,
+    "type": "non-circular moving-block paired loss difference"
+  },
+  "cold_ids_file_sha256": "6786de8ccc58c05cf633abbd4d544a092d200fd61ca6255ac8c62d1b1ac73b21",
+  "cold_ids_sha256": "0c37ff3cd12c73ff48c8d9a89f5563925663632e1ebe15e3c13de6ed3d585e2c",
+  "cold_row_count": 186,
+  "cold_scores_computed": false,
+  "cold_window": [
+    "2026-01-01",
+    "2026-09-30"
+  ],
+  "config_sha256": "b8e40573edaee071f0cf19dc27c42223b51b4e76073cdad4ae0ae9cc49069b4d",
+  "created_at_utc": "2026-10-08T20:45:17.365423+00:00",
+  "development_range": [
+    "2000-01-01",
+    "2025-12-31"
+  ],
+  "development_scores_sha256": "45174e62cf819f38cecd30143a1620d3b96e2d831e7ccda088cb13d398ea95f5",
+  "eligible_development_rows": 6649,
+  "features": [
+    "r_usd_0",
+    "r_usd_1",
+    "r_usd_2",
+    "c_usd_5",
+    "c_usd_20",
+    "rms_usd_5",
+    "rms_usd_20",
+    "rms_usd_60",
+    "c_gbp_5",
+    "rms_gbp_20",
+    "c_jpy_5",
+    "rms_jpy_20",
+    "c_chf_5",
+    "rms_chf_20"
+  ],
+  "movement_forecast_floor_bps2": 0.0001,
+  "predictions_must_be_saved_before_cold_scoring": true,
+  "prior_matured_cold_targets_used_by_rolling_baseline": false,
+  "run_id": "ep008-9f1cb85ac383e69b9704c537",
+  "same_row_cold_evaluation_targets_read": false,
+  "selected_configurations_and_baselines": {
+    "movement": {
+      "boosting": {
+        "config": {
+          "config_id": "H3",
+          "grid_index": 2,
+          "learning_rate": 0.1,
+          "max_iter": 50,
+          "max_leaf_nodes": 7
+        },
+        "config_id": "H3",
+        "grid_index": 2,
+        "macro_primary": 0.37200030303010756,
+        "macro_scores": {
+          "qlike": 0.37200030303010756,
+          "rms_mae_bps": 16.67167916132344
+        },
+        "macro_secondary": 16.67167916132344,
+        "primary_metric": "qlike"
+      },
+      "linear": {
+        "config": {
+          "alpha": 100.0,
+          "config_id": "L3",
+          "grid_index": 2
+        },
+        "config_id": "L3",
+        "grid_index": 2,
+        "macro_primary": 53704.32052763883,
+        "macro_scores": {
+          "qlike": 53704.32052763883,
+          "rms_mae_bps": 15.405287458127313
+        },
+        "macro_secondary": 15.405287458127313,
+        "primary_metric": "qlike"
+      },
+      "primary_baseline": {
+        "config": {
+          "baseline_id": "ewma"
+        },
+        "config_id": "ewma",
+        "grid_index": 1,
+        "macro_primary": 0.3588764124627772,
+        "macro_scores": {
+          "qlike": 0.3588764124627772
+        },
+        "macro_secondary": null,
+        "primary_metric": "qlike"
+      }
+    },
+    "quantiles": {
+      "boosting": {
+        "config": {
+          "config_id": "H1",
+          "grid_index": 0,
+          "learning_rate": 0.03,
+          "max_iter": 50,
+          "max_leaf_nodes": 7
+        },
+        "config_id": "H1",
+        "grid_index": 0,
+        "macro_primary": 20.38213385402403,
+        "macro_scores": {
+          "mean_pinball_bps": 20.38213385402403,
+          "median_mae_bps": 77.38555528886491
+        },
+        "macro_secondary": 77.38555528886491,
+        "primary_metric": "mean_pinball_bps"
+      },
+      "linear": {
+        "config": {
+          "alpha": 0.01,
+          "config_id": "L2",
+          "grid_index": 1
+        },
+        "config_id": "L2",
+        "grid_index": 1,
+        "macro_primary": 20.23478604109131,
+        "macro_scores": {
+          "mean_pinball_bps": 20.23478604109131,
+          "median_mae_bps": 76.54242226542092
+        },
+        "macro_secondary": 76.54242226542092,
+        "primary_metric": "mean_pinball_bps"
+      },
+      "primary_baseline": {
+        "config": {
+          "baseline_id": "ewma_scaled_empirical"
+        },
+        "config_id": "ewma_scaled_empirical",
+        "grid_index": 1,
+        "macro_primary": 20.346366179832334,
+        "macro_scores": {
+          "mean_pinball_bps": 20.346366179832334
+        },
+        "macro_secondary": null,
+        "primary_metric": "mean_pinball_bps"
+      }
+    },
+    "return": {
+      "boosting": {
+        "config": {
+          "config_id": "H1",
+          "grid_index": 0,
+          "learning_rate": 0.03,
+          "max_iter": 50,
+          "max_leaf_nodes": 7
+        },
+        "config_id": "H1",
+        "grid_index": 0,
+        "macro_primary": 76.63787176060518,
+        "macro_scores": {
+          "mae_bps": 76.63787176060518,
+          "rmse_bps": 99.92915992915562
+        },
+        "macro_secondary": 99.92915992915562,
+        "primary_metric": "mae_bps"
+      },
+      "linear": {
+        "config": {
+          "alpha": 100.0,
+          "config_id": "L3",
+          "grid_index": 2
+        },
+        "config_id": "L3",
+        "grid_index": 2,
+        "macro_primary": 76.51282986720292,
+        "macro_scores": {
+          "mae_bps": 76.51282986720292,
+          "rmse_bps": 99.82177906480213
+        },
+        "macro_secondary": 99.82177906480213,
+        "primary_metric": "mae_bps"
+      },
+      "primary_baseline": {
+        "config": {
+          "baseline_id": "zero"
+        },
+        "config_id": "zero",
+        "grid_index": 0,
+        "macro_primary": 76.02606644703508,
+        "macro_scores": {
+          "mae_bps": 76.02606644703508
+        },
+        "macro_secondary": null,
+        "primary_metric": "mae_bps"
+      }
+    }
+  },
+  "selection": {
+    "movement": {
+      "boosting": {
+        "config": {
+          "config_id": "H3",
+          "grid_index": 2,
+          "learning_rate": 0.1,
+          "max_iter": 50,
+          "max_leaf_nodes": 7
+        },
+        "config_id": "H3",
+        "grid_index": 2,
+        "macro_primary": 0.37200030303010756,
+        "macro_scores": {
+          "qlike": 0.37200030303010756,
+          "rms_mae_bps": 16.67167916132344
+        },
+        "macro_secondary": 16.67167916132344,
+        "primary_metric": "qlike"
+      },
+      "linear": {
+        "config": {
+          "alpha": 100.0,
+          "config_id": "L3",
+          "grid_index": 2
+        },
+        "config_id": "L3",
+        "grid_index": 2,
+        "macro_primary": 53704.32052763883,
+        "macro_scores": {
+          "qlike": 53704.32052763883,
+          "rms_mae_bps": 15.405287458127313
+        },
+        "macro_secondary": 15.405287458127313,
+        "primary_metric": "qlike"
+      },
+      "primary_baseline": {
+        "config": {
+          "baseline_id": "ewma"
+        },
+        "config_id": "ewma",
+        "grid_index": 1,
+        "macro_primary": 0.3588764124627772,
+        "macro_scores": {
+          "qlike": 0.3588764124627772
+        },
+        "macro_secondary": null,
+        "primary_metric": "qlike"
+      }
+    },
+    "quantiles": {
+      "boosting": {
+        "config": {
+          "config_id": "H1",
+          "grid_index": 0,
+          "learning_rate": 0.03,
+          "max_iter": 50,
+          "max_leaf_nodes": 7
+        },
+        "config_id": "H1",
+        "grid_index": 0,
+        "macro_primary": 20.38213385402403,
+        "macro_scores": {
+          "mean_pinball_bps": 20.38213385402403,
+          "median_mae_bps": 77.38555528886491
+        },
+        "macro_secondary": 77.38555528886491,
+        "primary_metric": "mean_pinball_bps"
+      },
+      "linear": {
+        "config": {
+          "alpha": 0.01,
+          "config_id": "L2",
+          "grid_index": 1
+        },
+        "config_id": "L2",
+        "grid_index": 1,
+        "macro_primary": 20.23478604109131,
+        "macro_scores": {
+          "mean_pinball_bps": 20.23478604109131,
+          "median_mae_bps": 76.54242226542092
+        },
+        "macro_secondary": 76.54242226542092,
+        "primary_metric": "mean_pinball_bps"
+      },
+      "primary_baseline": {
+        "config": {
+          "baseline_id": "ewma_scaled_empirical"
+        },
+        "config_id": "ewma_scaled_empirical",
+        "grid_index": 1,
+        "macro_primary": 20.346366179832334,
+        "macro_scores": {
+          "mean_pinball_bps": 20.346366179832334
+        },
+        "macro_secondary": null,
+        "primary_metric": "mean_pinball_bps"
+      }
+    },
+    "return": {
+      "boosting": {
+        "config": {
+          "config_id": "H1",
+          "grid_index": 0,
+          "learning_rate": 0.03,
+          "max_iter": 50,
+          "max_leaf_nodes": 7
+        },
+        "config_id": "H1",
+        "grid_index": 0,
+        "macro_primary": 76.63787176060518,
+        "macro_scores": {
+          "mae_bps": 76.63787176060518,
+          "rmse_bps": 99.92915992915562
+        },
+        "macro_secondary": 99.92915992915562,
+        "primary_metric": "mae_bps"
+      },
+      "linear": {
+        "config": {
+          "alpha": 100.0,
+          "config_id": "L3",
+          "grid_index": 2
+        },
+        "config_id": "L3",
+        "grid_index": 2,
+        "macro_primary": 76.51282986720292,
+        "macro_scores": {
+          "mae_bps": 76.51282986720292,
+          "rmse_bps": 99.82177906480213
+        },
+        "macro_secondary": 99.82177906480213,
+        "primary_metric": "mae_bps"
+      },
+      "primary_baseline": {
+        "config": {
+          "baseline_id": "zero"
+        },
+        "config_id": "zero",
+        "grid_index": 0,
+        "macro_primary": 76.02606644703508,
+        "macro_scores": {
+          "mae_bps": 76.02606644703508
+        },
+        "macro_secondary": null,
+        "primary_metric": "mae_bps"
+      }
+    }
+  },
+  "source_archive_path": "data/raw/ecb_eurofxref_hist/eurofxref-hist.zip",
+  "source_archive_sha256": "e39ffa4c4e8cf3207f2b2589ce5ed5aea56253b35e33c66928d1f7ed76a9d941",
+  "source_commit": "877d4d5a2d5d9abfa35908120afbb965ce35544c",
+  "source_files_sha256": "4e2d1ba9b83bd69644a60e5438b65a5fb32cb56f34525fba0c9d938370872708"
+}

@@ -1,0 +1,95 @@
+[experiment]
+id = "ep008-joint-five-observation"
+horizon_published_observations = 5
+source_archive_sha256 = "e39ffa4c4e8cf3207f2b2589ce5ed5aea56253b35e33c66928d1f7ed76a9d941"
+source_archive_member = "eurofxref-hist.csv"
+development_start = "2000-01-01"
+development_end = "2025-12-31"
+cold_start = "2026-01-01"
+cold_end = "2026-09-30"
+cold_eligible_rows = 186
+currency_columns = ["USD", "GBP", "JPY", "CHF"]
+feature_count = 14
+feature_warmup_returns = 60
+target_bps_per_return = 10000
+target_bps2_per_return2 = 100000000
+
+[linear]
+ridge_alphas = [0.1, 10.0, 100.0]
+quantile_alphas = [0.0, 0.01, 0.1]
+standardize_features = true
+quantile_solver = "highs"
+quantile_fit_intercept = true
+quantile_target_units = "bps"
+target_rescaling_changes_relative_l1_strength = false
+
+[boosting]
+l2_regularization = 1.0
+early_stopping = false
+random_state = 7
+
+[[boosting.candidates]]
+config_id = "H1"
+grid_index = 0
+learning_rate = 0.03
+max_iter = 50
+max_leaf_nodes = 7
+
+[[boosting.candidates]]
+config_id = "H2"
+grid_index = 1
+learning_rate = 0.03
+max_iter = 100
+max_leaf_nodes = 7
+
+[[boosting.candidates]]
+config_id = "H3"
+grid_index = 2
+learning_rate = 0.1
+max_iter = 50
+max_leaf_nodes = 7
+
+[return]
+baseline_order = ["zero", "train_mean", "train_median"]
+primary_metric = "mae_bps"
+secondary_metric = "rmse_bps"
+selection_tie_break = "listed_grid_order"
+
+[movement]
+baseline_order = ["trailing5", "ewma"]
+target_units = "bps2"
+forecast_floor_bps2 = 0.0001
+ewma_lambda = 0.94
+ewma_initial_returns = 60
+primary_metric = "qlike"
+secondary_metric = "rms_mae_bps"
+
+[quantiles]
+levels = [0.05, 0.5, 0.95]
+baseline_order = ["rolling_empirical", "ewma_scaled_empirical"]
+history_window_matured_targets = 252
+quantile_interpolation = "linear"
+ewma_scaled_zero_denominator_ratio = 1.0
+crossing_rate_before_rearrangement = true
+score_after_rowwise_sort = true
+primary_metric = "mean_pinball_bps"
+secondary_metric = "median_mae_bps"
+
+[walk_forward]
+blocks = ["2017-01-01/2019-12-31", "2020-01-01/2022-12-31", "2023-01-01/2025-12-31"]
+expanding_training = true
+purge_horizon_crossings = true
+selection_aggregation = "equal_block_macro_average"
+
+[bootstrap]
+block_length = 20
+resamples = 10000
+seed = 7
+ci = 0.95
+type = "non_circular_moving_block_paired_loss_difference"
+
+[artifacts]
+cold_ids_filename = "cold_ids.csv"
+predictions_filename = "cold_predictions.csv"
+score_once = true
+save_predictions_before_joining_targets = true

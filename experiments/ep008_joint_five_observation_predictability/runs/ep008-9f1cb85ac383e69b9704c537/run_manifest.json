@@ -1,0 +1,22 @@
+{
+  "archive_bytes": 640802,
+  "archive_member": "eurofxref-hist.csv",
+  "archive_path": "data/raw/ecb_eurofxref_hist/eurofxref-hist.zip",
+  "cold_scores_computed": false,
+  "config_sha256": "b8e40573edaee071f0cf19dc27c42223b51b4e76073cdad4ae0ae9cc49069b4d",
+  "created_at_utc": "2026-10-08T20:45:12.674929+00:00",
+  "data_sha256": "e39ffa4c4e8cf3207f2b2589ce5ed5aea56253b35e33c66928d1f7ed76a9d941",
+  "dependencies": {
+    "numpy": "2.5.3",
+    "pandas": "2.3.3",
+    "python": "3.12.14",
+    "scikit-learn": "1.9.1"
+  },
+  "development_phase_same_row_cold_evaluation_targets_read": false,
+  "development_rows": 6649,
+  "development_scores_sha256": "45174e62cf819f38cecd30143a1620d3b96e2d831e7ccda088cb13d398ea95f5",
+  "run_id": "ep008-9f1cb85ac383e69b9704c537",
+  "seed": 7,
+  "source_commit": "877d4d5a2d5d9abfa35908120afbb965ce35544c",
+  "source_files_sha256": "4e2d1ba9b83bd69644a60e5438b65a5fb32cb56f34525fba0c9d938370872708"
+}

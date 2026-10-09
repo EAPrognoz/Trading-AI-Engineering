@@ -11,7 +11,11 @@ build/
 *.egg-info/
 
 # Broker / market-data snapshots are intentionally not committed.
-data/raw/
+data/raw/*
+!data/raw/ecb_eurofxref_hist/
+data/raw/ecb_eurofxref_hist/*
+!data/raw/ecb_eurofxref_hist/eurofxref-hist.zip
+!data/raw/ecb_eurofxref_hist/provenance-and-qa.json
 data/private/
 data/snapshots/
 *.parquet
