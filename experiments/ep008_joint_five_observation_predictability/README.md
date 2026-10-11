@@ -1,6 +1,6 @@
 # EP007: Three five-observation forecast questions
 
-This folder contains the reproducible experiment behind [Episode 007](https://youtu.be/WkEaI-4A55w).
+This folder contains the reproducible experiment behind [Episode 007](https://youtu.be/6me2vpiVD4M).
 The internal experiment identifier remains `ep008-joint-five-observation` and its frozen run ID is
 `ep008-9f1cb85ac383e69b9704c537`.
 

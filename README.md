@@ -24,7 +24,7 @@ inspect the full engineering implementation
 | 004 | Feature set | [Watch](https://youtu.be/SNOTNSZoNQY) | `examples/ep004_feature_set_minimal.py` | `experiments/ep004_feature_engineering/` |
 | 005 | Baseline | [Watch](https://www.youtube.com/watch?v=iEr_WGBUkxQ) | `examples/ep005_baseline_minimal.py` | `experiments/ep005_baselines/` |
 | 006 | Bitcoin baseline stability | [Watch](https://www.youtube.com/watch?v=rxJymSciu7A) · [CodeLab](https://www.youtube.com/watch?v=IDaKQQjM79k) | [CodeLab audit notebook](https://github.com/EAPrognoz/Trading-AI-Engineering/blob/release/ep006-btc-stability-20261003/experiments/ep006_baselines/EP006_Bitcoin_Baseline_Stability_CodeLab.ipynb) (requires a saved run) | [experiments/ep006_baselines/](https://github.com/EAPrognoz/Trading-AI-Engineering/tree/release/ep006-btc-stability-20261003/experiments/ep006_baselines) |
-| 007 | Three forecast questions | [Watch](https://youtu.be/WkEaI-4A55w) | [Audit the saved ECB run](experiments/ep008_joint_five_observation_predictability/audit_saved.py) | [Experiment, results, and reproduction guide](experiments/ep008_joint_five_observation_predictability/README.md) |
+| 007 | Three forecast questions | [Watch](https://youtu.be/6me2vpiVD4M) | [Audit the saved ECB run](experiments/ep008_joint_five_observation_predictability/audit_saved.py) | [Experiment, results, and reproduction guide](experiments/ep008_joint_five_observation_predictability/README.md) |
 
 Episode 006 code is on the `release/ep006-btc-stability-20261003` branch.
 Follow its [run guide](https://github.com/EAPrognoz/Trading-AI-Engineering/blob/release/ep006-btc-stability-20261003/experiments/ep006_baselines/README.md)
