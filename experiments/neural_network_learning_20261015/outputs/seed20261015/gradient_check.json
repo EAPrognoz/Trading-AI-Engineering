@@ -1,0 +1,286 @@
+{
+  "method": "central finite difference",
+  "epsilon": 1e-06,
+  "parameter_count": 25,
+  "max_absolute_error": 6.794831364231868e-11,
+  "max_relative_error": 6.656281860790678e-10,
+  "tolerance": 1e-05,
+  "passed": true,
+  "checks": [
+    {
+      "parameter": "W1",
+      "index": [
+        0,
+        0
+      ],
+      "analytic": 0.6400282563290696,
+      "numeric": 0.6400282562823989,
+      "absolute_error": 4.667066733077263e-11,
+      "relative_error": 3.6459849132409695e-11
+    },
+    {
+      "parameter": "W1",
+      "index": [
+        0,
+        1
+      ],
+      "analytic": 0.4734727624479797,
+      "numeric": 0.47347276246889614,
+      "absolute_error": 2.0916435250484255e-11,
+      "relative_error": 2.2088319444057068e-11
+    },
+    {
+      "parameter": "W1",
+      "index": [
+        0,
+        2
+      ],
+      "analytic": -0.01656798476760536,
+      "numeric": -0.016567984789661594,
+      "absolute_error": 2.2056235310374817e-11,
+      "relative_error": 6.656281860790678e-10
+    },
+    {
+      "parameter": "W1",
+      "index": [
+        0,
+        3
+      ],
+      "analytic": 0.25270710788110445,
+      "numeric": 0.25270710790614714,
+      "absolute_error": 2.5042690143806112e-11,
+      "relative_error": 4.954884402054007e-11
+    },
+    {
+      "parameter": "W1",
+      "index": [
+        0,
+        4
+      ],
+      "analytic": -0.1725426287308778,
+      "numeric": -0.1725426287402243,
+      "absolute_error": 9.346495799533727e-12,
+      "relative_error": 2.7084598942382858e-11
+    },
+    {
+      "parameter": "W1",
+      "index": [
+        0,
+        5
+      ],
+      "analytic": -0.4332570016109789,
+      "numeric": -0.43325700160856684,
+      "absolute_error": 2.412070543300615e-12,
+      "relative_error": 2.7836486592698223e-12
+    },
+    {
+      "parameter": "W1",
+      "index": [
+        0,
+        6
+      ],
+      "analytic": 0.5181960112652377,
+      "numeric": 0.5181960112399242,
+      "absolute_error": 2.531352905066342e-11,
+      "relative_error": 2.442466605394711e-11
+    },
+    {
+      "parameter": "W1",
+      "index": [
+        0,
+        7
+      ],
+      "analytic": 0.4949297343449411,
+      "numeric": 0.4949297343070924,
+      "absolute_error": 3.784866864364744e-11,
+      "relative_error": 3.8236406118525936e-11
+    },
+    {
+      "parameter": "b1",
+      "index": [
+        0,
+        0
+      ],
+      "analytic": -0.6904351251467022,
+      "numeric": -0.6904351251835195,
+      "absolute_error": 3.681721594261944e-11,
+      "relative_error": 2.6662328291752946e-11
+    },
+    {
+      "parameter": "b1",
+      "index": [
+        0,
+        1
+      ],
+      "analytic": -0.5108747156805531,
+      "numeric": -0.5108747156423732,
+      "absolute_error": 3.817990368304436e-11,
+      "relative_error": 3.736718858126529e-11
+    },
+    {
+      "parameter": "b1",
+      "index": [
+        0,
+        2
+      ],
+      "analytic": 0.01787224471002595,
+      "numeric": 0.01787224471194726,
+      "absolute_error": 1.9213103330528725e-12,
+      "relative_error": 5.3751231703754184e-11
+    },
+    {
+      "parameter": "b1",
+      "index": [
+        0,
+        3
+      ],
+      "analytic": -0.27268191311411266,
+      "numeric": -0.27268191307716627,
+      "absolute_error": 3.694639039153458e-11,
+      "relative_error": 6.774631652700803e-11
+    },
+    {
+      "parameter": "b1",
+      "index": [
+        0,
+        4
+      ],
+      "analytic": 0.18612672671723288,
+      "numeric": 0.18612672672557729,
+      "absolute_error": 8.344408497507061e-12,
+      "relative_error": 2.2415933070152228e-11
+    },
+    {
+      "parameter": "b1",
+      "index": [
+        0,
+        5
+      ],
+      "analytic": 0.46773446252384926,
+      "numeric": 0.46773446249481765,
+      "absolute_error": 2.9031610448981837e-11,
+      "relative_error": 3.1034286305557953e-11
+    },
+    {
+      "parameter": "b1",
+      "index": [
+        0,
+        6
+      ],
+      "analytic": -0.5590430823533288,
+      "numeric": -0.5590430823820824,
+      "absolute_error": 2.875366611476693e-11,
+      "relative_error": 2.571686066929495e-11
+    },
+    {
+      "parameter": "b1",
+      "index": [
+        0,
+        7
+      ],
+      "analytic": -0.5339729894703468,
+      "numeric": -0.5339729895192935,
+      "absolute_error": 4.8946735553556664e-11,
+      "relative_error": 4.58325950155869e-11
+    },
+    {
+      "parameter": "W2",
+      "index": [
+        0,
+        0
+      ],
+      "analytic": -0.18966030505482814,
+      "numeric": -0.18966030507217013,
+      "absolute_error": 1.7341988955976717e-11,
+      "relative_error": 4.5718551781751435e-11
+    },
+    {
+      "parameter": "W2",
+      "index": [
+        1,
+        0
+      ],
+      "analytic": 0.4853684561151166,
+      "numeric": 0.4853684561212379,
+      "absolute_error": 6.121325668573263e-12,
+      "relative_error": 6.305854440490098e-12
+    },
+    {
+      "parameter": "W2",
+      "index": [
+        2,
+        0
+      ],
+      "analytic": -0.06875480470408002,
+      "numeric": -0.06875480471069118,
+      "absolute_error": 6.611156067037882e-12,
+      "relative_error": 4.8077775038227375e-11
+    },
+    {
+      "parameter": "W2",
+      "index": [
+        3,
+        0
+      ],
+      "analytic": -0.5236945079155766,
+      "numeric": -0.523694507925665,
+      "absolute_error": 1.0088374580163872e-11,
+      "relative_error": 9.63192703721558e-12
+    },
+    {
+      "parameter": "W2",
+      "index": [
+        4,
+        0
+      ],
+      "analytic": 0.10543598619884895,
+      "numeric": 0.10543598621959305,
+      "absolute_error": 2.0744100881486816e-11,
+      "relative_error": 9.837296366879632e-11
+    },
+    {
+      "parameter": "W2",
+      "index": [
+        5,
+        0
+      ],
+      "analytic": 0.8120053610272737,
+      "numeric": 0.812005361033874,
+      "absolute_error": 6.600275881396556e-12,
+      "relative_error": 4.06418245380774e-12
+    },
+    {
+      "parameter": "W2",
+      "index": [
+        6,
+        0
+      ],
+      "analytic": -0.30812844541436124,
+      "numeric": -0.30812844545313745,
+      "absolute_error": 3.877620446957053e-11,
+      "relative_error": 6.292214341812171e-11
+    },
+    {
+      "parameter": "W2",
+      "index": [
+        7,
+        0
+      ],
+      "analytic": 0.3827041826993033,
+      "numeric": 0.38270418267760675,
+      "absolute_error": 2.1696533458737122e-11,
+      "relative_error": 2.834635005335106e-11
+    },
+    {
+      "parameter": "b2",
+      "index": [
+        0,
+        0
+      ],
+      "analytic": 1.3684297416174411,
+      "numeric": 1.3684297415494928,
+      "absolute_error": 6.794831364231868e-11,
+      "relative_error": 2.4827110803545114e-11
+    }
+  ]
+}

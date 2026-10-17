@@ -1,0 +1,24 @@
+{
+  "label": "Additional post-training diagnostics; not part of training or checkpoint selection",
+  "test_access_timing": "computed after fixed 400-epoch training completed",
+  "test_used_for_tuning": false,
+  "initial_untrained_network_test_metrics": {
+    "mse": 0.7996037110526002,
+    "rmse": 0.8942056313022191,
+    "mae": 0.852176980044361
+  },
+  "constant_train_mean_test_metrics": {
+    "mse": 0.5007889448640469,
+    "rmse": 0.7076644295596939,
+    "mae": 0.6557395691203307
+  },
+  "constant_prediction": {
+    "value": 0.021340531650209653,
+    "computed_from": "train targets only"
+  },
+  "final_epoch_400_test_metrics": {
+    "mse": 0.03116123544426802,
+    "rmse": 0.17652545268110212,
+    "mae": 0.14319683619553786
+  }
+}

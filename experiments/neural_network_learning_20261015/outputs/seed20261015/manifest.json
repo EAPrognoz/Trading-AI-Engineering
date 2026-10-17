@@ -1,0 +1,126 @@
+{
+  "label": "SYNTHETIC \u2014 not market data",
+  "protocol": {
+    "data_label": "SYNTHETIC \u2014 not market data",
+    "generator": "y = sin(pi*x) + 0.25*sin(3*pi*x) + Normal(0, 0.05)",
+    "x_distribution": "Uniform(-1, 1)",
+    "seed": 20261015,
+    "split_sizes": {
+      "train": 128,
+      "validation": 64,
+      "test": 64
+    },
+    "architecture": [
+      1,
+      8,
+      1
+    ],
+    "hidden_activation": "tanh",
+    "output_activation": "linear",
+    "optimizer": "Adam",
+    "learning_rate": 0.03,
+    "beta1": 0.9,
+    "beta2": 0.999,
+    "epsilon": 1e-08,
+    "batch_size": 128,
+    "updates_per_epoch": 1,
+    "epochs": 400,
+    "checkpoints": [
+      0,
+      1,
+      5,
+      10,
+      25,
+      50,
+      100,
+      200,
+      400
+    ],
+    "fixed_unseen_query_x": 0.25
+  },
+  "split_provenance": {
+    "master_seed": 20261015,
+    "child_streams": [
+      {
+        "split": "train",
+        "spawn_key": [
+          0
+        ]
+      },
+      {
+        "split": "validation",
+        "spawn_key": [
+          1
+        ]
+      },
+      {
+        "split": "test",
+        "spawn_key": [
+          2
+        ]
+      },
+      {
+        "split": "initialization",
+        "spawn_key": [
+          3
+        ]
+      }
+    ]
+  },
+  "environment": {
+    "python": "3.12.14",
+    "numpy": "2.3.5",
+    "platform": "Linux-6.18.44-x86_64-with-glibc2.41"
+  },
+  "gradient_check": {
+    "method": "central finite difference",
+    "epsilon": 1e-06,
+    "parameter_count": 25,
+    "max_absolute_error": 6.794831364231868e-11,
+    "max_relative_error": 6.656281860790678e-10,
+    "tolerance": 1e-05,
+    "passed": true
+  },
+  "artifacts": {
+    "animation_timeline.json": {
+      "sha256": "56d511595c27afc666b8fc3e0a3d78d4c957b08d8a7f57d5e0bbd1d54368b077",
+      "bytes": 110472
+    },
+    "checkpoint_weights.npz": {
+      "sha256": "f52abfb677cc6a7784ba7c25f4b8aefefccf76f5057797d9edabb42e82fb30fd",
+      "bytes": 8914
+    },
+    "gradient_check.json": {
+      "sha256": "a15f888ceaa2d864b0fe88ca3c92e43ace823e98712f87cdf87783ee6e47fc8b",
+      "bytes": 6630
+    },
+    "initial_weights.json": {
+      "sha256": "f7a34e26680d57a08859b5384800a82c30b4d985ec955e3ae299889ba9e74055",
+      "bytes": 723
+    },
+    "metrics.csv": {
+      "sha256": "2b4871d747ec797c0263b1af620e0ad136d0046edb3f51171bc4302307b8f0e5",
+      "bytes": 2124
+    },
+    "post_training_test_diagnostics.json": {
+      "sha256": "e0fb55ef017d1587dbdec07140e474ff9671e0d55dc3e49aa5200207563e2099",
+      "bytes": 736
+    },
+    "predictions.csv": {
+      "sha256": "9c58b1dddda729ff3bfa8c2710d67ed9d46793e0c9249723fe82a1054c7a51cb",
+      "bytes": 92472
+    },
+    "test.csv": {
+      "sha256": "09f98dea444d71dba0c50c0de3cea2c87839a332aa6a18b34b4b841e0d3db9c5",
+      "bytes": 2586
+    },
+    "train.csv": {
+      "sha256": "bceb35385bbd770ebedbebec03fa3ce737de3d30a86ba2a0bc697eebfc0ac1d5",
+      "bytes": 5169
+    },
+    "validation.csv": {
+      "sha256": "c32106aca0ad64facd2a8d7beb550c96e27ee7e65e4077c658a43561390f87a8",
+      "bytes": 2595
+    }
+  }
+}
