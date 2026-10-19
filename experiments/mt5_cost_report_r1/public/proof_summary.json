@@ -1,0 +1,15 @@
+{
+  "artifact_type": "public_method_summary",
+  "report_scope": "read-only MT5 deal history for one explicitly verified demo account and a half-open UTC interval",
+  "money_components": ["profit", "commission", "swap", "fee"],
+  "daily_summary_scope": "BUY/SELL deals only; recorded signed component subtotal",
+  "other_operations": "preserved for review; no symbol, strategy, or position allocation",
+  "error_semantics": "None from history_deals_get is an error; an empty sequence is a valid empty response",
+  "synthetic_test_results_are_market_results": false,
+  "floating_pnl_calculated": false,
+  "lifetime_position_return_calculated": false,
+  "account_wide_net_profit_claim": false,
+  "saved_demo_export_published": false,
+  "python_terminal_integration_verified": false,
+  "integration_gate": "requires a permitted raw terminal deal export to verify time and time_msc interpretation"
+}

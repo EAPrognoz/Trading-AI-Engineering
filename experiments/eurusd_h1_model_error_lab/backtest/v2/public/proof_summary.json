@@ -1,0 +1,40 @@
+{
+  "artifact_type": "sanitized_historical_demo_quote_replay_summary",
+  "source_classification": "actual saved historical demo quote replay in a private authorized workspace; not live trading",
+  "period_utc_half_open": ["2026-07-17T00:00:00Z", "2026-10-17T00:00:00Z"],
+  "scenario": {
+    "symbol": "EURUSD",
+    "starting_balance_usd": "10000.00",
+    "position_size": "one 100000 EUR lot; one position maximum",
+    "simulation_leverage": "1:200 hypothetical scenario",
+    "same_side_signal": "no-op; keep original one-hour target",
+    "abstain_while_open": "hold to the original target",
+    "additional_slippage": "0 assumed",
+    "historical_swap": "unknown and not included",
+    "margin_call_and_stopout": "not simulated"
+  },
+  "replay_summary": {
+    "closed_virtual_positions": 74,
+    "wins": 36,
+    "losses": 37,
+    "flat": 1,
+    "quote_result_before_historical_swap_usd": "1209.00",
+    "profit_factor_before_historical_swap": "1.58632396",
+    "maximum_observed_equity_drawdown_pre_swap_usd": "515.00",
+    "maximum_observed_equity_drawdown_pct_of_previous_peak": "4.90522907",
+    "maximum_drawdown_trough_equity_usd": "9984.00",
+    "maximum_drawdown_trough_time_utc": "2026-08-19T18:37:07.093Z",
+    "absolute_observed_equity_low_usd": "9980.00",
+    "absolute_observed_equity_low_time_utc": "2026-07-21T01:06:15.618Z"
+  },
+  "proof_limits": {
+    "raw_quote_rows_published": false,
+    "private_predictions_or_model_assets_published": false,
+    "account_identifiers_or_credentials_published": false,
+    "exact_inputs_publicly_reproducible": false,
+    "profitability_test": false,
+    "account_wide_net_profit_claim": false,
+    "synthetic_test_data_used_for_these_metrics": false,
+    "note": "These are aggregate results from one saved historical demo quote replay. Exact inputs remain private because redistribution rights are not recorded. This is not a return claim or a test of trading profitability."
+  }
+}

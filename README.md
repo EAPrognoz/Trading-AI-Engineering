@@ -31,6 +31,13 @@ to prepare your own local data and private config; the CodeLab notebook audits s
 
 See [docs/series-map.md](docs/series-map.md) for the video-to-code map.
 
+## Read-only data audits
+
+The [MT5 deal cost report](experiments/mt5_cost_report_r1/public/README.md)
+preserves profit, commission, swap, and fee by deal for one demo account and a
+half-open UTC interval. It keeps deposits and other operations visible without
+allocating them to a strategy or claiming account-wide net profit.
+
 ## Start with Episode 002: getting bars is simple
 
 On Windows, open MetaTrader 5, log in to a demo account, then:
