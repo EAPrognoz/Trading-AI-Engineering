@@ -1,0 +1,30 @@
+{
+  "status": "draft_not_uploaded",
+  "language": "en",
+  "channel": {
+    "title": "Trading AI Engineering",
+    "handle": "@TradingAIEngineering"
+  },
+  "title": "Python + MT5: Build an H1 Model and Replay 74 EURUSD Positions",
+  "description": "A practical walkthrough of a permitted UTC EURUSD H1 demo export, a point-in-time feature pipeline, train-only logistic regression, chronological validation, and a retrospective bid/ask quote replay of frozen decisions. The +$1,209 quote result is before unknown historical swap; additional slippage is assumed zero. This is not an account-wide net result or a profitability test. No live orders were sent.\n\nRead the public, read-only CSV replay guide: https://github.com/EAPrognoz/Trading-AI-Engineering/blob/main/experiments/eurusd_h1_model_error_lab/backtest/v2/README.md\n\nThe frozen model, predictions, and raw historical quote files are private and are not included. The public runner works with your own authorized decision and quote CSVs; it will produce different values.\n\n#Python #MetaTrader5 #EURUSD",
+  "tags": [
+    "Python",
+    "MetaTrader 5",
+    "EURUSD",
+    "logistic regression",
+    "time series",
+    "backtesting"
+  ],
+  "title_variants": [
+    "Python + MT5: Build an H1 Model and Replay 74 EURUSD Positions",
+    "MetaTrader 5 + Python: Replaying 74 EURUSD Signals With Bid/Ask Data",
+    "Build an H1 Classifier, Then Audit a 74-Position EURUSD Replay"
+  ],
+  "thumbnail_direction": "Moving bid/ask trace with 74 virtual position markers and clear labels: 48.65% WIN RATE, PF 1.5863, ONE HISTORICAL REPLAY.",
+  "pinned_comment_draft": "Which part would you audit first: signal timing, bid/ask fills, or the cost assumptions? If you reproduce the replay with your own export, share how its spreads, fees, swap, or slippage differ. This is one retrospective quote replay, not a profitability test.",
+  "public_links_verified_on_github": [
+    "https://github.com/EAPrognoz/Trading-AI-Engineering/blob/main/experiments/eurusd_h1_model_error_lab/backtest/v2/README.md",
+    "https://github.com/EAPrognoz/Trading-AI-Engineering/blob/main/experiments/mt5_cost_report_r1/public/README.md"
+  ],
+  "upload_status": "not_uploaded"
+}
