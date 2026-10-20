@@ -36,6 +36,9 @@ def _top_correlations(features: pd.DataFrame, columns: list[str], limit: int = 1
 def analyze_feature_contract(
     snapshot_path: str | Path,
     contract_path: str | Path,
+    *,
+    source_manifest_path: str | Path | None = None,
+    experiment_contract_path: str | Path = "configs/experiments/ep005_baselines.toml",
 ) -> dict[str, Any]:
     """Build Episode 004 features and describe the frozen baseline feature set.
 
@@ -43,6 +46,8 @@ def analyze_feature_contract(
     predeclared contract and is not chosen from target, validation, or test
     performance.
     """
+    from trading_ai.experiments.baseline_dataset import prepare_episode005_split
+
     frame = load_snapshot(snapshot_path)
     features = build_point_in_time_features(frame)
     contract = _load_contract(contract_path)
@@ -57,6 +62,18 @@ def analyze_feature_contract(
 
     exclusion_reasons = dict(contract.get("exclusion_reasons", {}))
     diagnostics: dict[str, Any] = {}
+
+    prepared = prepare_episode005_split(
+        snapshot_path,
+        experiment_contract_path,
+        source_manifest_path=source_manifest_path,
+    )
+    train_open_timestamp = (
+        pd.to_datetime(prepared.split.train["decision_timestamp"], utc=True)
+        - pd.Timedelta(hours=1)
+    )
+    correlation_mask = features["timestamp"].isin(train_open_timestamp)
+    correlation_features = features.loc[correlation_mask, candidates].copy()
 
     for name in candidates:
         series = pd.to_numeric(features[name], errors="coerce")
@@ -82,10 +99,27 @@ def analyze_feature_contract(
             "uses_validation_statistics": bool(contract["uses_validation_statistics"]),
             "uses_test_statistics": bool(contract["uses_test_statistics"]),
         },
-        "dataset": dataset_manifest(frame, snapshot_path),
+        "dataset": dataset_manifest(
+            frame,
+            snapshot_path,
+            source_manifest_path=source_manifest_path,
+        ),
         "candidate_features": candidates,
         "selected_features": selected,
         "feature_diagnostics": diagnostics,
-        "top_absolute_correlations": _top_correlations(features, candidates),
-        "correlation_note": "Diagnostic only; baseline v1 selection is predeclared and does not use these values.",
+        "top_absolute_correlations": _top_correlations(
+            correlation_features,
+            candidates,
+        ),
+        "correlation_scope": {
+            "policy": "episode005_train_only",
+            "rows": int(len(correlation_features)),
+            "validation_start": prepared.split.validation_start.isoformat(),
+            "test_used": False,
+        },
+        "correlation_note": (
+            "Baseline v1 selection is predeclared. Redundancy correlations use "
+            "the exact downstream Episode 005 train membership; whole-history "
+            "feature availability diagnostics are descriptive only."
+        ),
     }
