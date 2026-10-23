@@ -1,0 +1,61 @@
+# Package file manifest
+
+Prepared from branch `work` at base commit `20495e16db347b4f96d7e281307e2aa852c10648`.
+`origin`: https://github.com/EAPrognoz/Trading-AI-Engineering.git (public repository); server `main` was verified at the base commit before the package branch was created.
+This is a prepublication content inventory; Git records the current branch and publication state.
+
+Files are relative to this package directory. SHA-256 values identify packaged files at inventory time; this manifest lists itself by name but does not self-hash.
+
+| File | Bytes | SHA-256 |
+|---|---:|---|
+| `CREATIVE_BRIEF.md` | 3795 | `bafe08d59513be45de78d5975440f5b184a3601bc3aa829b5031f1c0463e08d6` |
+| `EVIDENCE_MAP.md` | 3551 | `bc5b34cc92912ac36899224932e3ebf6f14ab50310e77699b3f4e77fcb663d29` |
+| `README.md` | 13105 | `1dd649e0a6773bb5305425bac5f172daa5808fcf0068a6598e50681a8a55ae93` |
+| `SCENE_PLAN_UK.md` | 6097 | `c72399f6700651fffd4f98f535729ffcdbb49254643facfd254c9493143c04bb` |
+| `VOICEOVER_EN.md` | 10105 | `bb34e03f5115f077d982f8447b3bd5fc0d2e798d55dc1f51adb6034341474de2` |
+| `artifact_inventory.json` | 3187 | `b6f66f4712a9c77d2a51e2c158a3ab95427aaa5517f1c8f75a03f36629536ecb` |
+| `evidence/GAUSSIAN_DIAGNOSTIC_PROTOCOL.md` | 1789 | `a0bd6bfb65a323a4f373a3a817baae927fcb4f5569d0947e2c14239d3fcecdb3` |
+| `evidence/HORIZON_AGREEMENT_PROTOCOL.md` | 3521 | `1beeaec69583583217224a3a97ff0e687f764202b5ebe263be83be1acdb4f83b` |
+| `evidence/PREDICTION_STRENGTH_PROTOCOL.md` | 3561 | `6bb7ff2edfeba56c0759f5cb43ee53f9d9125fb6be30c4c060be44489fbdda97` |
+| `evidence/coverage_and_baseline.csv` | 509 | `f6858e720bf3668367e0505446c833d865bc15741133b0adb04b33e43a8e64c4` |
+| `evidence/gaussian_band_diagnostic.csv` | 919 | `a3a49b78e49b3dc01cae7a3f775b8b216736e332e8315c69e5d4183da092f38b` |
+| `evidence/gaussian_coverage_results.md` | 1694 | `d764408bfa1d3248ed0945dd8ed8297f225e8122b9c692bba6a1d64aef04e203` |
+| `evidence/group_drop_overall_summary.csv` | 1478 | `2e45d4cf780484b75ede1a51a90d2c5f9d952da837a6309ad1db09551ee7197a` |
+| `evidence/horizon_agreement_fit_index.csv` | 2565 | `e6fae50ff887d44f2684e00dbc89a43d5b093776f503a9494f3806d4b7f881fd` |
+| `evidence/horizon_agreement_metrics_by_fold.csv` | 9286 | `5eeefdd63c480a95cf69d7eef61020ad36d4ae57be586b74d29beb217f6e73d6` |
+| `evidence/horizon_agreement_report.md` | 8162 | `e16dc498f8e85e02e24cc71b2c00c0e9c22415518dcb4778c2a3ca235816d620` |
+| `evidence/horizon_agreement_run_summary.json` | 1939 | `67cb70e7c159cf7b77678e3af14032f839315084638e4d7984ea2b8915822d20` |
+| `evidence/joint_utility_run_summary.json` | 1082 | `bfddaa5a283b5df5fe8fbea6bcb00e489fec6497104902614f57fb23a6e4cea1` |
+| `evidence/mean_sigma_grid_metrics.csv` | 26090 | `a85b0dd52767f74a87f0cd2e848d63f72af56981253950ff3379d25b09768ebc` |
+| `evidence/mean_sigma_ratio_metrics.csv` | 9386 | `7a2ca9243518bc7bdb0b0d39389901b84db0f950b1b1f6e2ce54d8648f957cd7` |
+| `evidence/mean_variance_results_report.md` | 9796 | `3994abc09117cd9f4ad20ae31b073b100fba6a40425dd93c8269e1c6a1752a53` |
+| `evidence/pareto_frontiers.csv` | 4746 | `d3e5a37b2d4e41d9cc81d1fab55f016a319368222c3a33edda48538b41c127fb` |
+| `evidence/pre_fit_data_receipt.json` | 655 | `116ff33a4d126a08847171ea44dabc31ff5da844e98abf92f2eed1bc533e8d0b` |
+| `evidence/prediction_strength_report.md` | 10319 | `8e185f14782d5f360141d0346471a9aaea62a29244bf2d593d956ccddd98b48a` |
+| `evidence/prediction_strength_run_summary.json` | 3175 | `bf011cf3f1db6a7e8c8274a5171e371f40f42126cc510f2222d49812747810e5` |
+| `evidence/research_summary.json` | 2488 | `b019788cedcbb89face755e685383145816700e8e7b984890af4031eae8fe560` |
+| `evidence/sample_feasibility_by_W_H.csv` | 2672 | `e07567940dabdf1325f19adb573f9fa52cad72716374d80a54813432b9de9e38` |
+| `evidence/selection_by_outer_fold.csv` | 845 | `fbefdf4d89579c1b389941ae73e4a24a55bd70dee81a456dbda454c70c595dbb` |
+| `evidence/source_cutoff_manifest.json` | 1279 | `2c913537b30f7f9cf9b6e2b690d979d8c3cd01a583e603e18e0c440acee6f214` |
+| `evidence/strength_bin_metrics.csv` | 7430 | `4d6abd4526a5dc33874b8913c6818684d85b00f869d14c1bd222f633ff93ad38` |
+| `evidence/train_prediction_thresholds.csv` | 1309 | `7e7d02542bbbfc480a1f7e70d0019cc38e680e7ce1fc26c5c828e5d9eb098e59` |
+| `evidence/v3_results_report.md` | 8650 | `1a9b5bac54284f0dc48144153bae66eae0fe2f3c2d34bfdd72f0bf28b6fbc61e` |
+| `evidence/v3_results_summary.json` | 4529 | `87de53f03a75b99bdd846c7ab4ded3a764dd5cf95050ab026062518d643aa908` |
+| `evidence/v3_run_summary.json` | 3762 | `f4cb68a3d24b02ba6052052a7dc24b00b25e47a7af21ce2cf85925375c9f0fe0` |
+| `evidence/variance_fit_index.csv` | 1479 | `5880d461ee93530df73dbf35dcfdc48520f585f54b79ebd4ea4fc8c317c9d9e8` |
+| `evidence/variance_overall_metrics.csv` | 7891 | `65bf5dfa73ce091b48ddd104ceeabc04a62412a6a69c5f42d8e75d187855cf96` |
+| `evidence/zero_prediction_outcome_counts.json` | 281 | `8156791e90310a822cf963b097cf110e168ed33282946f4fb4486fa6e03c35ac` |
+| `feature_target_selection_v3.py` | 23132 | `d0d2346c8415209e1647337087e7907f240373059480433859d7442aee2ac175` |
+| `gaussian_band_diagnostic.py` | 11106 | `94ebfcf79c7f264764d79616d4b2be4f270910b241afe1d709e4cf8535366445` |
+| `gaussian_diagnostic_protocol.json` | 3203 | `39205f0f07f544b4a4b858be8fbb4aa72e5c959a40f26689bb4c0d468bd66146` |
+| `grade_strength_bins.py` | 27824 | `3352e3ba58c5c91b754ebb544f54f920a3716f7833025e6ac3941e3fc4fbd544` |
+| `horizon_agreement_protocol.json` | 8205 | `d1a34a470a51fc40e79015e0f5ee2a0145918bf642bdcf98272d2c25355b34f5` |
+| `protocol_feature_target_selection_v3.json` | 13077 | `bbbf1f7ccc0f38f8233240e62d24e77459f4913da69fa92545dce46b9def2332` |
+| `protocol_frozen_pre_fit.json` | 7110 | `1f90a6801e58fdea8afe674b81c64900aa7c43df78b796fc9c6a3f21f858b79e` |
+| `run_exploratory_fit_v3.py` | 55648 | `7d7f23cbf8e85f3464016fcdc6d9b0e43c330fc2611dc62ee7c3f56d80389f04` |
+| `run_feasibility_v3.py` | 8217 | `2d4877cfbe70da60dd32585d5817dbf288ffca7dac2201c5245ef73b3c6f224d` |
+| `run_horizon_agreement.py` | 29338 | `78ab93282bebad0b80e027cb86a640b149bdbe8879640873469c874fff490a2b` |
+| `run_joint_utility.py` | 43253 | `d338874d61debe0507217f57fee680bff40995f5a022d0ea88f324f9cb8216d9` |
+| `strength_analysis_protocol.json` | 4912 | `4c1dd0b475ce21ce2f782ddb825330dff565691c671c3d3219742318cdbbe87b` |
+| `tests/test_eurusd_feature_target_v3.py` | 6530 | `5dad33c2fa37cd86efe6656c8e9e7e4a2c7928270813ce889d73992e4f5c90da` |
+| `tests/test_joint_utility_no_fit.py` | 3627 | `73acb7b7aed24bce34b743559e454e34a13d7185515058569a13b08a7aec03e5` |

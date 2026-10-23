@@ -1,0 +1,66 @@
+{
+  "run_id": "eurusd_h1_horizon_agreement_v1_20261022T170250Z",
+  "status": "complete",
+  "protocol_file": "experiments/eurusd_h1_horizon_agreement/protocol_frozen_pre_fit.json",
+  "protocol_sha256": "d1a34a470a51fc40e79015e0f5ee2a0145918bf642bdcf98272d2c25355b34f5",
+  "source_run_id": "eurusd_h1_feature_target_v3_20261022T151237Z",
+  "source_prefix_sha256_verified": "141318d453eb62941f0cf7d03d6a516770cee52a5131fb15d44fb4c5f0e9a270",
+  "source_prefix_rows": 10621,
+  "test_rows_read": 0,
+  "fits_completed": 12,
+  "fits_planned": 12,
+  "outer_fold_membership": {
+    "F1": {
+      "train": 4242,
+      "validation": 1547
+    },
+    "F2": {
+      "train": 5813,
+      "validation": 1534
+    },
+    "F3": {
+      "train": 7371,
+      "validation": 1481
+    },
+    "F4": {
+      "train": 8876,
+      "validation": 1601
+    }
+  },
+  "core_feature_count": 21,
+  "cpu_seconds": 2.9645368469999998,
+  "wall_seconds": 2.967908427999646,
+  "cpu_limit_seconds": 900.0,
+  "thread_count": 1,
+  "device": "CPU",
+  "versions": {
+    "python": "3.12.14",
+    "numpy": "2.5.3",
+    "pandas": "2.3.3",
+    "scikit_learn": "1.9.1"
+  },
+  "saved_prior_inner_predictions_available": true,
+  "saved_prior_outer_predictions_available": false,
+  "claims": {
+    "profitability": false,
+    "statistical_significance": false,
+    "independent_confirmation": false,
+    "trading_signal": false
+  },
+  "artifacts": {
+    "outer_predictions": "outer_predictions.csv",
+    "metrics": "agreement_metrics_by_fold.csv",
+    "fit_index": "fit_index.csv",
+    "parameters": "model_coefficients_and_scalers.npz",
+    "examples": "illustrative_examples.json",
+    "report": "results_report.md"
+  },
+  "run_script_sha256": "7f7dd9b210da2d332fdc20fc76b96b4f3b0bc3ad49b4f4620c42e53ca6c9917f",
+  "prediction_zero_counts_by_horizon": {
+    "4": 0,
+    "8": 0,
+    "24": 0,
+    "actual_H8_target_zero": 12
+  },
+  "posthoc_prediction_audit": "posthoc_prediction_audit.json"
+}

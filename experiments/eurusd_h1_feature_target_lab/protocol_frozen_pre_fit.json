@@ -1,0 +1,98 @@
+{
+  "analysis_id": "eurusd_h1_mean_variance_joint_utility_v1",
+  "status": "protocol_frozen_after_review_before_fit",
+  "review_status": "user methodological review received; permits up to four variance-only Ridge fits",
+  "frozen_date_utc": "2026-10-22",
+  "question": "Does positive predicted within-H8 variance stratify the usefulness of the saved H8 mean-direction forecast, and how do joint mean-strength/sigma cells behave?",
+  "source": {
+    "previous_mean_run_id": "eurusd_h1_horizon_agreement_v1_20261022T170250Z",
+    "source_prefix_sha256": "141318d453eb62941f0cf7d03d6a516770cee52a5131fb15d44fb4c5f0e9a270",
+    "source_prefix_rows": 10621,
+    "test_rows_read": 0,
+    "outer_validation_origins": 6163,
+    "outer_fold_counts": {
+      "F1": 1547,
+      "F2": 1534,
+      "F3": 1481,
+      "F4": 1601
+    },
+    "artifact_inventory": "artifact_inventory.json"
+  },
+  "target_definitions": {
+    "mean_H8": "Mean of the next 8 observed one-row close-to-close log returns; reuse saved mean output and target from the prior consensus run.",
+    "variance_H8": "Population variance (ddof=0) of the next 8 observed one-row log returns around that same interval realized mean. Describes within-interval dispersion, not conditional predictive variance of the H8 mean or uncertainty of mean-model error.",
+    "sigma": "Square root of positive raw predicted H8 variance, in per-observed-transition log-return units. Do not apply sqrt(H) or assume independent returns.",
+    "gross_directional_outcome": "8 * actual_H8_mean_logreturn * sign(saved_H8_mean_prediction) * 10000 bp. Descriptive gross directional outcome, not PnL, trading profit, or maximum adverse excursion. Keep exact-zero actual outcomes as zero and count separately; exact-zero mean forecasts abstain and are counted separately."
+  },
+  "models_and_fit_budget": {
+    "mean_model": "Reuse unchanged saved W16/core/Ridge(alpha=1) H8 mean predictions; no mean refit.",
+    "variance_models": "At most one variance-only Ridge(alpha=1, fit_intercept=True, solver=cholesky) per outer fold, 4 fits total.",
+    "inputs": "Same 21 W16/core features and exact H24-purged training/validation origins as saved mean H8 run.",
+    "input_scaler": "Reuse saved H8 mean X StandardScaler per fold; same train origins and features.",
+    "variance_target_scaler": "Fit StandardScaler on H8 variance targets from that fold train origins only; inverse-transform predictions.",
+    "raw_variance_projection": "For variance MAE/calibration, use max(0, raw prediction). Report raw<0 and raw==0 separately and combined raw<=0. Exact raw zero is mathematically possible but is not evidence of certainty.",
+    "validation_usage": "Validation outcomes do not set any scaler, edge, model or threshold."
+  },
+  "fixed_bins": {
+    "mean_strength": "Per fold q33/q67 of abs(saved H8 mean predictions) on all in-sample H24-purged train origins; apply unchanged to validation.",
+    "mean_labels": [
+      "weak",
+      "medium",
+      "strong"
+    ],
+    "sigma": "Per fold q33/q67 of sqrt(raw predicted variance) on training origins with raw predicted variance>0 only. Validation raw<=0 is a separate category outside the positive-sigma 3x3.",
+    "sigma_labels": [
+      "small",
+      "medium",
+      "large"
+    ],
+    "primary_positive_grid": "3x3 mean-strength x sigma terciles for validation raw predicted variance>0.",
+    "raw_nonpositive_reporting": "Separate raw<0, raw==0 and combined raw<=0 counts and metrics by mean tercile and overall.",
+    "ratio_secondary": "abs(train H8 mean prediction)/sqrt(train raw variance prediction), only where raw variance>0; q33/q67 from these positive train rows only. Apply same-fold edges only to validation raw>0.",
+    "quantile_method": "Linear interpolation of train prediction values only.",
+    "ties_and_empty_cells": "Right-closed: <=q33, (q33,q67], >q67; exact edges go to the lower bin. Repeated edges remain repeated; empty bins/cells are reported as empty, never merged or artificially balanced.",
+    "pooled_interpretation": "ALL combines within-fold percentile groups; labels are fold-relative, not common absolute thresholds."
+  },
+  "metrics": {
+    "scopes": "Report the full 6,163-origin H8 mean baseline, positive raw variance subset, and raw<=0 subset separately, by fold and aggregated.",
+    "per_cell_and_ratio_group": [
+      "count and coverage vs all validation origins and positive-variance subset",
+      "exact-zero H8 mean target, exact-zero H8 mean forecast, exact-zero raw variance forecast, negative raw variance forecast",
+      "H8 buy/sell counts",
+      "direction hit and denominator excluding zero actual and mean forecast",
+      "balanced accuracy only when both realized direction classes occur",
+      "saved fold train-majority accuracy and denominator on same cell/group subset",
+      "mean/median abs predicted H8 mean and positive sigma",
+      "mean/median realized absolute cumulative H8 log return in bp",
+      "mean/median realized H8 variance",
+      "variance MAE on clipped prediction, train-mean variance baseline MAE/skill, and mean prediction/actual variance calibration ratio",
+      "median and p10 gross directional outcome in bp"
+    ],
+    "variance_mae": "Compare max(0,raw variance prediction) with realized H8 variance; baseline is the fold train-only mean H8 variance. Skill=1-MAE_model/MAE_train_mean.",
+    "variance_calibration": "Mean clipped predicted variance / mean realized H8 variance within cell; undefined if denominator zero.",
+    "direction_baseline": "Use saved fold-specific train-majority H8 label; score on the same cell/group subset after excluding realized-zero outcomes.",
+    "gross_outcome": "For nonzero mean forecasts, g=8*y_mean_actual*sign(y_mean_prediction)*10000 bp; report median and p10. Actual zero outcomes contribute zero; zero mean forecasts are excluded and counted.",
+    "overall_reference": "Compare cells with saved full-validation H8 directional hit 50.7%; no post-hoc strategy selection.",
+    "dependence": "No IID significance claims; targets and adjacent origins overlap."
+  },
+  "data_rules": {
+    "gaps": "Retain every observed bar and gap-crossing return; no interpolation, history reset, calendar-hour division, or future gap filter.",
+    "future_metadata": "Gap masks/timestamps are audit metadata only, never features or selection filters.",
+    "test": "Do not read or score source rows after 2026-07-03."
+  },
+  "limits": [
+    "Previously examined historical folds, not untouched confirmation.",
+    "No profitability/trading signal claim; bid/spread coverage is incomplete.",
+    "Within-horizon variance does not equal predictive uncertainty of the H8 mean.",
+    "High predicted variance may or may not reduce directional usefulness; test empirically."
+  ],
+  "outputs": [
+    "per-fold and aggregate positive-variance 3x3 grid",
+    "separate raw<=0 variance tables",
+    "per-fold and aggregate ratio-tercile table",
+    "train-derived edge CSV",
+    "variance coefficients and target scalers",
+    "outer predictions separating forecasts and actuals",
+    "report and metadata"
+  ]
+}

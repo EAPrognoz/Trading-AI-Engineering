@@ -1,0 +1,28 @@
+{
+  "run_id": "eurusd_h1_mean_variance_joint_utility_v2_20261022T185128Z",
+  "status": "complete_primary_and_gaussian_diagnostic",
+  "protocol_path": "experiments/eurusd_h1_mean_variance_joint_utility/protocol_frozen_pre_fit.json",
+  "protocol_sha256": "1f90a6801e58fdea8afe674b81c64900aa7c43df78b796fc9c6a3f21f858b79e",
+  "source_prefix_sha256": "141318d453eb62941f0cf7d03d6a516770cee52a5131fb15d44fb4c5f0e9a270",
+  "test_rows_read": 0,
+  "variance_fits_completed": 4,
+  "mean_models_refit": 0,
+  "outer_validation_origins": 6163,
+  "positive_raw_variance_origins": 6163,
+  "raw_nonpositive_variance_origins": 0,
+  "raw_negative_variance_origins": 0,
+  "raw_exact_zero_variance_origins": 0,
+  "h8_mean_full_validation_hit_rate": 0.5069094456185986,
+  "cpu_seconds": 6.402526245,
+  "wall_seconds": 6.449582285000361,
+  "thread_count": 1,
+  "device": "CPU",
+  "versions": {
+    "python": "3.12.14",
+    "numpy": "2.5.3",
+    "pandas": "2.3.3",
+    "scikit_learn": "1.9.1"
+  },
+  "gaussian_target_origins_verified": 6163,
+  "gaussian_diagnostic_csv": "gaussian_band_diagnostic.csv"
+}

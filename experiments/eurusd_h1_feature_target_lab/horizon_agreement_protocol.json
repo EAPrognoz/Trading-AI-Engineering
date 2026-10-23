@@ -1,0 +1,101 @@
+{
+  "protocol_id": "eurusd_h1_horizon_agreement_W16_core_v1",
+  "status": "frozen_pre_fit",
+  "frozen_at_utc": "2026-10-22",
+  "question": "Does agreement of fixed W16/core Ridge mean-return forecasts for observed-transition horizons H4/H8/H24 select a subset with different H8 directional accuracy?",
+  "interpretation": "Exploratory historical benchmark. Agreement is a correlated filter on examples, not independent confirmation or a trading signal.",
+  "source_and_scope": {
+    "source": "Audited MT5 demo EURUSD H1 export, using only the pre-test prefix already used in v3.",
+    "source_prefix_rows": 10621,
+    "source_prefix_sha256": "141318d453eb62941f0cf7d03d6a516770cee52a5131fb15d44fb4c5f0e9a270",
+    "source_full_sha256_prior_verified": "74a4f9377dff438968301a6cfe673bab43ce9083add994db79c3e2910745c202",
+    "source_prefix_end": "2026-07-03T15:00:00Z bar-open; no test rows after the development cutoff are accessed.",
+    "source_feature_artifact": "Trading-AI-Engineering/experiments/eurusd_h1_feature_target_selection_v3/results/eurusd_h1_feature_target_v3_20261022T151237Z/feature_matrices.npz",
+    "source_target_artifact": "Trading-AI-Engineering/experiments/eurusd_h1_feature_target_selection_v3/results/eurusd_h1_feature_target_v3_20261022T151237Z/target_manifest.csv.gz",
+    "source_split_artifact": "Trading-AI-Engineering/experiments/eurusd_h1_feature_target_selection_v3/results/eurusd_h1_feature_target_v3_20261022T151237Z/split_membership.csv.gz",
+    "feature_schema_sha256": "ceadf38a8bc2168bbd70878a69b97d7ab47bbc530b725c57114b6e225ef1ad86",
+    "historical_period_already_examined": true,
+    "claim_scope": "Not an untouched confirmation period; no profitability or significance claim."
+  },
+  "saved_prediction_availability": {
+    "inner_predictions_file": "Trading-AI-Engineering/experiments/eurusd_h1_feature_target_selection_v3/results/eurusd_h1_feature_target_v3_20261022T151237Z/predictions.csv.gz",
+    "inner_predictions_bytes": 557847620,
+    "inner_predictions_scope": "inner-validation rows only; may be used descriptively, not as outer validation.",
+    "outer_predictions_file": "Trading-AI-Engineering/experiments/eurusd_h1_feature_target_selection_v3/results/eurusd_h1_feature_target_v3_20261022T151237Z/outer_predictions.csv.gz",
+    "outer_predictions_bytes": 281,
+    "outer_predictions_has_data_rows": false,
+    "outer_metrics_file": "Trading-AI-Engineering/experiments/eurusd_h1_feature_target_selection_v3/results/eurusd_h1_feature_target_v3_20261022T151237Z/outer_metrics.csv",
+    "outer_refits_in_v3": 0,
+    "reason_new_fit_needed": "The previous v3 inner selector abstained in every fold/track, so no selected outer model predictions exist."
+  },
+  "estimand": {
+    "observed_transition_return": "r_j=log(C[i+j]/C[i+j-1]) over adjacent observed rows, including time-gap crossings; no calendar-time division.",
+    "target": "y_mean(H)=mean(r_1,...,r_H) for H in {4,8,24}; direction is sign of this per-observed-transition mean.",
+    "anchor": "H8 target and H8 forecast define the directional outcome/prediction for every filter comparison.",
+    "zero_rule": "Exact zero forecast is abstention. Exact zero realized H8 target is counted separately and excluded from binary accuracy."
+  },
+  "fixed_model": {
+    "input_window_W_observed_transitions": 16,
+    "input_features": "W16 feature matrix columns whose fixed v3 schema groups are own_ohlc_log_ratios, same_bar_cross_ratios, observed_transition_gap (the core mask).",
+    "input_feature_count": 21,
+    "model": "Ridge(alpha=1, fit_intercept=True, solver=cholesky), separate mean-only model per H and outer fold.",
+    "fit_count": 12,
+    "fit_plan": "4 outer folds x H=4,8,24; no hyperparameter search or inner refits.",
+    "scaling": "StandardScaler independently on X and that H target using training origins only; inverse-transform predictions to raw log-return units.",
+    "device": "CPU; one BLAS thread; maximum process CPU budget 900 seconds.",
+    "deterministic": "No random seed; deterministic Ridge fit."
+  },
+  "cohort_and_boundaries": {
+    "common_origin_definition": "Use the existing v3 common-origin rows (origin_row >= 96 and origin_row + 24 < 10621), and require all H4/H8/H24 target/prediction records at each validation origin.",
+    "train_purge": "For every H model, use the same outer-fold training origins from the v3 split membership: H24 target endpoint strictly before fold start.",
+    "validation": "Use the same v3 outer validation origins for all three horizons; decision timestamp in [fold_start, fold_end), with H24 target endpoint strictly before fold end.",
+    "outer_folds": {
+      "F1": [
+        "2025-07-01T00:00:00Z",
+        "2025-10-01T00:00:00Z"
+      ],
+      "F2": [
+        "2025-10-01T00:00:00Z",
+        "2026-01-01T00:00:00Z"
+      ],
+      "F3": [
+        "2026-01-01T00:00:00Z",
+        "2026-04-01T00:00:00Z"
+      ],
+      "F4": [
+        "2026-04-01T00:00:00Z",
+        "2026-07-04T00:00:00Z"
+      ]
+    },
+    "gap_policy": "Keep observed rows across all gaps; no interpolation, history reset, or gap-based origin exclusion.",
+    "future_metadata": "Elapsed duration and target gap-crossing flags are retained only for retrospective description, never as model inputs or eligibility filters."
+  },
+  "filters_and_metrics": {
+    "joint_eligible_origins": "All outer validation origins with H4/H8/H24 forecasts and H8 actual target available under the same H24-purged cohort.",
+    "H8_only": "Reference prediction is sign(H8 forecast); report all-origin performance and coverage.",
+    "agreement_H4_H8": "Accept iff H4 and H8 forecasts are both nonzero and have the same sign.",
+    "agreement_H8_H24": "Accept iff H8 and H24 forecasts are both nonzero and have the same sign.",
+    "unanimous_H4_H8_H24": "Accept iff all three forecasts are nonzero and have the same sign.",
+    "two_of_three": "Not used; with three nonzero forecasts a majority is automatic and is not the same as an abstention-aware agreement filter.",
+    "prediction_semantics": "On accepted origins, directional prediction remains sign(H8 forecast). The filter only selects origins; it does not alter H8 predictions.",
+    "per_fold_and_overall": "Report common origins; accepted/rejected counts and coverage; H8 buy/sell counts; H8 hit on accepted, rejected, and all active forecasts; actual-zero counts separately; H8 forecast-zero abstentions; balanced accuracy when both realized H8 sign classes are present; per-filter train-majority and always-up baseline on accepted origins.",
+    "majority_baseline": "Per fold, sign of the majority among nonzero training H8 labels; ties produce zero/abstain. Score on each accepted subset with realized-zero outcomes excluded.",
+    "always_up_baseline": "Predict positive direction on each accepted subset; realized-zero outcomes excluded.",
+    "descriptive_audits": "Report UTC weekday coverage and H8 target paths crossing a non-one-hour transition for accepted and rejected origins. These are post-hoc descriptive labels only.",
+    "no_inference": "No IID confidence intervals or significance tests; horizons and neighboring origins have overlapping outcomes.",
+    "no_strategy_claim": "No trading returns, transaction costs, profitability, or live signal claims."
+  },
+  "outputs": [
+    "saved outer predictions with forecast/origin/target timestamps and actual H8 target kept separate from forecasts",
+    "per-fold and pooled descriptive metrics with accepted/rejected cohorts and baselines",
+    "fit index, train-only scaler parameters and Ridge coefficients",
+    "1-2 real illustrative timestamp rows selected from the saved outer predictions",
+    "run metadata with exact fit count, CPU time, source prefix hash and protocol hash"
+  ],
+  "stop_conditions": [
+    "Stop without fit if source prefix/schema/split hashes or exact origin membership do not match the referenced v3 artifacts.",
+    "Stop if any H4/H8/H24 prediction is missing for a common validation origin or if any endpoint violates the H24 purge.",
+    "Do not read or score any source rows after the pre-test development prefix.",
+    "Do not launch more than 12 fits or any further tuning after this report."
+  ]
+}

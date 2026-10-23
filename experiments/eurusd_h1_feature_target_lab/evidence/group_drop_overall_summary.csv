@@ -1,0 +1,9 @@
+group,target,delta_definition,mean_delta_skill,median_delta_skill,positive_delta_count,comparison_count,positive_delta_fraction
+lagged_cross_ratios,mean,skill(full)-skill(full_without_group); positive favors retaining group,-0.0003649496263203646,-3.76323154305247e-06,353,768,0.4596354166666667
+lagged_cross_ratios,variance,skill(full)-skill(full_without_group); positive favors retaining group,-0.0003305018988013761,-2.2850091060733213e-05,268,736,0.3641304347826087
+log_price_differences,mean,skill(full)-skill(full_without_group); positive favors retaining group,0.0006436180422523726,-0.0004736056400795885,268,768,0.3489583333333333
+log_price_differences,variance,skill(full)-skill(full_without_group); positive favors retaining group,-0.003231147287006288,-0.000271386371193838,303,736,0.4116847826086957
+mixed_central_moments,mean,skill(full)-skill(full_without_group); positive favors retaining group,-0.1895229523741118,-0.07378649873201693,184,768,0.23958333333333334
+mixed_central_moments,variance,skill(full)-skill(full_without_group); positive favors retaining group,-0.20280839507984466,-0.06497643776771578,30,736,0.04076086956521739
+single_series_moments,mean,skill(full)-skill(full_without_group); positive favors retaining group,-0.3708645241805207,-0.11510881971050335,18,768,0.0234375
+single_series_moments,variance,skill(full)-skill(full_without_group); positive favors retaining group,-0.5015182137894435,-0.14064182050834195,118,736,0.16032608695652173

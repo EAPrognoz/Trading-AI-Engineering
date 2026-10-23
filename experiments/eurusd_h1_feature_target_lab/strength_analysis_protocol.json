@@ -1,0 +1,62 @@
+{
+  "analysis_id": "eurusd_h1_horizon_agreement_strength_v1",
+  "status": "analysis_protocol_frozen_before_strength_calculation",
+  "frozen_date_utc": "2026-10-22",
+  "question": "Do H8 direction hit rate and realized H8 absolute cumulative log-return magnitude vary across pre-defined predicted-strength bins?",
+  "source_run_id": "eurusd_h1_horizon_agreement_v1_20261022T170250Z",
+  "source_prefix_sha256": "141318d453eb62941f0cf7d03d6a516770cee52a5131fb15d44fb4c5f0e9a270",
+  "source_test_rows_read": 0,
+  "source_artifact_hashes_sha256": {
+    "outer_predictions.csv": "d4c8df9c3bd8740f20fce4c2f508658e6ed797bb6439153710162fa4f83e6aa3",
+    "model_coefficients_and_scalers.npz": "fc6dec52513a1cf82d4c3c92901e9627fc4921833cfe761fcfe268f6911f4015",
+    "fit_index.csv": "f8776fa34ac2b5991381591bac790486410d78708db4b0ff92b367e9538878f0",
+    "run_summary.json": "67cb70e7c159cf7b77678e3af14032f839315084638e4d7984ea2b8915822d20",
+    "v3/feature_matrices.npz": "2d111219ffda30051660234d3a521f0baaab2d19da04df7c701592e4b3b12bef",
+    "v3/split_membership.csv.gz": "cbf1332063c119794baebc589f28f05d83ed1cbc86075ece6fe61ac65020622c",
+    "v3/target_manifest.csv.gz": "48de2480736679694277fb1c26ed8d6271d9e65e57c4a844bbb18f8d3a8224be",
+    "v3/feature_catalog.json": "3b047ed6fb96503c1cddfd2f08b3e59812d984b7c15e7f1d3c138f6136e1ca96"
+  },
+  "method": {
+    "primary_forecast": "Saved H8 mean log-return prediction from the same W16/core Ridge(alpha=1) outer fold model.",
+    "strength": "abs(predicted H8 mean observed-transition log return); display cumulative expected log return magnitude as abs(8 * predicted mean * 10000) basis points (bp of log return, not pips).",
+    "train_strength": "Reconstruct in-sample train predictions only from each saved H8 fold coefficient/intercept and x/y scaler; do not refit. Use existing H24-purged training origins and the saved W16/core feature matrix.",
+    "quantiles": "Within each fold, calculate linearly interpolated 20th/40th/60th/80th percentiles of absolute training H8 predictions. Apply the fold-specific edges unchanged to that fold outer-validation predictions.",
+    "right_closed_ties": "Bins are (-inf,q20], (q20,q40], (q40,q60], (q60,q80], (q80,+inf); use searchsorted(edges, strength, side=left). A value equal to an edge stays in the lower bin. Repeated edges produce empty bins; do not merge or split tied values.",
+    "pooled_bins": "ALL aggregates combine within-fold quintile bins using each fold own train-derived edges; they are rank-stratum summaries, not one common absolute-strength scale.",
+    "zero_rule": "Exact-zero forecast is abstention; report separately. Exact-zero realized H8 target is counted and excluded from direction hit/balanced accuracy.",
+    "actual_magnitude": "abs(8 * actual H8 mean log return * 10000), an absolute cumulative log-return magnitude in bp over eight observed transitions; report mean, median, and q25/q75.",
+    "baseline": "Saved fold-specific train-majority H8 label from the prior run, evaluated on the same nonzero-realized subset; ties remain abstentions.",
+    "secondary_filters": [
+      "agreement_H4_H8",
+      "agreement_H8_H24",
+      "unanimous_H4_H8_H24"
+    ],
+    "secondary_filter_bins": "Reuse the same H8-strength bin assigned to each validation origin; no additional thresholds.",
+    "path_diagnostic": "If locally saved raw OHLC for the permitted prefix exists, compute descriptive close-origin crossings in both directions and max high/low excursions across the next eight observed bars. Do not use as input, filter, or confidence. If not available, state blocker and omit."
+  },
+  "reported_metrics": {
+    "per_fold_and_all_bins": [
+      "count",
+      "coverage of fold/all validation origins",
+      "exact-zero actual target count",
+      "up/down H8 signals",
+      "direction hit and denominator",
+      "balanced accuracy when both actual classes occur",
+      "train-majority accuracy and denominator",
+      "predicted magnitude mean/median",
+      "realized absolute cumulative log-return mean/median/q25/q75"
+    ],
+    "secondary_filters": [
+      "per-bin accepted count and coverage within H8-strength bin",
+      "H8 directional hit on accepted subset",
+      "realized absolute cumulative log-return mean/median"
+    ],
+    "no_selection": "Do not select or recommend a bin based on observed validation performance."
+  },
+  "limitations": [
+    "Historical development prefix and folds were previously examined; this is not independent confirmation.",
+    "Neighboring H8 outcomes overlap; no IID significance or profitability claim.",
+    "Bid/spread data are incomplete; no trading result is estimated."
+  ],
+  "path_data_availability": "Initial local inventory found no raw EURUSD OHLC export in the saved horizon-agreement run; only derived feature matrix, targets, model parameters, splits, and predictions are present. No external retrieval is planned."
+}

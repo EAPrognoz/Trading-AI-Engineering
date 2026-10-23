@@ -1,0 +1,133 @@
+{
+  "run_id": "eurusd_h1_feature_target_v3_20261022T151237Z",
+  "status": "complete",
+  "model_fit_performed": true,
+  "protocol_frozen_file": "protocol_frozen_pre_fit.json",
+  "protocol_frozen_sha256": "bbbf1f7ccc0f38f8233240e62d24e77459f4913da69fa92545dce46b9def2332",
+  "source_csv": "EURUSD_Model_Error_Lab_H1_UTC_20241016_20261017.csv",
+  "source_full_sha256_prior_verified": "74a4f9377dff438968301a6cfe673bab43ce9083add994db79c3e2910745c202",
+  "source_full_sha256_rehashed": false,
+  "read_rows": 10621,
+  "test_rows_read": 0,
+  "prefix_sha256_verified": "141318d453eb62941f0cf7d03d6a516770cee52a5131fb15d44fb4c5f0e9a270",
+  "common_origin_counts_by_split": {
+    "inner_I1_2025Q1": {
+      "train": 1175,
+      "validation": 1483
+    },
+    "inner_I1_2025Q2": {
+      "train": 2682,
+      "validation": 1536
+    },
+    "inner_I1_2025Q3": {
+      "train": 4242,
+      "validation": 1547
+    },
+    "inner_I1_2025Q4": {
+      "train": 5813,
+      "validation": 1534
+    },
+    "inner_I2_2025Q2": {
+      "train": 2682,
+      "validation": 1536
+    },
+    "inner_I2_2025Q3": {
+      "train": 4242,
+      "validation": 1547
+    },
+    "inner_I2_2025Q4": {
+      "train": 5813,
+      "validation": 1534
+    },
+    "inner_I2_2026Q1": {
+      "train": 7371,
+      "validation": 1481
+    },
+    "outer_F1": {
+      "train": 4242,
+      "validation": 1547
+    },
+    "outer_F2": {
+      "train": 5813,
+      "validation": 1534
+    },
+    "outer_F3": {
+      "train": 7371,
+      "validation": 1481
+    },
+    "outer_F4": {
+      "train": 8876,
+      "validation": 1601
+    }
+  },
+  "process_cpu_seconds_total": 351.663112147,
+  "wall_seconds_total": 351.81217413800005,
+  "process_cpu_seconds_fit_and_selection": 320.86482576699996,
+  "wall_seconds_fit_and_selection": 321.0001797160003,
+  "cpu_budget_seconds": 900.0,
+  "cpu_stop_guard_seconds": 855.0,
+  "completed_inner_fits": 4608,
+  "expected_inner_fits": 4608,
+  "completed_outer_refits": 0,
+  "maximum_outer_refits": 8,
+  "completed_total_fits": 4608,
+  "maximum_total_fits": 4616,
+  "stopped_for_cpu_budget": false,
+  "alpha": 1.0,
+  "thread_count": 1,
+  "device": {
+    "type": "CPU",
+    "processor": "",
+    "machine": "x86_64",
+    "logical_cpu_count": null,
+    "physical_cpu_count": null
+  },
+  "versions": {
+    "python": "3.12.14",
+    "numpy": "2.5.3",
+    "pandas": "2.3.3",
+    "scikit_learn": "1.9.1",
+    "scipy": "1.18.1"
+  },
+  "thread_pools_at_run_end": [
+    {
+      "user_api": "blas",
+      "internal_api": "openblas",
+      "num_threads": 1,
+      "prefix": "libscipy_openblas",
+      "filepath": "/workspace/Trading-AI-Engineering/.venv/lib/python3.12/site-packages/numpy.libs/libscipy_openblas64_-f48b354e.so",
+      "version": "0.3.34.106.0",
+      "threading_layer": "pthreads",
+      "architecture": "SkylakeX"
+    },
+    {
+      "user_api": "blas",
+      "internal_api": "openblas",
+      "num_threads": 1,
+      "prefix": "libscipy_openblas",
+      "filepath": "/workspace/Trading-AI-Engineering/.venv/lib/python3.12/site-packages/scipy.libs/libscipy_openblas-5f890258.so",
+      "version": "0.3.31.dev",
+      "threading_layer": "pthreads",
+      "architecture": "SkylakeX"
+    },
+    {
+      "user_api": "openmp",
+      "internal_api": "openmp",
+      "num_threads": 1,
+      "prefix": "libgomp",
+      "filepath": "/workspace/Trading-AI-Engineering/.venv/lib/python3.12/site-packages/scikit_learn.libs/libgomp-e985bcbb.so.1.0.0",
+      "version": null
+    }
+  ],
+  "git_head": "20495e16db347b4f96d7e281307e2aa852c10648",
+  "privacy": {
+    "raw_csv_in_package": false,
+    "library_sharing_requested": false
+  },
+  "test_status": "not accessed",
+  "claims": {
+    "profitability": false,
+    "statistical_significance": false,
+    "universal_feature_importance": false
+  }
+}

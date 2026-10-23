@@ -1,0 +1,24 @@
+{
+  "status": "preflight_passed_before_fit",
+  "source_prefix_sha256": "141318d453eb62941f0cf7d03d6a516770cee52a5131fb15d44fb4c5f0e9a270",
+  "max_origin_row": 10620,
+  "feature_origin_min": "2024-10-16T00:00:00+00:00",
+  "feature_origin_max": "2026-07-03T15:00:00+00:00",
+  "decision_max": "2026-07-03T16:00:00+00:00",
+  "target_end_max": "2026-07-03T16:00:00+00:00",
+  "manifest_rows": 254904,
+  "valid_h8_targets": 10613,
+  "test_rows_after_cutoff_read": 0,
+  "features_shape": [
+    10621,
+    177
+  ],
+  "core_feature_count": 21,
+  "outer_prediction_rows": 6163,
+  "fold_counts": {
+    "F1": 1547,
+    "F2": 1534,
+    "F3": 1481,
+    "F4": 1601
+  }
+}

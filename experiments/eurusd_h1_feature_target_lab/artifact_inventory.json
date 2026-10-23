@@ -1,0 +1,86 @@
+{
+  "status": "available_for_analysis; no new variance fit has been run during inventory",
+  "source_prefix": {
+    "rows": 10621,
+    "sha256": "141318d453eb62941f0cf7d03d6a516770cee52a5131fb15d44fb4c5f0e9a270",
+    "test_rows_read_in_source_run": 0,
+    "scope": "pre-test prefix ending 2026-07-03 15:00 UTC bar-open"
+  },
+  "saved_mean_outer_predictions": {
+    "path": "experiments/eurusd_h1_horizon_agreement/results/eurusd_h1_horizon_agreement_v1_20261022T170250Z/outer_predictions.csv",
+    "rows": 6163,
+    "fold_counts": {
+      "F1": 1547,
+      "F2": 1534,
+      "F3": 1481,
+      "F4": 1601
+    },
+    "available_H8_fields": [
+      "y_mean_prediction_H8",
+      "y_mean_actual_H8",
+      "pred_sign_H8",
+      "target_timestamp_H8"
+    ],
+    "variance_prediction_available": false,
+    "test_rows_read": 0
+  },
+  "mean_fit_artifacts": {
+    "coefficients_scalers_path": "experiments/eurusd_h1_horizon_agreement/results/eurusd_h1_horizon_agreement_v1_20261022T170250Z/model_coefficients_and_scalers.npz",
+    "array_count": 72,
+    "saved_H8_fit_ids": {
+      "F1": 1,
+      "F2": 4,
+      "F3": 7,
+      "F4": 10
+    },
+    "variance_head_present": false,
+    "W16_core_feature_count": 21
+  },
+  "features_and_splits": {
+    "X_W16_shape": [
+      10621,
+      177
+    ],
+    "core_feature_count": 21,
+    "outer_H24_purged_train_validation_counts": {
+      "F1": {
+        "train": 4242,
+        "validation": 1547
+      },
+      "F2": {
+        "train": 5813,
+        "validation": 1534
+      },
+      "F3": {
+        "train": 7371,
+        "validation": 1481
+      },
+      "F4": {
+        "train": 8876,
+        "validation": 1601
+      }
+    },
+    "outer_validation_prediction_origins_match_split": true,
+    "all_required_features_finite": true
+  },
+  "H8_variance_target": {
+    "path": "experiments/eurusd_h1_feature_target_selection_v3/results/eurusd_h1_feature_target_v3_20261022T151237Z/target_manifest.csv.gz",
+    "manifest_H8_rows": 10621,
+    "valid_H8_mean_and_variance_rows": 10613,
+    "invalid_or_negative_variance_target_count": 0,
+    "all_required_train_and_validation_origins_have_valid_targets": true
+  },
+  "artifact_hashes_sha256": {
+    "source_prefix_run_summary.json": "f4cb68a3d24b02ba6052052a7dc24b00b25e47a7af21ce2cf85925375c9f0fe0",
+    "feature_matrices.npz": "2d111219ffda30051660234d3a521f0baaab2d19da04df7c701592e4b3b12bef",
+    "feature_catalog.json": "3b047ed6fb96503c1cddfd2f08b3e59812d984b7c15e7f1d3c138f6136e1ca96",
+    "split_membership.csv.gz": "cbf1332063c119794baebc589f28f05d83ed1cbc86075ece6fe61ac65020622c",
+    "target_manifest.csv.gz": "48de2480736679694277fb1c26ed8d6271d9e65e57c4a844bbb18f8d3a8224be",
+    "consensus_outer_predictions.csv": "d4c8df9c3bd8740f20fce4c2f508658e6ed797bb6439153710162fa4f83e6aa3",
+    "consensus_fit_index.csv": "f8776fa34ac2b5991381591bac790486410d78708db4b0ff92b367e9538878f0",
+    "consensus_model_coefficients_and_scalers.npz": "fc6dec52513a1cf82d4c3c92901e9627fc4921833cfe761fcfe268f6911f4015",
+    "consensus_run_summary.json": "67cb70e7c159cf7b77678e3af14032f839315084638e4d7984ea2b8915822d20"
+  },
+  "missing_required_artifacts": [],
+  "variance_fits_started_during_inventory": 0
+}

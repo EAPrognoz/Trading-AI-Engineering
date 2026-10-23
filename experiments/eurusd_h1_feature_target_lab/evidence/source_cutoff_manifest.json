@@ -1,0 +1,32 @@
+{
+  "source_description": "MetaTrader 5 demo EURUSD H1 export; raw file deliberately excluded",
+  "source_csv_name": "EURUSD_Model_Error_Lab_H1_UTC_20241016_20261017.csv",
+  "timestamp_semantics": "UTC bar-open time; a bar close is available only after the bar completes",
+  "prefix_rows_read": 10621,
+  "prefix_bar_open_min_utc": "2024-10-16T00:00:00Z",
+  "prefix_last_bar_open_utc": "2026-07-03T15:00:00Z",
+  "maximum_decision_and_target_end_utc": "2026-07-03T16:00:00Z",
+  "prefix_sha256": "141318d453eb62941f0cf7d03d6a516770cee52a5131fb15d44fb4c5f0e9a270",
+  "prefix_sha256_hex_length": 64,
+  "source_prefix_test_rows_read": 0,
+  "source_schema_required": [
+    "time_utc",
+    "open",
+    "high",
+    "low",
+    "close"
+  ],
+  "source_schema_optional": [
+    "tick_volume",
+    "spread"
+  ],
+  "quality_contract": [
+    "timestamps parse as UTC, are unique and strictly increasing",
+    "OHLC values are finite and positive",
+    "high is at least open, low, and close",
+    "low is at most open, high, and close"
+  ],
+  "observed_gap_policy": "Keep every adjacent observed row as one transition; no interpolation, reset, calendar-time division, or future-gap predictor/filter",
+  "prefix_non_one_hour_adjacent_intervals": 98,
+  "gap_cause_classification": "Not inferred"
+}

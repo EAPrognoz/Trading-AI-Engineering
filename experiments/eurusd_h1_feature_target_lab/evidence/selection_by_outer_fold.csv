@@ -1,0 +1,9 @@
+outer_fold,track,status,reason,eligible_candidate_count,all_candidate_frontier_count,eligible_frontier_count
+F1,mean_only,abstain,no candidate had positive required skill in both inner folds,0,1,0
+F1,mean_and_variance,abstain,no candidate had positive required skill in both inner folds,0,6,0
+F2,mean_only,abstain,no candidate had positive required skill in both inner folds,0,1,0
+F2,mean_and_variance,abstain,no candidate had positive required skill in both inner folds,0,5,0
+F3,mean_only,abstain,no candidate had positive required skill in both inner folds,0,1,0
+F3,mean_and_variance,abstain,no candidate had positive required skill in both inner folds,0,4,0
+F4,mean_only,abstain,no candidate had positive required skill in both inner folds,0,1,0
+F4,mean_and_variance,abstain,no candidate had positive required skill in both inner folds,0,5,0

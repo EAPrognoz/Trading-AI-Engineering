@@ -1,0 +1,156 @@
+{
+  "common_origins_total": 10501,
+  "cpu_seconds": 351.663112147,
+  "frontier_counts": {
+    "F1/mean_and_variance": 6,
+    "F1/mean_only": 1,
+    "F2/mean_and_variance": 5,
+    "F2/mean_only": 1,
+    "F3/mean_and_variance": 4,
+    "F3/mean_only": 1,
+    "F4/mean_and_variance": 5,
+    "F4/mean_only": 1
+  },
+  "gap_summary": {
+    "prefix_non_one_hour_transitions": 98,
+    "H24_common_cohort_origins": 10501,
+    "H24_all_common_cohort_elapsed_hours": {
+      "n": 10501,
+      "min_hours": 24.0,
+      "median_hours": 24.0,
+      "p95_hours": 72.0,
+      "max_hours": 77.0,
+      "mean_hours": 33.93505380439958
+    },
+    "H24_gap_crossing_origins": 2308,
+    "H24_gap_crossing_elapsed_hours": {
+      "n": 2308,
+      "min_hours": 25.0,
+      "median_hours": 72.0,
+      "p95_hours": 73.0,
+      "max_hours": 77.0,
+      "mean_hours": 69.20277296360486
+    },
+    "H24_no_gap_origins": 8193,
+    "H24_no_gap_elapsed_hours": {
+      "n": 8193,
+      "min_hours": 24.0,
+      "median_hours": 24.0,
+      "p95_hours": 24.0,
+      "max_hours": 24.0,
+      "mean_hours": 24.0
+    },
+    "elapsed_time_audit_csv_disagrees_with_target_manifest": true,
+    "frozen_elapsed_time_audit_csv_modified": false
+  },
+  "inner_fits": 4608,
+  "outer_refits": 0,
+  "outer_validation_origins": {
+    "F1": 1547,
+    "F2": 1534,
+    "F3": 1481,
+    "F4": 1601
+  },
+  "protocol_sha256": "bbbf1f7ccc0f38f8233240e62d24e77459f4913da69fa92545dce46b9def2332",
+  "run_id": "eurusd_h1_feature_target_v3_20261022T151237Z",
+  "selection_status_counts": {
+    "abstain": 8
+  },
+  "skill_summary": {
+    "H1_mean": {
+      "max": -0.0004208634944451,
+      "mean": -0.19164155763949162,
+      "median": -0.0476022214520113,
+      "n": 192,
+      "positive_count": 0
+    },
+    "H2_24_mean": {
+      "max": 0.0404825067882853,
+      "mean": -0.38841840515384213,
+      "median": -0.1253718776608441,
+      "n": 4416,
+      "positive_count": 60
+    },
+    "H2_24_variance": {
+      "max": 0.4599094683101589,
+      "mean": -0.2723234338316776,
+      "median": 0.024047267297483,
+      "n": 4416,
+      "positive_count": 2343
+    }
+  },
+  "status": "complete",
+  "test_rows_read": 0,
+  "wall_seconds": 351.81217413800005,
+  "frontier_marginal_extremes": {
+    "definition": "Among is_frontier=true rows in mean_and_variance track, marginal maximum of median skill across two inner validation windows; descriptive, not selected winners.",
+    "by_outer_fold": {
+      "F1": {
+        "mean_skill_frontier_extreme": {
+          "W": 16,
+          "H": 3,
+          "mask_id": "core",
+          "median_mean_skill": -0.0032257852748050486,
+          "median_variance_skill": -0.006189841877857649
+        },
+        "variance_skill_frontier_extreme": {
+          "W": 64,
+          "H": 7,
+          "mask_id": "core",
+          "median_mean_skill": -0.031127205558011628,
+          "median_variance_skill": 0.02743767755124904
+        }
+      },
+      "F2": {
+        "mean_skill_frontier_extreme": {
+          "W": 64,
+          "H": 5,
+          "mask_id": "core",
+          "median_mean_skill": -0.002335237603611817,
+          "median_variance_skill": 0.10908639337392068
+        },
+        "variance_skill_frontier_extreme": {
+          "W": 16,
+          "H": 8,
+          "mask_id": "core",
+          "median_mean_skill": -0.010625776702360756,
+          "median_variance_skill": 0.12977326864627037
+        }
+      },
+      "F3": {
+        "mean_skill_frontier_extreme": {
+          "W": 16,
+          "H": 13,
+          "mask_id": "core",
+          "median_mean_skill": -0.006987018775898135,
+          "median_variance_skill": 0.3060348965947891
+        },
+        "variance_skill_frontier_extreme": {
+          "W": 16,
+          "H": 7,
+          "mask_id": "core",
+          "median_mean_skill": -0.009389324900657026,
+          "median_variance_skill": 0.33602157146891054
+        }
+      },
+      "F4": {
+        "mean_skill_frontier_extreme": {
+          "W": 16,
+          "H": 12,
+          "mask_id": "full_minus_single_series_moments",
+          "median_mean_skill": 0.0006298759616564786,
+          "median_variance_skill": 0.2836941820294822
+        },
+        "variance_skill_frontier_extreme": {
+          "W": 16,
+          "H": 7,
+          "mask_id": "core",
+          "median_mean_skill": -0.007635706252011265,
+          "median_variance_skill": 0.31697959188364877
+        }
+      }
+    }
+  },
+  "prefix_sha256_verified": "141318d453eb62941f0cf7d03d6a516770cee52a5131fb15d44fb4c5f0e9a270",
+  "prefix_sha256_verified_length": 64
+}

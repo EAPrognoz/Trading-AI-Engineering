@@ -1,0 +1,76 @@
+{
+  "run_id": "eurusd_h1_prediction_strength_v1_20261022T171340Z",
+  "status": "complete_primary_strength_analysis_path_diagnostic_unavailable",
+  "protocol_file": "experiments/eurusd_h1_prediction_strength/analysis_protocol.json",
+  "protocol_sha256": "4c1dd0b475ce21ce2f782ddb825330dff565691c671c3d3219742318cdbbe87b",
+  "source_horizon_agreement_run_id": "eurusd_h1_horizon_agreement_v1_20261022T170250Z",
+  "source_prefix_sha256": "141318d453eb62941f0cf7d03d6a516770cee52a5131fb15d44fb4c5f0e9a270",
+  "outer_validation_origins": 6163,
+  "source_test_rows_read": 0,
+  "new_model_fits": 0,
+  "train_prediction_method": "saved H8 coefficients/intercept and scalers applied to existing H24-purged train inputs; no refit",
+  "saved_validation_prediction_replay_max_abs_error_by_fold": {
+    "F1": 9.817450671856243e-17,
+    "F2": 7.638204305160379e-17,
+    "F3": 9.703609443745265e-17,
+    "F4": 5.2123019442240626e-17
+  },
+  "training_quantile_edges_by_fold": {
+    "F1": [
+      9.85364679708947e-06,
+      2.0135317772594974e-05,
+      3.462978036587514e-05,
+      5.966239469639982e-05
+    ],
+    "F2": [
+      8.023188734743179e-06,
+      1.6803909579991064e-05,
+      2.8346995695666978e-05,
+      4.749366795381007e-05
+    ],
+    "F3": [
+      6.6521089336667466e-06,
+      1.4166619915015123e-05,
+      2.3170285570542856e-05,
+      3.9257340235425696e-05
+    ],
+    "F4": [
+      5.471133811430207e-06,
+      1.1337759117113997e-05,
+      1.844133281151976e-05,
+      2.9236235194794873e-05
+    ]
+  },
+  "source_artifact_hashes_sha256": {
+    "outer_predictions.csv": "d4c8df9c3bd8740f20fce4c2f508658e6ed797bb6439153710162fa4f83e6aa3",
+    "model_coefficients_and_scalers.npz": "fc6dec52513a1cf82d4c3c92901e9627fc4921833cfe761fcfe268f6911f4015",
+    "fit_index.csv": "f8776fa34ac2b5991381591bac790486410d78708db4b0ff92b367e9538878f0",
+    "run_summary.json": "67cb70e7c159cf7b77678e3af14032f839315084638e4d7984ea2b8915822d20",
+    "v3/feature_matrices.npz": "2d111219ffda30051660234d3a521f0baaab2d19da04df7c701592e4b3b12bef",
+    "v3/split_membership.csv.gz": "cbf1332063c119794baebc589f28f05d83ed1cbc86075ece6fe61ac65020622c",
+    "v3/target_manifest.csv.gz": "48de2480736679694277fb1c26ed8d6271d9e65e57c4a844bbb18f8d3a8224be",
+    "v3/feature_catalog.json": "3b047ed6fb96503c1cddfd2f08b3e59812d984b7c15e7f1d3c138f6136e1ca96"
+  },
+  "metrics_files": [
+    "train_strength_thresholds.csv",
+    "train_in_sample_strength_predictions.csv",
+    "outer_validation_strength_bins.csv",
+    "strength_bin_metrics.csv",
+    "agreement_filters_by_strength_bin.csv",
+    "path_diagnostic_status.json"
+  ],
+  "limitations": [
+    "training predictions are in-sample, validation occupancy need not equal 20%",
+    "pooled bin labels are fold-relative train-percentile strata, not common absolute thresholds",
+    "historical explored folds, not independent confirmation",
+    "no IID significance/profitability claims",
+    "raw OHLC path diagnostics unavailable"
+  ],
+  "environment": {
+    "python": "3.12.14",
+    "numpy": "2.5.3",
+    "pandas": "2.3.3"
+  },
+  "elapsed_seconds": 3.4910974059966975,
+  "zero_prediction_outcome_counts": "zero_prediction_outcome_counts.json"
+}

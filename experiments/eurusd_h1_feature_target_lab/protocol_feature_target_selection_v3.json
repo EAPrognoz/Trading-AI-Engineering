@@ -1,0 +1,366 @@
+{
+  "code_sha256": {
+    "feature_target_selection_v3.py": "d0d2346c8415209e1647337087e7907f240373059480433859d7442aee2ac175",
+    "run_exploratory_fit_v3.py": "172dbb2ab8f05e1864195c41bd0f20b0b2d9b1800a4df116461a74dede0befbf",
+    "run_feasibility_v3.py": "2d4877cfbe70da60dd32585d5817dbf288ffca7dac2201c5245ef73b3c6f224d",
+    "test_eurusd_feature_target_v3.py": "bd0020dc0a9ef1ca5ee0b4f5dfce47edffbb9d9c741720c0d9a3698efe1026b3"
+  },
+  "comparison_limit": "v3 changes both gap policy/estimand and evaluation sample relative to v2; do not report a v3-v2 difference as a one-factor gap effect",
+  "compute_budget": {
+    "device": "CPU",
+    "expected_inner_multi_output_fits": 4608,
+    "maximum_outer_refits": 8,
+    "maximum_total_fits": 4616,
+    "process_cpu_limit_seconds": 900,
+    "stop_behavior": "persist partial artifacts and stop; no silent resume or rerun",
+    "stop_guard_seconds": 855,
+    "thread_count": 1
+  },
+  "coverage_sha256": "bbe0618dbc6a328afaa79e7ccc08f4e66a636ef4f18af2eb7d7d9f7738cf2b5f",
+  "created_utc_date": "2026-10-22",
+  "elapsed_audit_sha256": "ef36d50538a116f4231080fccfa1c4bc141004a324be5aac61b018a39171adfc",
+  "feasibility_counts_sha256": "e07567940dabdf1325f19adb573f9fa52cad72716374d80a54813432b9de9e38",
+  "feasibility_summary_sha256": "60c36a9ee4ab3abfaf22bd144fc1c56cfbc1eee4e1f0e5b5c60b7c3d00af917e",
+  "feature_masks": {
+    "core": [
+      "own_ohlc_log_ratios",
+      "same_bar_cross_ratios",
+      "observed_transition_gap"
+    ],
+    "full": [
+      "own_ohlc_log_ratios",
+      "same_bar_cross_ratios",
+      "observed_transition_gap",
+      "lagged_cross_ratios",
+      "log_price_differences",
+      "single_series_moments",
+      "mixed_central_moments"
+    ],
+    "full_minus_lagged_cross": [
+      "own_ohlc_log_ratios",
+      "same_bar_cross_ratios",
+      "observed_transition_gap",
+      "log_price_differences",
+      "single_series_moments",
+      "mixed_central_moments"
+    ],
+    "full_minus_log_differences": [
+      "own_ohlc_log_ratios",
+      "same_bar_cross_ratios",
+      "observed_transition_gap",
+      "lagged_cross_ratios",
+      "single_series_moments",
+      "mixed_central_moments"
+    ],
+    "full_minus_mixed_moments": [
+      "own_ohlc_log_ratios",
+      "same_bar_cross_ratios",
+      "observed_transition_gap",
+      "lagged_cross_ratios",
+      "log_price_differences",
+      "single_series_moments"
+    ],
+    "full_minus_single_series_moments": [
+      "own_ohlc_log_ratios",
+      "same_bar_cross_ratios",
+      "observed_transition_gap",
+      "lagged_cross_ratios",
+      "log_price_differences",
+      "mixed_central_moments"
+    ]
+  },
+  "feature_schema_sha256": "ceadf38a8bc2168bbd70878a69b97d7ab47bbc530b725c57114b6e225ef1ad86",
+  "features": {
+    "candidate_feature_counts_by_W": {
+      "16": 177,
+      "32": 235,
+      "64": 239,
+      "96": 243
+    },
+    "differences": "d=1,2,3 recursively applied to log OHLC prices across adjacent observed rows; no raw-price-difference logs",
+    "feature_availability": "completed OHLC data through origin close only; no centered windows and no elapsed-time predictor",
+    "fixed_groups": [
+      "own_ohlc_log_ratios",
+      "same_bar_cross_ratios",
+      "observed_transition_gap",
+      "lagged_cross_ratios",
+      "log_price_differences",
+      "single_series_moments",
+      "mixed_central_moments"
+    ],
+    "mixed_moments": "population covariance and both oriented third central moments of OHLC observed one-row log changes",
+    "moment_ddof": 0,
+    "moment_windows": "sorted unique {8,min(24,W),W}",
+    "ohlc_domain": "finite, positive and consistent high/low bounds required",
+    "schema_file": "candidate_feature_schema.json",
+    "single_series_moments": "mean, central population variance, third central moment, normalized skewness; full trailing observed-transition windows only",
+    "zero_variance_skewness": "write 0 and skewness_defined=false, no epsilon"
+  },
+  "folds": {
+    "development_end_exclusive_utc": "2026-07-04T00:00:00Z",
+    "inner": {
+      "F1": [
+        [
+          "I1_2025Q1",
+          "2025-01-01T00:00:00Z",
+          "2025-04-01T00:00:00Z"
+        ],
+        [
+          "I2_2025Q2",
+          "2025-04-01T00:00:00Z",
+          "2025-07-01T00:00:00Z"
+        ]
+      ],
+      "F2": [
+        [
+          "I1_2025Q2",
+          "2025-04-01T00:00:00Z",
+          "2025-07-01T00:00:00Z"
+        ],
+        [
+          "I2_2025Q3",
+          "2025-07-01T00:00:00Z",
+          "2025-10-01T00:00:00Z"
+        ]
+      ],
+      "F3": [
+        [
+          "I1_2025Q3",
+          "2025-07-01T00:00:00Z",
+          "2025-10-01T00:00:00Z"
+        ],
+        [
+          "I2_2025Q4",
+          "2025-10-01T00:00:00Z",
+          "2026-01-01T00:00:00Z"
+        ]
+      ],
+      "F4": [
+        [
+          "I1_2025Q4",
+          "2025-10-01T00:00:00Z",
+          "2026-01-01T00:00:00Z"
+        ],
+        [
+          "I2_2026Q1",
+          "2026-01-01T00:00:00Z",
+          "2026-04-01T00:00:00Z"
+        ]
+      ]
+    },
+    "outer": {
+      "F1": [
+        "2025-07-01T00:00:00Z",
+        "2025-10-01T00:00:00Z"
+      ],
+      "F2": [
+        "2025-10-01T00:00:00Z",
+        "2026-01-01T00:00:00Z"
+      ],
+      "F3": [
+        "2026-01-01T00:00:00Z",
+        "2026-04-01T00:00:00Z"
+      ],
+      "F4": [
+        "2026-04-01T00:00:00Z",
+        "2026-07-04T00:00:00Z"
+      ]
+    },
+    "purging": "train target H24 close strictly before split start; validation decision in [start,end) and H24 target close strictly before end; check every H=1..24 target endpoint obeys the same boundary; this longest-horizon cohort pairs all H"
+  },
+  "learner": {
+    "alpha": 1.0,
+    "feature_scaler": "StandardScaler fit only on current training origins",
+    "fit_intercept": true,
+    "name": "multi-output Ridge",
+    "parameter_search": false,
+    "target_scaler": "per-output StandardScaler fit only on current training origins; inverse transform before raw-unit metrics",
+    "thread_count": 1
+  },
+  "metrics_and_baselines": {
+    "mean_metrics": [
+      "MAE",
+      "RMSE",
+      "exact_sign_accuracy",
+      "balanced_nonzero_sign_accuracy"
+    ],
+    "mean_secondary_baseline": "train-mean y_mean fitted on current training origins",
+    "mean_selector_baseline": "zero; skill=1-MAE_model/MAE_zero",
+    "variance_metrics": [
+      "MAE",
+      "RMSE",
+      "skill_vs_train_mean",
+      "skill_vs_past16_observed_variance",
+      "raw_negative_prediction_count_and_fraction",
+      "five_equal_count_calibration_bins"
+    ],
+    "variance_projection": "max(0,inverse_scaled_raw_prediction); no epsilon",
+    "variance_secondary_baseline": "ddof=0 variance of latest 16 observed close-to-close transitions available at origin, including gap-crossing transitions",
+    "variance_selector_baseline": "horizon-specific training mean y_var",
+    "variance_zero_denominator": "skill undefined when baseline MAE is zero",
+    "zero_signs": "exact sign {-1,0,+1}; zero correct only if actual and prediction are both exactly zero; report zero counts"
+  },
+  "model_fit_performed": false,
+  "pre_fit_checks": {
+    "actual_prefix_feature_matrix_qc_passed": true,
+    "actual_source_fit_not_yet_run": true,
+    "common_origin_sample_feasibility_passed": true,
+    "pytest_contract_tests_passed": true,
+    "test_count": 8
+  },
+  "privacy": {
+    "git_commit_or_push": false,
+    "library_write_requested": false,
+    "publication_or_rendering": false,
+    "raw_private_csv_in_outputs": false
+  },
+  "protocol_id": "eurusd_h1_feature_target_selection_v3_observed_transitions",
+  "revision_reason": "User-defined gap contract supersedes v2 strict-gap filtering; v2 remains unchanged and archived.",
+  "selection": {
+    "H1": "mean-only; eligible if mean skill vs zero is positive in both inner windows",
+    "H_ge_2": "eligible only if mean skill vs zero and variance skill vs horizon train-mean are positive in both inner windows",
+    "abstention": "if no candidate meets threshold, retain fold as abstention and perform no outer refit for that track",
+    "frontier": "save all-candidate Pareto frontier and separately eligible frontier; no required winner",
+    "outer_role": "only evaluate a uniquely selected inner procedure; never tune from its score",
+    "selected_mean_only": "max median mean skill; tie-break fewer features, smaller W, stable mask ID",
+    "selected_two_target": "maximize min(median mean skill, median variance skill); tie-break fewer features, smaller W, smaller H, stable mask ID",
+    "uncertainty": "descriptive fold stability only; no inferential test or significance claim because origins/targets overlap"
+  },
+  "source": {
+    "dataset": "EURUSD Model Error Lab H1",
+    "full_sha256_prior_verified_not_rehashed": "74a4f9377dff438968301a6cfe673bab43ce9083add994db79c3e2910745c202",
+    "platform": "MetaTrader 5 demo",
+    "pre_fit_quality_audit": {
+      "all_positive_finite": true,
+      "bounds_consistent": true,
+      "source_non_one_hour_transition_count": 98,
+      "source_transition_elapsed_hours": {
+        "max": 50.0,
+        "median": 1.0,
+        "min": 1.0,
+        "n": 10620,
+        "p90": 1.0,
+        "p95": 1.0,
+        "p99": 1.0
+      },
+      "timestamps_unique_sorted": true
+    },
+    "pretest_prefix_data_rows": 10621,
+    "pretest_prefix_last_bar_open_utc": "2026-07-03T15:00:00Z",
+    "pretest_prefix_sha256_recomputed": "141318d453eb62941f0cf7d03d6a516770cee52a5131fb15d44fb4c5f0e9a270",
+    "source_file": "EURUSD_Model_Error_Lab_H1_UTC_20241016_20261017.csv",
+    "source_provenance": "previously verified MT5 demo export; this run rehashed only pinned prefix, not full CSV",
+    "test_rows_read": 0,
+    "time_semantics": "time_utc is bar-open; origin close/decision is open timestamp + 1h; target close is target row open timestamp + 1h",
+    "timeframe": "H1"
+  },
+  "status": "pre_fit_locked",
+  "test_status": "historical benchmark, not untouched holdout; later test rows must not be read",
+  "transition_contract": {
+    "H1": "variance target exactly zero; mean-only track, no epsilon or variance score",
+    "elapsed_audit": "input history duration, target duration, non-one-hour transition counts stored as metadata only; no cause attribution",
+    "feature_gap_handling": "OHLC log-price transitions, cross-price ratios/differences, univariate moments and mixed moments use adjacent observed rows including gaps; no calendar-time rescaling",
+    "future_metadata": "future target timestamp, elapsed hours and gap-crossing status are label/audit metadata only, never model features",
+    "gap_predictor": "fixed core feature log(open_i/close_(i-1)) for the current observed transition; one uniquely named feature",
+    "history": "W latest adjacent observed completed H1 transitions, requiring W+1 observed rows/closes; history never resets on time gaps",
+    "missing_intervals": "retain adjacent source rows across all closures/missing intervals; no row dropped for a gap; no interpolation",
+    "return": "r_j=log(C[i+j]/C[i+j-1]); no division by elapsed calendar time",
+    "target": "H next adjacent observed H1 transitions, H=1..24",
+    "target_mean": "mean(r_1..r_H), measured per observed transition",
+    "target_variance": "mean((r_j-y_mean)^2), ddof=0; realized within-horizon dispersion, not predictive uncertainty"
+  },
+  "window_horizon_grid": {
+    "H_observed_transitions": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20,
+      21,
+      22,
+      23,
+      24
+    ],
+    "W_observed_transitions": [
+      16,
+      32,
+      64,
+      96
+    ],
+    "available_origins_per_W_H_csv": "sample_feasibility_by_W_H.csv",
+    "common_origin_rule": "row>=96 and row+24<10621; same origin rows for every W/H/mask; per split also require the common H24 target endpoint before the split boundary",
+    "common_origins_total": 10501,
+    "coverage_file": "common_origin_time_coverage.csv",
+    "elapsed_audit_file": "elapsed_time_audit.csv",
+    "pair_count": 96,
+    "validation_counts_by_inner_window": {
+      "I1_2025Q1": 1483,
+      "I1_2025Q2": 1536,
+      "I1_2025Q3": 1547,
+      "I1_2025Q4": 1534,
+      "I2_2025Q2": 1536,
+      "I2_2025Q3": 1547,
+      "I2_2025Q4": 1534,
+      "I2_2026Q1": 1481
+    },
+    "validation_counts_by_outer_fold": {
+      "F1": 1547,
+      "F2": 1534,
+      "F3": 1481,
+      "F4": 1601
+    },
+    "weekday_counts_by_outer_fold_validation_monday0": {
+      "F1": {
+        "0": 299,
+        "1": 312,
+        "2": 312,
+        "3": 304,
+        "4": 307,
+        "5": 13,
+        "6": 0
+      },
+      "F2": {
+        "0": 299,
+        "1": 312,
+        "2": 312,
+        "3": 288,
+        "4": 311,
+        "5": 12,
+        "6": 0
+      },
+      "F3": {
+        "0": 299,
+        "1": 288,
+        "2": 288,
+        "3": 288,
+        "4": 307,
+        "5": 11,
+        "6": 0
+      },
+      "F4": {
+        "0": 299,
+        "1": 312,
+        "2": 336,
+        "3": 329,
+        "4": 312,
+        "5": 13,
+        "6": 0
+      }
+    }
+  }
+}

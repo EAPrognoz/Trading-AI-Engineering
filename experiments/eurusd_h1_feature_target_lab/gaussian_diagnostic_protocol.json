@@ -1,0 +1,38 @@
+{
+  "diagnostic_id": "eurusd_h1_h8_gaussian_return_band_check_v1",
+  "status": "supplemental_protocol_frozen_before_band_coverage_calculation",
+  "parent_analysis_protocol": "protocol_frozen_pre_fit.json",
+  "no_model_fit": "This diagnostic adds no model fit and does not change the primary 4-fit plan, model thresholds, or tercile boundaries.",
+  "working_distribution": "For each validation origin with positive raw predicted variance, temporarily interpret N(saved H8 predicted mean per observed transition, predicted H8 within-window variance) as a Gaussian reference for one individual return from the next-eight-observed-return window. This is a diagnostic assumption only.",
+  "reconstruction": {
+    "source": "Existing pre-test target_manifest.csv.gz for the same origin, horizons H=1..8; no raw OHLC or test rows.",
+    "formula": "Let m_H be the saved mean log return over the next H observed transitions and m_0=0. Reconstruct r_H=H*m_H-(H-1)*m_(H-1), H=1..8.",
+    "checks": [
+      "all H=1..8 targets valid and finite for each outer validation origin",
+      "each target timestamp ordered and no later than its H8 endpoint; H8 endpoint strictly before outer fold end",
+      "reconstructed mean(r_1..r_8) equals saved y_mean_H8",
+      "population variance ddof=0 of reconstructed r_1..r_8 equals saved y_var_H8",
+      "maximum absolute reconstruction discrepancy <= 1e-14 for mean and variance, with rtol=1e-10"
+    ],
+    "failure": "If any required row, boundary check or mean/variance reconstruction check fails, do not compute or claim Gaussian coverage; report the exact failure."
+  },
+  "coverage": {
+    "bands": "For raw predicted variance >0 only, sigma=sqrt(raw variance); test each of the eight reconstructed observed-transition returns against inclusive bands [mu-sigma,mu+sigma] and [mu-2sigma,mu+2sigma], where mu is the saved H8 mean prediction per observed transition.",
+    "summaries": [
+      "per-origin fraction of eight returns covered, then equal-origin mean by fold and overall",
+      "micro coverage over all individual returns in each fold/overall",
+      "number of eligible origins and returns"
+    ],
+    "raw_nonpositive": "Keep raw variance <0, ==0, and combined <=0 as separate counts; no epsilon and no sigma band for these rows.",
+    "nominal_reference": "68.27% and 95.45% are normal-distribution references only, not guaranteed coverage or evidence of normality."
+  },
+  "interpretation_limits": [
+    "This does not test the distribution of the H8 mean or terminal/cumulative H8 return.",
+    "Marginal normality of individual returns would not establish independence; no sqrt(H) conversion. Terminal variance would require dependence/covariance or a separately estimated target.",
+    "Coverage is a calibration diagnostic, not a trading signal, profit estimate, confidence for the H8 direction, or probability that the mean forecast is correct.",
+    "The user’s non-normal-noise statement is treated as a working assumption; this Gaussian reference is shown only as a separate benchmark."
+  ],
+  "source_run_id": "eurusd_h1_horizon_agreement_v1_20261022T170250Z",
+  "outer_validation_origins": 6163,
+  "test_rows_after_2026_07_03_read": 0
+}

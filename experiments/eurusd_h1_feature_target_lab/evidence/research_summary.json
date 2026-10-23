@@ -1,0 +1,68 @@
+{
+  "study_status": "completed exploratory historical evaluation; no untouched test or production claim",
+  "feature_target_run": {
+    "run_id": "eurusd_h1_feature_target_v3_20261022T151237Z",
+    "common_origins": 10501,
+    "outer_validation_origins": 6163,
+    "inner_ridge_fits": 4608,
+    "outer_selection_decisions": 8,
+    "outer_selection_abstentions": 8,
+    "outer_refits": 0,
+    "selection_winner": null,
+    "mean_skill_h2_24_median_vs_zero": -0.1253718776608441,
+    "mean_skill_positive_rows_h2_24": 60,
+    "mean_skill_rows_h2_24": 4416,
+    "variance_skill_h2_24_median_vs_train_mean": 0.024047267297483,
+    "variance_skill_h2_24_mean_vs_train_mean": -0.2723234338316776,
+    "variance_skill_positive_rows_h2_24": 2343,
+    "variance_skill_rows_h2_24": 4416
+  },
+  "horizon_agreement": {
+    "run_id": "eurusd_h1_horizon_agreement_v1_20261022T170250Z",
+    "model": "fixed W16/core Ridge alpha=1 H8 mean follow-up; not selected by v3",
+    "h8_direction_hits": 3118,
+    "h8_nonzero_realized_directions": 6151,
+    "h8_exact_zero_realized_targets": 12,
+    "h8_hit_rate": 0.5069094456185986,
+    "h4_h8_accepted_origins": 4617,
+    "h4_h8_all_origins": 6163,
+    "h4_h8_accepted_hit_rate": 0.505,
+    "h4_h8_rejected_hit_rate": 0.513
+  },
+  "prediction_strength": {
+    "run_id": "eurusd_h1_prediction_strength_v1_20261022T171340Z",
+    "fit_count": 0,
+    "h8_bin_hit_rates_by_strength": [
+      "0.502",
+      "0.519",
+      "0.501",
+      "0.517",
+      "0.483"
+    ],
+    "interpretation": "Non-monotonic, fold-relative descriptive groups"
+  },
+  "mean_variance": {
+    "run_id": "eurusd_h1_mean_variance_joint_utility_v2_20261022T185128Z",
+    "variance_only_ridge_fits": 4,
+    "h8_variance_mae": 5.393904e-07,
+    "train_mean_variance_baseline_mae": 7.522814e-07,
+    "variance_mae_skill": 0.282994,
+    "mean_h8_direction_hit_rate": 0.5069094456185986,
+    "raw_variance_nonpositive_validation_count": 0
+  },
+  "gaussian_reference": {
+    "verified_validation_origins": 6163,
+    "individual_observed_returns_in_overlapping_h8_windows": 49304,
+    "coverage_pm_1_sigma": 0.79967,
+    "coverage_pm_2_sigma": 0.9599,
+    "target": "individual observed-transition returns only",
+    "assumption": "Gaussian working reference; not an inferred distribution or trade probability"
+  },
+  "claims_not_made": [
+    "profitability",
+    "statistical significance",
+    "stable directional signal",
+    "live trading readiness",
+    "untouched holdout confirmation"
+  ]
+}

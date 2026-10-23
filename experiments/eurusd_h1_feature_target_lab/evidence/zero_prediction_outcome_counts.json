@@ -1,0 +1,10 @@
+{
+  "H4_forecast_zero_count": 0,
+  "H4_forecast_nonzero_count": 6163,
+  "H8_forecast_zero_count": 0,
+  "H8_forecast_nonzero_count": 6163,
+  "H24_forecast_zero_count": 0,
+  "H24_forecast_nonzero_count": 6163,
+  "H8_actual_exact_zero_count": 12,
+  "outer_validation_origins": 6163
+}
