@@ -23,4 +23,6 @@ where = ["src"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
+# Tests also exercise repository-local examples and experiments outside src/.
+pythonpath = ["."]
 addopts = "-q"
