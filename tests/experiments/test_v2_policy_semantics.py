@@ -2,7 +2,7 @@ from datetime import datetime, timedelta, timezone
 from decimal import Decimal
 
 from experiments.eurusd_h1_model_error_lab.backtest.engine import Tick
-from experiments.eurusd_h1_model_error_lab.backtest.v2.engine import (
+from experiments.eurusd_h1_model_error_lab.backtest.v2.public_engine import (
     ABSTAIN_POLICY,
     SAME_SIDE_POLICY,
     Decision,
