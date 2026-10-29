@@ -21,12 +21,15 @@ def build_h1_direction_target(frame: pd.DataFrame) -> pd.DataFrame:
     timestamp = pd.to_datetime(frame["timestamp"], utc=True, errors="raise")
     close = pd.to_numeric(frame["close"], errors="raise").astype(float)
 
-    target_timestamp = timestamp.shift(-1)
-    exact_h1 = target_timestamp.sub(timestamp).eq(pd.Timedelta(hours=1))
+    next_open_timestamp = timestamp.shift(-1)
+    exact_h1 = next_open_timestamp.sub(timestamp).eq(pd.Timedelta(hours=1))
     future_return = close.shift(-1).div(close).sub(1.0).where(exact_h1)
 
+    decision_timestamp = timestamp.add(pd.Timedelta(hours=1))
+    target_timestamp = next_open_timestamp.add(pd.Timedelta(hours=1))
+
     target = pd.Series(pd.NA, index=frame.index, dtype="string")
-    gap_mask = target_timestamp.notna() & ~exact_h1
+    gap_mask = next_open_timestamp.notna() & ~exact_h1
     target.loc[gap_mask] = "GAP"
     target.loc[exact_h1 & (future_return > 0)] = "UP"
     target.loc[exact_h1 & (future_return < 0)] = "DOWN"
@@ -34,7 +37,7 @@ def build_h1_direction_target(frame: pd.DataFrame) -> pd.DataFrame:
 
     return pd.DataFrame(
         {
-            "decision_timestamp": timestamp,
+            "decision_timestamp": decision_timestamp,
             "target_timestamp": target_timestamp,
             "future_return_1h": future_return,
             "target_h1_direction": target,

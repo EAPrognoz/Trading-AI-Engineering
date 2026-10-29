@@ -68,6 +68,11 @@ The first exclusions are structural rather than performance-driven:
 `return_3h`, `return_12h`, and `rolling_vol_12h` are omitted to reduce
 obvious overlap without inspecting validation or test performance.
 
+The selected list remains frozen. The feature report describes availability over
+the accepted history, but its correlation/redundancy diagnostics use the exact
+Episode 005 training membership only. The locked test partition is not used to
+make feature decisions.
+
 The minimal example teaches feature construction. The full implementation under
 `experiments/ep004_feature_engineering/` creates the recorded feature report
 and frozen feature contract consumed by Episode 005.
