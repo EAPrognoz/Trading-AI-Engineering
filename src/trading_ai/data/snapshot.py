@@ -7,6 +7,7 @@ They are downstream artifacts, not raw broker responses.
 from __future__ import annotations
 
 from hashlib import sha256
+import json
 from pathlib import Path
 from typing import Any
 
@@ -38,7 +39,9 @@ def validate_h1_snapshot(frame: pd.DataFrame) -> None:
         raise ValueError("timestamp contains duplicates")
     if not ts.is_monotonic_increasing:
         raise ValueError("timestamp must be strictly time ordered")
-    if len(ts) > 1 and (ts.diff().dropna() > pd.Timedelta(hours=1)).any():
+    if ts.dt.floor("h").ne(ts).any():
+        raise ValueError("timestamp must be hour-aligned for H1")
+    if len(ts) > 1 and ts.diff().dropna().ne(pd.Timedelta(hours=1)).any():
         raise ValueError("timestamp contains an unresolved H1 gap")
 
     numeric_columns = [
@@ -87,15 +90,49 @@ def sha256_file(path: str | Path) -> str:
     return digest.hexdigest()
 
 
-def dataset_manifest(frame: pd.DataFrame, path: str | Path) -> dict[str, Any]:
-    """Describe the exact accepted snapshot used by an experiment."""
+def dataset_manifest(
+    frame: pd.DataFrame,
+    path: str | Path,
+    *,
+    source_manifest_path: str | Path | None = None,
+) -> dict[str, Any]:
+    """Describe and optionally verify the accepted snapshot used by an experiment."""
     validate_h1_snapshot(frame)
     ts = pd.to_datetime(frame["timestamp"], utc=True)
-    return {
-        "path": str(Path(path)),
-        "sha256": sha256_file(path),
+    snapshot_path = Path(path)
+    snapshot_sha = sha256_file(snapshot_path)
+
+    metadata: dict[str, Any] = {
+        "path": snapshot_path.name,
+        "sha256": snapshot_sha,
         "rows": int(len(frame)),
         "first_timestamp": ts.iloc[0].isoformat() if len(ts) else None,
         "last_timestamp": ts.iloc[-1].isoformat() if len(ts) else None,
         "columns": list(frame.columns),
     }
+
+    if source_manifest_path is not None:
+        manifest_path = Path(source_manifest_path)
+        manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+        if manifest.get("status") != "accepted":
+            raise ValueError("source manifest must have accepted status")
+
+        accepted_artifact = manifest.get("files", {}).get("accepted_dataset")
+        if not isinstance(accepted_artifact, dict) or not accepted_artifact.get("sha256"):
+            raise ValueError("source manifest is missing files.accepted_dataset")
+
+        expected_sha = str(accepted_artifact["sha256"])
+        if snapshot_sha != expected_sha:
+            raise ValueError("accepted dataset hash does not match source manifest")
+
+        metadata["source_manifest"] = {
+            "contract_id": manifest.get("contract_id"),
+            "status": "accepted",
+            "manifest_sha256": sha256_file(manifest_path),
+            "accepted_dataset_sha256": expected_sha,
+            "accepted_dataset_artifact": Path(
+                str(accepted_artifact.get("path", "accepted.csv"))
+            ).name,
+        }
+
+    return metadata

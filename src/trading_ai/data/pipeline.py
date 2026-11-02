@@ -47,6 +47,27 @@ def process_h1_response(
     candidate = time_result.accepted_range
     issues = audit_h1_records(candidate)
 
+    if time_result.exclusions["invalid_timestamp"]:
+        issues.append(
+            {
+                "code": "invalid_timestamp",
+                "severity": "error",
+                "details": {
+                    "rows": time_result.exclusions["invalid_timestamp"],
+                    "scope": "raw_response",
+                },
+            }
+        )
+
+    if candidate.empty:
+        issues.append(
+            {
+                "code": "empty_eligible_range",
+                "severity": "error",
+                "details": {},
+            }
+        )
+
     if not time_result.coverage["coverage_ok"]:
         issues.append(
             {

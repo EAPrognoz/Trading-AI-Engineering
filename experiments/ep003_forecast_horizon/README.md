@@ -15,7 +15,8 @@ This directory contains the **full recorded analysis** used downstream.
 ## Target contract
 
 ```text
-decision time: close of completed H1 bar t
+source timestamp: UTC opening time of H1 bar t
+decision time: nominal close = source opening + 1 hour
 horizon: exactly 1 hour
 r[t+1] = close[t+1] / close[t] - 1
 
@@ -36,8 +37,10 @@ allowed in the feature vector available at the decision timestamp.
 ```bash
 python experiments/ep003_forecast_horizon/analyze_target.py \
   --input path/to/ep002-run/accepted.csv \
+  --manifest path/to/ep002-run/manifest.json \
   --output reports/ep003/target_report.json
 ```
 
-The report records dataset identity, timestamp coverage, class balance, zero/gap
-counts, and the forward-return distribution.
+The report verifies the accepted CSV against its EP002 manifest and records
+dataset identity, timestamp coverage, class balance, zero/gap counts, and the
+forward-return distribution.

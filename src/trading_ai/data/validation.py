@@ -35,6 +35,17 @@ def audit_h1_records(frame: pd.DataFrame) -> list[dict[str, Any]]:
             }
         )
 
+    valid_timestamp = timestamp.dropna()
+    misaligned_mask = valid_timestamp.dt.floor("h").ne(valid_timestamp)
+    if misaligned_mask.any():
+        issues.append(
+            {
+                "code": "h1_timestamp_misaligned",
+                "severity": "error",
+                "details": {"rows": int(misaligned_mask.sum())},
+            }
+        )
+
     duplicate_mask = timestamp.notna() & timestamp.duplicated(keep=False)
     if duplicate_mask.any():
         duplicated = sorted(

@@ -12,20 +12,23 @@ import pandas as pd
 path = Path(sys.argv[1]) if len(sys.argv) > 1 else Path(".local/ep002-mt5/accepted.csv")
 df = pd.read_csv(path, parse_dates=["timestamp"])
 
-next_time = df["timestamp"].shift(-1)
+next_open_time = df["timestamp"].shift(-1)
 future_return = df["close"].shift(-1) / df["close"] - 1.0
-is_exactly_one_hour = (next_time - df["timestamp"]) == pd.Timedelta(hours=1)
+is_exactly_one_hour = (next_open_time - df["timestamp"]) == pd.Timedelta(hours=1)
+
+decision_time = df["timestamp"] + pd.Timedelta(hours=1)
+target_time = next_open_time + pd.Timedelta(hours=1)
 
 target = pd.Series(pd.NA, index=df.index, dtype="string")
 target.loc[is_exactly_one_hour & (future_return > 0)] = "UP"
 target.loc[is_exactly_one_hour & (future_return < 0)] = "DOWN"
 target.loc[is_exactly_one_hour & (future_return == 0)] = "ZERO"
-target.loc[next_time.notna() & ~is_exactly_one_hour] = "GAP"
+target.loc[next_open_time.notna() & ~is_exactly_one_hour] = "GAP"
 
 result = pd.DataFrame(
     {
-        "decision_timestamp": df["timestamp"],
-        "target_timestamp": next_time,
+        "decision_timestamp": decision_time,
+        "target_timestamp": target_time,
         "future_return_1h": future_return.where(is_exactly_one_hour),
         "target": target,
     }

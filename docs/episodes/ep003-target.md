@@ -41,7 +41,8 @@ dynamics, execution assumptions, and the meaning of a useful forecast.
 For the current downstream experiment:
 
 - source timeframe: H1;
-- decision time: after the close of completed bar `t`;
+- source `timestamp`: UTC opening time of bar `t`;
+- decision time: nominal close of completed bar `t`, one hour after its source timestamp;
 - forecast horizon: exactly one hour;
 - target: sign of `close[t+1] / close[t] - 1`;
 - binary classes: UP / DOWN;
@@ -54,8 +55,11 @@ time is leakage.
 
 Each full-pipeline sample carries:
 
-- `decision_timestamp`;
-- `target_timestamp`.
+- `decision_timestamp = source_open[t] + 1h`;
+- `target_timestamp = source_open[t+1] + 1h`.
+
+The timestamp correction changes the meaning of those time labels, not the
+close-to-close return, UP/DOWN/ZERO/GAP labels, eligible rows, or model metrics.
 
 The target is defined before the feature set, baseline, or model is chosen.
 

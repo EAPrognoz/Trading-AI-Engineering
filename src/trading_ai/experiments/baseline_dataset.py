@@ -11,6 +11,7 @@ import numpy as np
 import pandas as pd
 
 from trading_ai.data.snapshot import dataset_manifest, load_snapshot
+from trading_ai.evaluation.split import ChronologicalSplit, chronological_split
 from trading_ai.features.engineering import build_point_in_time_features
 from trading_ai.targets.direction import build_h1_direction_target
 
@@ -22,6 +23,13 @@ class BaselineDataset:
     metadata: dict[str, Any]
 
 
+@dataclass(frozen=True)
+class PreparedEpisode005Split:
+    dataset: BaselineDataset
+    split: ChronologicalSplit
+    contract: dict[str, Any]
+
+
 def _read_toml(path: str | Path) -> dict[str, Any]:
     with Path(path).open("rb") as handle:
         return tomllib.load(handle)
@@ -30,6 +38,8 @@ def _read_toml(path: str | Path) -> dict[str, Any]:
 def assemble_episode005_dataset(
     snapshot_path: str | Path,
     feature_contract_path: str | Path,
+    *,
+    source_manifest_path: str | Path | None = None,
 ) -> BaselineDataset:
     """Join the EP003 target to the frozen EP004 feature set."""
     market = load_snapshot(snapshot_path)
@@ -54,26 +64,81 @@ def assemble_episode005_dataset(
     binary = combined[binary_mask].copy()
 
     feature_values = binary[selected].apply(pd.to_numeric, errors="coerce")
-    finite = np.isfinite(feature_values.to_numpy(dtype=float, na_value=np.nan)).all(axis=1)
+    finite = np.isfinite(
+        feature_values.to_numpy(dtype=float, na_value=np.nan)
+    ).all(axis=1)
     complete = feature_values.notna().all(axis=1).to_numpy() & finite
     assembled = binary.loc[complete].copy().reset_index(drop=True)
 
     if assembled.empty:
-        raise ValueError("no complete binary samples remain after target and feature filters")
+        raise ValueError(
+            "no complete binary samples remain after target and feature filters"
+        )
 
     return BaselineDataset(
         frame=assembled,
         selected_features=selected,
         metadata={
-            "dataset": dataset_manifest(market, snapshot_path),
+            "dataset": dataset_manifest(
+                market,
+                snapshot_path,
+                source_manifest_path=source_manifest_path,
+            ),
             "target_contract_id": "ep003-h1-direction-v1",
             "feature_contract_id": str(feature_contract["contract_id"]),
             "input_rows": int(len(market)),
             "binary_target_rows": int(binary_mask.sum()),
-            "zero_target_rows": int((combined["target_h1_direction"] == "ZERO").sum()),
-            "gap_target_rows": int((combined["target_h1_direction"] == "GAP").sum()),
-            "unlabeled_target_rows": int(combined["target_h1_direction"].isna().sum()),
-            "rows_removed_for_feature_warmup_or_nonfinite": int(len(binary) - len(assembled)),
+            "zero_target_rows": int(
+                (combined["target_h1_direction"] == "ZERO").sum()
+            ),
+            "gap_target_rows": int(
+                (combined["target_h1_direction"] == "GAP").sum()
+            ),
+            "unlabeled_target_rows": int(
+                combined["target_h1_direction"].isna().sum()
+            ),
+            "rows_removed_for_feature_warmup_or_nonfinite": int(
+                len(binary) - len(assembled)
+            ),
             "assembled_rows": int(len(assembled)),
         },
+    )
+
+
+def prepare_episode005_split(
+    snapshot_path: str | Path,
+    experiment_contract_path: str | Path = "configs/experiments/ep005_baselines.toml",
+    *,
+    source_manifest_path: str | Path | None = None,
+) -> PreparedEpisode005Split:
+    """Prepare the canonical EP005 dataset and chronological partitions."""
+    contract_path = Path(experiment_contract_path)
+    contract = _read_toml(contract_path)
+
+    train_fraction = float(contract["train_fraction"])
+    validation_fraction = float(contract["validation_fraction"])
+    test_fraction = float(contract["test_fraction"])
+    if abs((train_fraction + validation_fraction + test_fraction) - 1.0) > 1e-12:
+        raise ValueError("train/validation/test fractions must sum to 1")
+
+    feature_contract_path = Path(str(contract["feature_contract"]))
+    if not feature_contract_path.is_absolute():
+        feature_contract_path = (
+            contract_path.resolve().parents[2] / feature_contract_path
+        )
+
+    dataset = assemble_episode005_dataset(
+        snapshot_path,
+        feature_contract_path,
+        source_manifest_path=source_manifest_path,
+    )
+    split = chronological_split(
+        dataset.frame,
+        train_fraction=train_fraction,
+        validation_fraction=validation_fraction,
+    )
+    return PreparedEpisode005Split(
+        dataset=dataset,
+        split=split,
+        contract=contract,
     )

@@ -39,13 +39,21 @@ def apply_h1_time_policy(
     accepted["timestamp"] = timestamp.loc[keep]
 
     valid_raw_ts = timestamp.dropna()
+    eligible_ts = pd.DatetimeIndex(accepted["timestamp"]) if len(accepted) else pd.DatetimeIndex([])
+
     first_returned = valid_raw_ts.min() if len(valid_raw_ts) else None
     last_returned = valid_raw_ts.max() if len(valid_raw_ts) else None
-    last_required = request.last_required_open
+    first_eligible = eligible_ts.min() if len(eligible_ts) else None
+    last_eligible = eligible_ts.max() if len(eligible_ts) else None
 
-    covers_start = first_returned is not None and first_returned <= request.start
-    covers_end = last_required is None or (
-        last_returned is not None and last_returned >= last_required
+    last_required = request.last_required_open
+    required_start_present = bool(request.start in eligible_ts)
+    required_completed_end_present = bool(
+        last_required is None or last_required in eligible_ts
+    )
+    coverage_ok = bool(
+        last_required is None
+        or (required_start_present and required_completed_end_present)
     )
 
     coverage = {
@@ -55,12 +63,19 @@ def apply_h1_time_policy(
         "last_returned_timestamp": (
             last_returned.isoformat() if last_returned is not None else None
         ),
+        "first_eligible_timestamp": (
+            first_eligible.isoformat() if first_eligible is not None else None
+        ),
+        "last_eligible_timestamp": (
+            last_eligible.isoformat() if last_eligible is not None else None
+        ),
+        "required_start_timestamp": request.start.isoformat(),
+        "required_start_present": required_start_present,
         "last_required_open_timestamp": (
             last_required.isoformat() if last_required is not None else None
         ),
-        "covers_requested_start": bool(covers_start),
-        "covers_required_completed_end": bool(covers_end),
-        "coverage_ok": bool(covers_start and covers_end),
+        "required_completed_end_present": required_completed_end_present,
+        "coverage_ok": coverage_ok,
     }
 
     return TimePolicyResult(

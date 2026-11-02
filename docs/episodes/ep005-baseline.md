@@ -30,7 +30,9 @@ python examples/ep005_baseline_minimal.py .local/ep002-mt5/accepted.csv
 ```
 
 The minimal example shows B0: find the majority class in training data and use it
-as the reference prediction on validation data.
+as the reference prediction on validation data. It uses the same target,
+feature-warmup eligibility, chronological split, and boundary purge as the full
+experiment; only the model shown to the viewer is simplified.
 
 That is enough to teach the key question:
 
@@ -47,7 +49,8 @@ partitions. Samples whose `target_timestamp` crosses a partition boundary are
 purged.
 
 Episode 005 reports the validation benchmark while the final 20% test partition
-remains locked.
+remains locked. Model performance on that reserved test partition is not
+evaluated during baseline development.
 
 `baseline_report.json` records the dataset identity, Episode 003 target
 contract, Episode 004 feature contract, split boundaries, and B0/B1/B2 metrics.

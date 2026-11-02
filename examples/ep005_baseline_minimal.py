@@ -4,36 +4,50 @@ Usage:
     python examples/ep005_baseline_minimal.py path/to/accepted.csv
 """
 
-from pathlib import Path
-import sys
+from __future__ import annotations
+
+import argparse
 
 import pandas as pd
 
-path = Path(sys.argv[1]) if len(sys.argv) > 1 else Path(".local/ep002-mt5/accepted.csv")
-df = pd.read_csv(path, parse_dates=["timestamp"])
+from trading_ai.experiments.baseline_dataset import prepare_episode005_split
 
-next_time = df["timestamp"].shift(-1)
-future_return = df["close"].shift(-1) / df["close"] - 1.0
-is_exactly_one_hour = (next_time - df["timestamp"]) == pd.Timedelta(hours=1)
 
-target = pd.Series(pd.NA, index=df.index, dtype="string")
-target.loc[is_exactly_one_hour & (future_return > 0)] = "UP"
-target.loc[is_exactly_one_hour & (future_return < 0)] = "DOWN"
+def main() -> None:
+    parser = argparse.ArgumentParser(
+        description="Run the minimal Episode 005 majority-class baseline."
+    )
+    parser.add_argument("input", help="Validated H1 CSV snapshot.")
+    parser.add_argument(
+        "--contract",
+        default="configs/experiments/ep005_baselines.toml",
+        help="Episode 005 experiment-contract TOML.",
+    )
+    parser.add_argument(
+        "--manifest",
+        default=None,
+        help="Optional EP002 manifest.json for provenance verification.",
+    )
+    args = parser.parse_args()
 
-y = target[target.isin(["UP", "DOWN"])].reset_index(drop=True)
+    prepared = prepare_episode005_split(
+        args.input,
+        args.contract,
+        source_manifest_path=args.manifest,
+    )
+    y_train = prepared.split.train["target_h1_direction"]
+    y_validation = prepared.split.validation["target_h1_direction"]
 
-train_end = int(len(y) * 0.60)
-validation_end = int(len(y) * 0.80)
+    majority_class = y_train.value_counts().idxmax()
+    prediction = pd.Series(majority_class, index=y_validation.index)
+    accuracy = (prediction == y_validation).mean()
 
-y_train = y.iloc[:train_end]
-y_validation = y.iloc[train_end:validation_end]
+    print(f"Training majority class: {majority_class}")
+    print(f"Validation rows: {len(y_validation)}")
+    print(f"B0 majority-class accuracy: {accuracy:.4f}")
+    print()
+    print("Now a more complex model has something concrete to beat.")
 
-majority_class = y_train.value_counts().idxmax()
-prediction = pd.Series(majority_class, index=y_validation.index)
-accuracy = (prediction == y_validation).mean()
 
-print(f"Training majority class: {majority_class}")
-print(f"Validation rows: {len(y_validation)}")
-print(f"B0 majority-class accuracy: {accuracy:.3f}")
-print()
-print("Now a more complex model has something concrete to beat.")
+if __name__ == "__main__":
+    main()
