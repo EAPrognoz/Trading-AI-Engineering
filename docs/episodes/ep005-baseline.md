@@ -1,6 +1,13 @@
 # Episode 005 — Baseline
 
-Status: **upcoming**.
+Status: **published**.
+
+Video: [Bitcoin Baselines: Can Logistic Regression Beat Always Up?](https://www.youtube.com/watch?v=iEr_WGBUkxQ).
+
+The published Bitcoin H1/H4/D1 benchmark is on
+`release/btc-mtf-foundation-20261002`. Use its [BTC run guide](https://github.com/EAPrognoz/Trading-AI-Engineering/blob/release/btc-mtf-foundation-20261002/experiments/ep005_baselines/README.md)
+with your own authorized broker data. The minimal B0 example below teaches the
+baseline idea; it does not reproduce the published BTC result.
 
 Episode 005 is the repository's **baseline** stage. It consumes, rather than
 redefines:
@@ -52,5 +59,5 @@ remains locked.
 `baseline_report.json` records the dataset identity, Episode 003 target
 contract, Episode 004 feature contract, split boundaries, and B0/B1/B2 metrics.
 
-Measured values used in the final Episode 005 video must come from
-`experiments/ep005_baselines/`, not from the minimal teaching example.
+The published Episode 005 values come from the full BTC experiment described
+in the [release-branch run guide](https://github.com/EAPrognoz/Trading-AI-Engineering/blob/release/btc-mtf-foundation-20261002/experiments/ep005_baselines/README.md), not from the minimal teaching example.

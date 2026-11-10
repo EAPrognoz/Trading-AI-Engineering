@@ -22,12 +22,25 @@ inspect the full engineering implementation
 | 002 | Data pipeline | [Watch](https://youtu.be/kltuqw7vKrY) | `examples/ep002_mt5_minimal.py` | `experiments/ep002_market_data/` |
 | 003 | Target | [Watch](https://youtu.be/VfnH1q76fj4) | `examples/ep003_target_minimal.py` | `experiments/ep003_forecast_horizon/` |
 | 004 | Feature set | [Watch](https://youtu.be/SNOTNSZoNQY) | `examples/ep004_feature_set_minimal.py` | `experiments/ep004_feature_engineering/` |
-| 005 | Baseline | [Watch](https://www.youtube.com/watch?v=iEr_WGBUkxQ) | `examples/ep005_baseline_minimal.py` | `experiments/ep005_baselines/` |
+| 005 | Bitcoin H1 baseline | [Watch](https://www.youtube.com/watch?v=iEr_WGBUkxQ) | `examples/ep005_baseline_minimal.py` (teaching example) | [BTC H1/H4/D1 run guide](https://github.com/EAPrognoz/Trading-AI-Engineering/blob/release/btc-mtf-foundation-20261002/experiments/ep005_baselines/README.md) |
 | 006 | Bitcoin baseline stability | [Watch](https://www.youtube.com/watch?v=rxJymSciu7A) · [CodeLab](https://www.youtube.com/watch?v=IDaKQQjM79k) | [CodeLab audit notebook](https://github.com/EAPrognoz/Trading-AI-Engineering/blob/release/ep006-btc-stability-20261003/experiments/ep006_baselines/EP006_Bitcoin_Baseline_Stability_CodeLab.ipynb) (requires a saved run) | [experiments/ep006_baselines/](https://github.com/EAPrognoz/Trading-AI-Engineering/tree/release/ep006-btc-stability-20261003/experiments/ep006_baselines) |
+| 007 | Three forecast questions | [Watch](https://youtu.be/6me2vpiVD4M) | [Audit the saved ECB run](https://github.com/EAPrognoz/Trading-AI-Engineering/blob/release/ep007-three-forecast-questions-20261009/experiments/ep008_joint_five_observation_predictability/audit_saved.py) | [Experiment, results, and reproduction guide](https://github.com/EAPrognoz/Trading-AI-Engineering/blob/release/ep007-three-forecast-questions-20261009/experiments/ep008_joint_five_observation_predictability/README.md) |
+
+Episode 005's published Bitcoin H1/H4/D1 benchmark is on the
+`release/btc-mtf-foundation-20261002` branch. Follow its
+[BTC run guide](https://github.com/EAPrognoz/Trading-AI-Engineering/blob/release/btc-mtf-foundation-20261002/experiments/ep005_baselines/README.md) with your own authorized broker data.
+The minimal B0 example on `main` is a teaching example, not a reproduction of
+that measured benchmark.
 
 Episode 006 code is on the `release/ep006-btc-stability-20261003` branch.
 Follow its [run guide](https://github.com/EAPrognoz/Trading-AI-Engineering/blob/release/ep006-btc-stability-20261003/experiments/ep006_baselines/README.md)
 to prepare your own local data and private config; the CodeLab notebook audits saved outputs.
+
+Episode 007's public ECB experiment is on the
+`release/ep007-three-forecast-questions-20261009` branch. Its
+[saved-run audit](https://github.com/EAPrognoz/Trading-AI-Engineering/blob/release/ep007-three-forecast-questions-20261009/experiments/ep008_joint_five_observation_predictability/audit_saved.py) checks the published snapshot and predictions
+without fitting models. The internal `ep008_joint_five_observation_predictability`
+folder name is retained; it belongs to the published Episode 007.
 
 See [docs/series-map.md](docs/series-map.md) for the video-to-code map.
 
